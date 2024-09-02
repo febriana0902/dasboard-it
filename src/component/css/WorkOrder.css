@@ -1,0 +1,290 @@
+/* Gaya default untuk layar besar */
+
+.wko-content {
+    background-color: #E5E7EB;
+    height: 94vh;
+    width: auto;
+    margin: 2px;
+    padding: 10px;
+    padding-left: 5px;
+    border-radius: 15px;
+    overflow-y: auto; 
+    color: #272727;
+}
+
+.wko-navbar {
+    background-color: #E5E7EB;
+    display: flex;
+    margin-top: -20px;
+    margin-bottom: -50px; 
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px; 
+    overflow: hidden;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    color: #262626;
+}
+
+.filter-container {
+    display: flex;
+    gap: 10px;
+    align-items: center; /* Menjaga keselarasan antara title dan filter */
+}
+
+.filter-month select,
+.filter-year select {
+    padding: 5px;
+    border: none;
+    border-radius: 15px;
+    color: #262626;
+    outline: none;
+    height: 30px;
+}
+
+.filter-month select {
+    width: 140px;
+}
+
+.w-background-bar {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 45px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.w-search-container input {
+    width: 270px; 
+    height: 30px;
+    padding: 10px; 
+    border: 1px solid #b9b9b9;
+    border-radius: 15px; 
+    outline: none; 
+    color: #262626;
+    margin-bottom: 10px;
+    margin-right: 10px;
+} 
+
+.w-group-search {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.w-table-container {
+    background-color: #FFFFFF;
+    border-radius: 15px;
+    overflow-x: auto;
+    border: 1px solid #B9B9B9;
+    padding: 5px;
+    width: 100%;
+    margin-top: 20px;
+}
+  
+.w-table-auto {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 15px;
+    padding: 10px;
+}
+  
+.w-table-auto th, .w-table-auto td {
+    border: 1px solid #b9b9b9;
+    padding: 8px;
+    text-align: left;
+    box-shadow: none; 
+}
+  
+.w-table-auto th {
+    background-color: rgba(185, 185, 185, 0.5);
+}
+
+.w-info-container {
+    margin: 12px;
+    padding: 20px;
+    margin-left: -10px;
+}
+
+.w-pagination-container {
+    border: 1px solid #b9b9b9;
+    width: 140px; 
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -40px; 
+    gap: 15px; 
+    margin-left: 1070px;
+}
+
+.w-pagination-container span {
+    font-size: 14px; 
+    background-color: #f0f0f0; 
+    padding: 10px 20px; 
+    border-radius: 5px; 
+    border: 1px solid #ccc; 
+}
+
+.w-update {
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+    margin-top: -30px;
+    margin-bottom: -15px;
+    justify-content: flex-end;
+    color: rgba(38, 38, 38, 0.5);
+    font-size: 12px;
+}
+
+/* Media Queries */
+
+/* Handphone (mobile) */
+@media (max-width: 767px) {
+    .filter-container {
+        display: flex;
+        gap: 10px;
+        align-items: center; 
+    }
+    
+    .filter-month select,
+    .filter-year select {
+        padding: 2px;
+        border: none;
+        border-radius: 15px;
+        color: #262626;
+        outline: none;
+        height: 25px;
+        width: 80px;
+        font-size: 15px;
+    }
+    
+    .filter-month select {
+        width: 140px;
+    }
+
+    .title {
+        display: flex;
+        align-items: center;
+        color: #262626;
+        flex: 1; /* Memastikan judul memiliki ruang lebih */
+        font-size: 16px;
+    }
+
+    .w-background-bar {
+        margin-top: 50px; /* Jarak atas lebih kecil */
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .w-search-container input {
+        width: 100%; /* Lebar penuh */
+        margin-right: 0;
+    }
+
+    .w-group-search {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .w-table-container {
+        margin-top: 10px; /* Jarak atas lebih kecil */
+    }
+
+    .w-info-container {
+        margin-left: 0;
+        margin-right: 0;
+        padding: 10px;
+    }
+
+    .w-pagination-container {
+        width: 50%; /* Lebar penuh */
+        margin-left: 0; /* Menghapus margin kiri */
+        margin-top: 10px;
+        gap: 10px;
+    }
+
+    .w-update {
+        display: flex;
+        margin-top: 0;
+        margin-bottom: 10px;
+        text-align:right;
+    }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .wko-navbar {
+        flex-direction: row;
+        margin-top: -20px;
+        margin-bottom: -50px;
+    }
+
+    .filter-container {
+        display: flex;
+        gap: 10px;
+        align-items: center; 
+    }
+    
+    .filter-month select,
+    .filter-year select {
+        padding: 2px;
+        border: none;
+        border-radius: 15px;
+        color: #262626;
+        outline: none;
+        height: 25px;
+        width: 80px;
+        font-size: 15px;
+    }
+    
+    .filter-month select {
+        width: 140px;
+    }
+
+    .title {
+        display: flex;
+        align-items: center;
+        color: #262626;
+        flex: 1; /* Memastikan judul memiliki ruang lebih */
+        font-size: 16px;
+    }
+    .w-background-bar {
+        margin-top: 30px; /* Jarak atas lebih besar */
+    }
+
+    .w-search-container input {
+        width: 100%; /* Lebar penuh pada tablet */
+    }
+
+    .w-group-search {
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .w-table-container {
+        margin-top: 15px; /* Jarak atas sedikit lebih kecil */
+    }
+
+    .w-info-container {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 15px;
+    }
+
+    .w-pagination-container {
+        width: 120px; /* Lebar sedikit lebih kecil pada tablet */
+        margin-left: auto; /* Memastikan posisi kanan */
+    }
+
+    .w-update {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+}

@@ -1,0 +1,170 @@
+.learning-content {
+    background-color: #E5E7EB;
+    height: 94vh;
+    width: auto;
+    margin: 2px;
+    padding-top: 5px;
+    padding: 5px;
+    border-radius: 15px;
+    overflow-y: auto; 
+    color: #272727;
+}
+
+.learning-container {
+    background-color: white;
+    margin: 10px; 
+    width: auto;
+    padding: 20px; 
+    border-radius: 15px;
+}
+
+.learning-navbar{
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+  }
+
+.l-filter{
+    display: flex;
+    align-items: center; 
+    gap: 10px
+}
+  
+.l-filter-year {
+    margin-right: 10px;
+}
+  
+.l-filter-year select,
+.l-filter-month select{
+    padding: 5px;
+    border: none;
+    border-radius: 15px;
+    width: 120px;
+    color: #262626;
+    outline: none;  
+    cursor: pointer;
+    font-size: 15px;     
+}
+
+.l-grid-group{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+h3{
+    font-weight: bolder;
+    margin-bottom: 20px;
+}
+
+.l-group-1 ul{
+    list-style-type: circle;
+    border: solid 1px #E5E7EB;
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-right: 50px;
+    font-size: 15px;
+    max-height: 200px; /* Sesuaikan tinggi maksimal */
+    overflow-y: auto; /* Aktifkan scroll vertikal */
+}
+
+.l-group-1 li{
+    margin-top: 8px;
+}
+
+.l-group-3 {
+    margin-top: 20px;
+}
+
+.l-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    margin-bottom: 15px;
+}
+
+.l-label-teks {
+    font-size: 16px; 
+    font-weight: 500;
+    color: #333;
+    width: 25%; 
+    text-align: left; 
+}
+
+.l-progress-bar {
+    position: relative;
+    width: 50%; 
+    height: 18px;
+    background-color: #e0e0e0;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 0 10px; 
+}
+
+.l-progress-bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: #5971C0;
+    transition: width 0.3s ease-in-out;
+    border-radius: 15px;
+}
+
+.l-progress-bar-label {
+    position: absolute;
+    right: 8px; 
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    padding-right: 2px;
+}
+
+/* Untuk layar tablet */
+@media (max-width: 1024px) {
+    .l-grid-group {
+      grid-template-columns: 1fr; /* Ubah grid menjadi satu kolom */
+    }
+  }
+  
+  /* Untuk layar handphone */
+  @media (max-width: 768px) {  
+    .l-grid-group {
+      grid-template-columns: 1fr;
+      gap: 10px; 
+    }
+  
+    h3 {
+      font-size: 18px; /* Kurangi ukuran font */
+    }
+    
+    .l-flex{
+        margin-right: -100px;
+    }
+    .l-group-1 ul {
+      margin-right: 0; 
+      max-height: 150px; 
+    }
+    .l-group-2 {
+      margin-right: -120px;
+  }
+  
+    .l-progress-bar {
+      width: 100%; /* Sesuaikan lebar progress bar */
+      height: 15px; /* Kurangi tinggi progress bar */
+    }
+  
+    .l-progress-bar-label {
+      font-size: 10px; /* Kurangi ukuran font */
+    }
+  
+    .l-label-teks {
+      width: 100%;
+      margin-bottom: 5px; 
+      font-size: 12px;
+    }
+  }
+  

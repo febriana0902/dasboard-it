@@ -1,0 +1,273 @@
+/* Gaya default untuk layar besar */
+
+.finance-content {
+    background-color: #E5E7EB;
+    height: 94vh;
+    width: auto;
+    margin: 2px;
+    padding: 10px;
+    border-radius: 15px;
+    overflow-y: auto; 
+    color: #272727;
+}
+
+.finance-container {
+    background-color: white;
+    margin: 10px; 
+    width: auto;
+    height: auto;
+    padding: 20px; 
+    border-radius: 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.finance-navbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;  
+    justify-content: space-between; 
+    font-size: 20px;
+}
+
+.f-filter {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+}
+
+.f-filter-year {
+    margin-right: 10px;
+}
+
+.f-filter-year select {
+    padding: 5px;
+    border: none;
+    border-radius: 15px;
+    width: 120px;
+    color: #262626;
+    outline: none;  
+    cursor: pointer;
+    font-size: 15px;     
+}
+
+.f-group-search {
+    display: flex;
+    justify-content: space-between;
+}
+
+.f-search-container {
+    border: solid 1px #B9B9B9;
+    border-radius: 15px;
+    padding: 3px;
+    outline: none;
+}
+
+.f-table-container {
+    background-color: #FFFFFF;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #B9B9B9;
+    padding: 5px;
+    margin-top: 30px;
+    height: 250px;
+}
+
+.f-table-auto {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.f-table-auto th, .f-table-auto td {
+    border: 1px solid #b9b9b9;
+    padding: 8px;
+    text-align: left;
+    box-shadow: none; 
+}
+
+.f-table-auto th {
+    background-color: rgba(185, 185, 185, 0.5);
+}
+
+.f-info-container {
+    margin-top: 18px;
+    margin-left: 5px;
+}
+
+.f-dropdown-container {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.f-pagination-container {
+    border: 1px solid #ccc;
+    max-width: 120px; /* Set maksimal lebar jika perlu */
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Pusatkan konten */
+    margin-top: -24px; /* Atur margin sesuai kebutuhan */
+    gap: 5px;
+    margin-left: 400px;
+}
+
+.f-pagination-container span {
+    font-size: 14px;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.f-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+    width: 70%;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.f-grid-item1,
+.f-grid-item2 {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #b9b9b9;
+    text-align: center;
+    margin: 10px;
+}
+
+.f-grid-item1 h3 {
+    color: #4150d3;
+}
+
+.f-grid-item1 p {
+    color: #262626;
+}
+
+.f-grid-item2 h3 {
+    color: #27c008;
+}
+
+.f-grid-item2 p {
+    color: #262626;
+}
+
+.title-table,
+.title-grid {
+    margin-bottom: -15px;
+    font-size: 20px;
+    color: #262626;
+    font-weight: bolder;
+}
+
+/* Media Queries */
+
+/* Handphone (mobile) */
+@media (max-width: 767px) {
+    .f-filter-year select {
+        width: 100%; /* Lebar penuh pada perangkat kecil */
+        font-size: 14px;
+    }
+
+    .finance-container {
+        grid-template-columns: 1fr; /* Satu kolom pada perangkat kecil */
+        gap: 10px;
+    }
+
+    .f-search-container {
+        width: 100%; /* Lebar penuh pada perangkat kecil */
+    }
+
+    .f-table-container {
+        height: auto; /* Sesuaikan tinggi tabel pada perangkat kecil */
+    }
+
+    .f-grid-container {
+        width: 90%; /* Lebar sedikit lebih kecil */
+        margin-left: 5%;
+        margin-right: 5%;
+        grid-template-columns: 1fr; /* Satu kolom pada perangkat kecil */
+    }
+
+    .f-pagination-container {
+        width: 100%; /* Lebar penuh pada perangkat kecil */
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .title-table,
+    .title-grid {
+        font-size: 18px; /* Ukuran font lebih kecil pada perangkat kecil */
+    }
+
+    .f-search-container {
+        border: solid 1px #B9B9B9;
+        border-radius: 15px;
+        padding: 3px;
+        outline: none;
+        width: 170px;
+    }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .finance-navbar {
+        font-size: 18px; /* Ukuran font sedikit lebih kecil */
+    }
+
+    .f-filter {
+        display: flex;
+        gap: 10px;
+        align-items: center; 
+    }
+
+    .f-filter-year select {
+        padding: 5px;
+        border: none;
+        border-radius: 15px;
+        width: 120px;
+        color: #262626;
+        outline: none;  
+        cursor: pointer;
+        font-size: 15px;    
+    }
+
+    .finance-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .f-search-container {
+        width: 100%; /* Lebar penuh pada tablet */
+    }
+
+    .f-table-container {
+        height: 300px; /* Menambah tinggi tabel untuk tablet */
+    }
+
+    .f-grid-container {
+        width: 80%; /* Lebar sedikit lebih kecil pada tablet */
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    .f-pagination-container {
+        width: 100px; /* Lebar sedikit lebih kecil pada tablet */
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10px;
+    }
+
+    .title-table,
+    .title-grid {
+        font-size: 18px; /* Ukuran font lebih kecil pada tablet */
+    }
+}

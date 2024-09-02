@@ -1,0 +1,215 @@
+/* Gaya default untuk layar besar */
+
+.rka-content {
+    background-color: #E5E7EB;
+    height: 94vh;
+    width: auto;
+    margin: 2px;
+    padding: 10px;
+    padding-left: 5px;
+    border-radius: 15px;
+    overflow-y: auto; 
+    color: #272727;
+}
+
+.rka-navbar {
+    background-color: #E5E7EB;
+    display: flex;
+    margin-top: -20px;
+    margin-bottom: -50px; 
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px; 
+    overflow: hidden;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    color: #262626;
+}
+
+.filter-container {
+    display: flex;
+    gap: 10px;
+    align-items: center; 
+}
+
+.filter-month select,
+.filter-year select {
+    padding: 5px;
+    border: none;
+    border-radius: 15px;
+    color: #262626;
+    outline: none;
+    height: 30px;
+}
+
+.filter-month select {
+    width: 140px;
+}
+
+.r-title {
+    text-align: left;
+}
+
+.r-grid-group-container {
+    background-color: white;
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 50px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.r-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    padding: 20px;
+    gap: 10px; 
+    margin-top: 5px;
+}
+
+.grid-ppi,
+.grid-impti,
+.grid-pkfo,
+.grid-pai,
+.grid-itas,
+.grid-pk,
+.grid-phs,
+.grid-pkpk,
+.grid-sertif,
+.grid-rnd,
+.grid-pcs,
+.grid-td,
+.grid-pp {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    padding: 20px;
+    font-size: 16px;
+    max-width: 100%;
+}
+
+.r-progress-bar {
+    position: relative;
+    width: 100%;
+    height: 15px;
+    background-color: #D9D9D9;
+    border-radius: 15px;
+    margin-top: 10px;
+}
+
+.r-progress-bar-fill {
+    position: relative;
+    height: 100%; /* Adjust fill to match progress bar height */
+    background: #5971C0;
+    transition: width 0.3s ease-in-out;
+    border-radius: 15px;
+}
+
+.r-progress-bar-label {
+    position: absolute;
+    right: 0; /* Pindahkan label ke sisi kanan */
+    top: 50%;
+    transform: translateY(-50%); /* Vertikal tengah */
+    color: #262626;
+    font-size: 12px; /* Ukuran font disesuaikan */
+    font-weight: bold;
+    padding-right: 10px; /* Ruang di sisi kanan untuk teks */
+    pointer-events: none; /* Non-interactive */
+    text-align: right; /* Teks rata kanan */
+}
+
+.r-catatan {
+    font-size: 12px;
+    text-align: left;
+    margin-top: 10px;
+    margin-left: 5px;
+    color: rgba(38, 38, 38, 0.5);
+}
+
+/* Media Queries */
+
+/* Handphone (mobile) */
+@media (max-width: 767px) {
+    .filter-container {
+        display: flex;
+        gap: 10px;
+        align-items: center; 
+    }
+    
+    .filter-month select,
+    .filter-year select {
+        padding: 2px;
+        border: none;
+        border-radius: 15px;
+        color: #262626;
+        outline: none;
+        height: 25px;
+        width: 80px;
+        font-size: 15px;
+    }
+    
+    .filter-month select {
+        width: 140px;
+    }
+
+    .title {
+        display: flex;
+        align-items: center;
+        color: #262626;
+        flex: 1; /* Memastikan judul memiliki ruang lebih */
+        font-size: 16px;
+    }
+
+    .r-grid-container {
+        grid-template-columns: 1fr; /* Satu kolom untuk handphone */
+        padding: 10px;
+    }
+
+    .r-grid-group-container {
+        margin-top: 50px; /* Jarak atas lebih kecil */
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .rka-navbar {
+        flex-direction: row;
+        margin-top: -20px;
+        margin-bottom: -50px; 
+    }
+
+    .filter-container {
+        display: flex;
+        gap: 10px;
+        align-items: center; 
+    }
+    
+    .filter-month select,
+    .filter-year select {
+        padding: 2px;
+        border: none;
+        border-radius: 15px;
+        color: #262626;
+        outline: none;
+        height: 25px;
+        width: 80px;
+        font-size: 15px;
+    }
+    
+    .filter-month select {
+        width: 140px;
+    }
+
+    .title {
+        display: flex;
+        align-items: center;
+        color: #262626;
+        flex: 1; /* Memastikan judul memiliki ruang lebih */
+        font-size: 16px;
+    }
+}
