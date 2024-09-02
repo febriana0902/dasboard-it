@@ -1,0 +1,108 @@
+.kpi-content {
+  background-color: #E5E7EB;
+  height: 670px;
+  width: auto;
+  margin: 0;
+  padding: 10px;
+  border-radius: 15px;
+  overflow: auto;
+}
+
+.k-menu-sidebar {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.k-navbar {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.filter {
+  display: flex;
+  gap: 10px;
+}
+
+.filter select {
+  padding: 5px;
+  border-radius: 15px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.k-container {
+  background-color: white;
+  height: auto;
+  padding: 10px;
+  border-radius: 15px;
+  margin-left: 70px;
+  margin-right: 70px;
+  align-items: center;
+}
+
+.k-content{
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring,
+.ring-green {
+  margin-top: 20px;
+  background-color: #DE6E6A;
+  color: white;
+  font-weight: 500;
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  text-align: center;
+  align-content: center;
+}
+
+.ring-green{
+  background-color: #9EC97F;
+}
+
+.ring-blue {
+  margin-top: 20px;
+  background-color: #DE6E6A;
+  color: white;
+  font-weight: 500;
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  text-align: center;
+  align-content: center;
+}
+.ring-blue{
+  background-color: #5971C0;
+}
+
+.green,
+.red,
+.blue {
+  width: 15px;
+  height: 15px;
+  background-color: #5971C0;
+  margin-top: 5px;
+}
+
+.green{
+  background-color: #9EC97F;
+}
+
+.red{
+  background-color: #DE6E6A;
+}
+
+.row{
+  display: flex;
+  gap: 10px;
+  align-content: center;
+  align-items: center;
+}

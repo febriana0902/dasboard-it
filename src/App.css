@@ -10,13 +10,13 @@
   width: 150px;
   background-color: #FFFFFF;
   color: #262626;
-  height: 567px;
+  height: 100vh;
   padding: 2px;
 }
 
 .sidebar img {
-  width: 140px; /* Sesuaikan lebar gambar sesuai kebutuhan */
-  height: auto; /* Pertahankan rasio aspek gambar */
+  width: 130px; 
+  height: auto; 
   padding: 10px;
 }
 
@@ -44,8 +44,8 @@
 }
 
 .sidebar a.active {
-  color:  #000084; /* Ubah warna saat aktif */
-  font-weight: 800; /* Jadikan teks bold saat aktif */
+  color:  #000084; 
+  font-weight: 800; 
 }
 
 .content {
@@ -53,20 +53,3 @@
   padding: 20px;
 }
 
-.summary-content, 
-.contract-content,
-.data-content{
-  background-color: #E5E7EB;
-  height: 550px;
-  width: auto;
-  margin: 0;
-  padding: 10px;
-  border-radius: 15px;
-}
-
-/* summary */
-.summary-navbar{
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}

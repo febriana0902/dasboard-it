@@ -1,0 +1,211 @@
+.mpti-content {
+  background-color: #E5E7EB;
+  height: 670px;
+  width: auto;
+  margin: 0;
+  padding: 10px;
+  border-radius: 15px;
+  overflow: auto;
+}
+
+.m-menu-sidebar {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.m-navbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 20px;
+  color: #262626;
+  margin-bottom: 0;
+}
+
+.m-content {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 10px;
+  width: 100%;
+  margin: auto;
+  padding-top: 0;
+  transition: width 0.3s ease;
+}
+
+/* CSS untuk Sidebar Ditutup */
+.m-sidebar-closed .m-content {
+  grid-template-columns: 1fr;
+  width: 100%; /* Menjaga lebar penuh saat sidebar ditutup */
+}
+.value {
+  margin-top: 10px;
+  color: white;
+  font-weight: 500;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  width: 90px;
+  height: 30px;
+}
+
+.value-low {
+  background-color: #DE6E6A; /* Red for values below 50% */
+}
+
+.value-medium {
+  background-color: #5971C0; /* Orange for values 50% and above but below 70% */
+}
+
+.value-high {
+  background-color: #9EC97F; /* Green for values 70% and above */
+}
+
+.content-left {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 150px;
+  transition: transform 0.3s ease;
+  margin: 10px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.content-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.year-selector {
+  margin-bottom: 10px;
+}
+
+.year-selector select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.select-year {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.year-range {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.year-range select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 45%;
+}
+
+.year-range span {
+  font-weight: bold;
+}
+
+.select-year button {
+  padding: 8px;
+  border-radius: 5px;
+  background-color: #003366;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.select-year button:hover {
+  background-color: #0056b3;
+}
+
+.content-right-top .statistics {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.stat-item {
+  text-align: center;
+  width: 45%;
+  padding: 5px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  margin: 0 5px;
+}
+
+.stat-value {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.stat-label {
+  color: gray;
+}
+
+.right-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 10px; /* Mengurangi jarak atas */
+  margin-bottom: 10px; /* Mengurangi jarak bawah */
+}
+
+.right-panel div {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+  background-color: #fff;
+}
+
+.right-panel div:hover {
+  background-color: #f0f0f0;
+}
+

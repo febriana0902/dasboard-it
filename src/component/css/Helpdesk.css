@@ -1,0 +1,182 @@
+/* CSS Global */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+}
+
+.help-content {
+    background-color: #E5E7EB;
+    height: 670px;
+    width: auto;
+    margin: 0;
+    padding: 10px;
+    border-radius: 15px;
+    overflow: auto;
+  }
+  
+.h-menu-sidebar {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+  
+.helpdesk-navbar{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.helpdesk-navbar img {
+    margin-right: 20px;
+}
+
+.helpdesk-navbar h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Navbar icon */
+.h-menu-sidebar {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.h-menu-sidebar:hover {
+    transform: rotate(90deg);
+}
+
+/* Layout for charts and table */
+.group-tabel-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.bar {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.background-bar {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    flex: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-container {
+    background-color: #ffffff;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 100%; /* Pastikan tabel tidak melampaui lebar kontainer */
+    overflow-x: auto;
+}
+
+.table-auto {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-auto th, .table-auto td {
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.table-auto th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Search and dropdown */
+.group-search {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.dropdown-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-container input {
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    width: 200px;
+    transition: border-color 0.3s ease;
+}
+
+.search-container input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Pagination container */
+.info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pagination-container {
+    border: 1px solid #e0e0e0;
+    width: auto;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-container span {
+    font-size: 14px;
+    background-color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    margin: 0 5px;
+}
+/* Add these styles to your CSS file */
+/* Add these styles to your CSS file */
+.bar-chart-container {
+    width: 100%;
+}
+
+.filter-container {
+    display: flex;
+    gap: 10px; /* Adjust the space between dropdowns */
+    margin-bottom: 15px;
+}
+
+.dropdown {
+    padding: 6px 10px; /* Smaller padding for a more compact look */
+    border: 1px solid #ced4da;
+    border-radius: 4px; /* Slightly smaller border radius */
+    background-color: #ffffff;
+    font-size: 12px; /* Smaller font size */
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+.dropdown:focus {
+    border-color: #007bff;
+    outline: none;
+}
