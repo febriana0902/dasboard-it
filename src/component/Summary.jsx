@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useContractData } from './DataContext';
 import './css/Summary.css';
 import menu from './asset/menu-sidebar.png';
 import PieChartRka from "./pieChart/PieChartRka";
@@ -50,6 +51,30 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
     console.log(`Menampilkan data untuk ${selectedMonth} ${selectedYear}`);
   }, [selectedMonth, selectedYear]);
 
+
+  //mengambil data sales contract
+  const { users } = useContractData();
+  if (!users) return <div>Loading...</div>;
+
+  const maleCount = users.filter(user => user.gender === 'male').length;
+  const femaleCount = users.filter(user => user.gender === 'female').length;
+
+  //mengambil data e-learning
+  const { products } = useContractData();
+  if (!products) return <div>Loading...</div>;
+
+  const uniqueBrands = [...new Set(products.map(product => product.brand))];
+  const totalBrands = uniqueBrands.length;
+
+  const lowStock = products.filter(product => product.availabilityStatus === 'Low Stock').length;
+
+  // rata-rata rating
+  const ratings = products.map(product => product.rating);
+  const totalRating = ratings.reduce((acc, rating) => acc + rating, 0);
+  const averageRating = totalRating / ratings.length;
+  const rating = averageRating.toFixed(2);
+
+
   return (
     <div>
       <div className="summary-content">
@@ -57,7 +82,7 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
 
           <div className="title">
             <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
-            <h2>Summary</h2>
+            <h2>SUMMARY</h2>
           </div>
 
           <div className="filter">
@@ -99,18 +124,18 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
               <p className="label-title">Sales Contract (Dalam Juta)</p>
 
               <div className="sc">
-                <p className="label-teks">Target Kontrak</p>
+                <p className="label-teks">Jumlah Karyawan Laki-Laki</p>
                 <div className="progress-bar">
-                  <div className="progress-bar-label">{targetKontrak}%</div>
+                  <div className="progress-bar-label">{maleCount} Org</div>
                   <div className="progress-bar-bg"></div>
-                  <div className="progress-bar-fill" style={{ width: `${targetKontrak}%` }}></div>
+                  <div className="progress-bar-fill" style={{ width: `${maleCount}%` }}></div>
                 </div>
 
-                <p className="label-teks">Target Penjualan</p>
+                <p className="label-teks">Jumlah Karyawan Perempuan</p>
                 <div className="progress-bar">
-                  <div className="progress-bar-label">{targetPenjualan}%</div>
+                  <div className="progress-bar-label">{femaleCount} Org</div>
                   <div className="progress-bar-bg"></div>
-                  <div className="progress-bar-fill" style={{ width: `${targetPenjualan}%` }}></div>
+                  <div className="progress-bar-fill" style={{ width: `${femaleCount}%` }}></div>
                 </div>
               </div>
 
@@ -176,18 +201,18 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
               
               <div className="el">
                 <div className="teks1">
-                  <p>JOP</p>
-                  <p>0 Jam</p>
+                  <p>Brands</p>
+                  <p>{totalBrands}</p>
                 </div>
 
                 <div className="teks2">
-                  <p>Kuota Prakerin</p>
-                  <p>50 Orang</p>
+                  <p>Low Stock</p>
+                  <p>{lowStock}</p>
                 </div>
 
                 <div className="teks3">
-                  <p>Prakerin</p>
-                  <p>10 Orang</p>
+                  <p>Rating</p>
+                  <p>{rating}</p>
                 </div>
               </div>
 

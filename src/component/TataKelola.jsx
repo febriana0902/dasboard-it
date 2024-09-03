@@ -64,13 +64,13 @@ const TataKelola = ({ toggleSidebar, isSidebarOpen }) => {
         <div>
             <div className="kelola-content">
                 <div className="kelola-navbar">
-                        <div className="title">
+                        <div className="t-title">
                             <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
                             <h2>TATA KELOLA</h2>
                         </div>
                         
-                        <div className="filter-container">
-                            <div className="filter-month">
+                        <div className="t-filter-container">
+                            <div className="t-filter-month">
                                 <select id="month" value={selectedMonth} onChange={handleMonthChange}>
                                     <option value="Januari">Januari</option>
                                     <option value="Februari">Februari</option>
@@ -86,7 +86,7 @@ const TataKelola = ({ toggleSidebar, isSidebarOpen }) => {
                                     <option value="Desember">Desember</option>
                                 </select>
                             </div>
-                            <div className="filter-year">
+                            <div className="t-filter-year">
                                 <select id="year" value={selectedYear} onChange={handleYearChange}>
                                     <option value={currentYear}>{currentYear}</option>
                                     <option value={currentYear - 1}>{currentYear - 1}</option>

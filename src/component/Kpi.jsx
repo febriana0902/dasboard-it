@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import menu from './asset/menu-sidebar.png';
 import './css/Kpi.css';
 
@@ -25,8 +25,8 @@ const Kpi = ({ toggleSidebar, isSidebarOpen }) => {
                   <h2>KPI</h2>
                 </div>
 
-                <div className="filter">
-                  <div className="filter-trw">
+                <div className="k-filter">
+                  <div className="k-filter-trw">
                       <select id="trw" value={selectedTrw} onChange={handleTrwChange}>
                           <option value="I">I</option>
                           <option value="II">II</option>
@@ -35,7 +35,7 @@ const Kpi = ({ toggleSidebar, isSidebarOpen }) => {
                       </select>
                   </div>
 
-                  <div className="filter-year">
+                  <div className="k-filter-year">
                       <select id="year" value={selectedYear} onChange={handleYearChange}>
                           <option value={currentYear}>{currentYear}</option>
                           <option value={currentYear - 1}>{currentYear - 1}</option>
@@ -48,12 +48,12 @@ const Kpi = ({ toggleSidebar, isSidebarOpen }) => {
             </div>
 
             <div className="k-container">
-              {selectedTrw === "I" && selectedYear === currentYear.toString() && (
+            {selectedTrw === "I" && selectedYear === currentYear.toString() && (
                   <div className="rtw-I">
                     <h3>Realisasi KPI TRW I</h3>
 
                     <div className="k-content">
-                      <div className="ring">
+                      <div className="ring-red">
                         <p>10%</p>
                       </div>
 
@@ -78,7 +78,7 @@ const Kpi = ({ toggleSidebar, isSidebarOpen }) => {
                     </div>
                   </div>
               )}
-              
+
               {selectedTrw === "II" && selectedYear === currentYear.toString() && (
                   <div className="rtw-II">
                     <h3>Realisasi KPI TRW II</h3>
@@ -115,7 +115,7 @@ const Kpi = ({ toggleSidebar, isSidebarOpen }) => {
                     <h3>Realisasi KPI TRW III</h3>
 
                     <div className="k-content">
-                      <div className="ring">
+                      <div className="ring-red">
                         <p>20%</p>
                       </div>
 

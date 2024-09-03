@@ -1,6 +1,6 @@
 .data-content{
   background-color: #E5E7EB;
-  height: 580px;
+  height: 94vh;
   width: auto;
   margin: 2px;
   padding: 0;
@@ -9,14 +9,14 @@
   overflow-y: auto;
 }
 
-.container {
+.data-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 10px;
     gap: 5px;
     width: auto;
     height: 92%; 
-    margin-top: -10px;
+    /* margin-top: -10px; */
     margin-left: 30px;
     margin-right: 30px;
   }
@@ -76,7 +76,7 @@ select {
     height: auto; 
     max-height: 95vh;
   }
-  .container {
+  .data-container {
     margin-left: 10px;
     margin-right: 10px;
     height: 600px;
@@ -107,7 +107,7 @@ select {
     height: auto; 
     max-height: 100vh;
   }
-  .container {
+  .data-container {
     grid-template-columns: 1fr;
     margin-left: 20px;
     margin-right: 20px;

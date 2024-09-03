@@ -9,17 +9,17 @@
     align-items: center;
     justify-content: center;
     z-index: 1000; /* Ensure it stays above other content */
-  }
+}
   
-  .modal-content {
+.modal-content {
     background: white;
     padding: 20px;
     border-radius: 8px;
     max-width: 1250px;
     position: relative;
-  }
+}
   
-  .close-button {
+.close-button {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -33,80 +33,22 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-  }
+}
   
-  .modal-body {
+.modal-body {
     margin-top: 20px;
 
-  }
+}
   
-  .customer-link {
+.customer-link {
     color: #262626;
     cursor: pointer;
-  }
+}
   
-  .customer-link:hover {
+.customer-link:hover {
     text-decoration: none;
-  }
-  .table-container-modal{
-    background-color: #FFFFFF;
-    border-radius: 15px;
-    overflow: hidden;
-    border: 1px solid #B9B9B9;
-    padding: 5px;
-    margin-top: 30px;
-  }
-
-
-.info-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-    padding: 20px;
-    padding-left: 5px;
-    margin-left: 60px;
-    flex-wrap: wrap; /* Makes the layout flexible */
-  }
+}
   
-  .pagination-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-  }
-  
-  .pagination-icon {
-    font-size: 20px;
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
-  
-  .pagination-icon.disabled {
-    color: #D1D5DB; /* Disabled state color */
-    cursor: not-allowed;
-  }
-  
-  .pagination-icon:hover:not(.disabled) {
-    color: #0C4A6E; /* Hover color */
-  }
-  
-  .pagination-info {
-    font-size: 14px;
-    background-color: #F3F4F6;
-    padding: 8px 16px;
-    border-radius: 5px;
-    border: 1px solid #D1D5DB;
-  }
-  
-
-.pagination-container span {
-    font-size: 14px; 
-    background-color: #f0f0f0; 
-    padding: 10px 20px; 
-    border-radius: 5px; 
-    border: 1px solid #ccc; 
-}  
 
 @media (max-width: 1024px) {
   .table-container-modal{

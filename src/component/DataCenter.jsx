@@ -77,10 +77,10 @@ const DataCenter = ({ toggleSidebar, isSidebarOpen }) => {
 
           <div className="title">
             <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
-            <h2>Data Center</h2>
+            <h2>DATA CENTER</h2>
           </div>
 
-          <div className='container'>
+          <div className='data-container'>
 
             {/* card 1 */}
             {selectedYear === currentYear.toString() && (

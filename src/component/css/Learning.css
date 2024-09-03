@@ -11,17 +11,16 @@
 }
 
 .learning-container {
-    background-color: white;
     margin: 10px; 
     width: auto;
-    padding: 20px; 
-    border-radius: 15px;
+    padding: 0; 
 }
 
 .learning-navbar{
     display: flex;
     align-items: center; 
     justify-content: space-between;
+    font-size: 20px;
   }
 
 .l-filter{
@@ -49,12 +48,20 @@
 .l-grid-group{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 10px;
 }
 
 h3{
     font-weight: bolder;
     margin-bottom: 20px;
+}
+
+.l-group-1,
+.l-group-2,
+.l-group-3{
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px;
 }
 
 .l-group-1 ul{
@@ -74,7 +81,11 @@ h3{
 }
 
 .l-group-3 {
-    margin-top: 20px;
+    margin-top: 10px;
+}
+
+.l-group-2{
+  width: 100%;
 }
 
 .l-flex {
@@ -135,6 +146,15 @@ h3{
     .l-grid-group {
       grid-template-columns: 1fr;
       gap: 10px; 
+      overflow-x: auto;
+    }
+
+    .l-group-3 {
+      overflow-x: auto;
+    }
+
+    .pie-style-learning{
+    
     }
   
     h3 {

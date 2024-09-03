@@ -1,6 +1,6 @@
 .mpti-content {
   background-color: #E5E7EB;
-  height: 670px;
+  height: 94vh;
   width: auto;
   margin: 0;
   padding: 10px;
@@ -9,8 +9,8 @@
 }
 
 .m-menu-sidebar {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
 }
 
@@ -20,16 +20,9 @@
   align-items: center;
   text-align: center;
   margin-bottom: 10px;
+  font-size: 20px;
 }
 
-.title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: 20px;
-  color: #262626;
-  margin-bottom: 0;
-}
 
 .m-content {
   display: grid;

@@ -13,28 +13,17 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 10px 20px;
+    margin-top: 10px;
 }
 
 .upload-navbar img {
     margin-left: 20px;
 }
 
-.h-menu-sidebar {
+.menu-sidebar {
     width: 24px;
     height: 24px;
     cursor: pointer;
-}
-.k-menu-sidebar {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-}
-
-.upload-navbar h2 {
-    margin: 0;
-    font-size: 24px;
-    color: #333;
 }
 
 .upload-content {
@@ -133,12 +122,12 @@
 }
 
 .button-upload {
-    background-color: #e0e0e0;
+    background-color: #0C4A6E;
     color: white;
 }
 
 .button-upload:hover {
-    background-color: #0C4A6E;
+    background-color: #e0e0e0;
 }
 
 .download-buttons {
@@ -217,7 +206,8 @@
     gap: 10px;
 }
 
-.filter-year select {
+.filter-year select,
+.filter-bulan select {
     padding: 5px;
     border-radius: 15px;
     outline: none;

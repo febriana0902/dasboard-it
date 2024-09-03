@@ -40,13 +40,13 @@ const Rka = ({ toggleSidebar, isSidebarOpen }) => {
     return(
         <div className="rka-content">
             <div className='rka-navbar'>
-                <div className='title'>
+                <div className='rka-title'>
                     <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar}/>
                     <h2>RKA</h2>
                 </div>
 
-                <div className="filter-container">
-                    <div className="filter-month">
+                <div className="r-filter-container">
+                    <div className="r-filter-month">
                         <select id="month" value={selectedMonth} onChange={handleMonthChange}>
                             <option value="Januari">Januari</option>
                             <option value="Februari">Februari</option>
@@ -63,7 +63,7 @@ const Rka = ({ toggleSidebar, isSidebarOpen }) => {
                         </select>
                     </div>
 
-                    <div className="filter-year">
+                    <div className="r-filter-year">
                         <select id="year" value={selectedYear} onChange={handleYearChange}>
                             <option value={currentYear}>{currentYear}</option>
                             <option value={currentYear - 1}>{currentYear - 1}</option>

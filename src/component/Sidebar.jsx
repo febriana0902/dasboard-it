@@ -123,6 +123,18 @@ const Sidebar = () => {
             Work Order
           </Link>
         </li>
+
+        <hr />
+        <li className='sidebar-upload' style={{marginLeft: '15px', marginRight: '15px'}}>
+          <Link
+            to="/upload"
+            className={activeMenu === '/upload' ? 'active' : ''} 
+            onClick={() => handleMenuClick('/upload')}
+            style={{color :'white', fontWeight: "600"}}
+          >
+            Upload
+          </Link>
+        </li>
       </ul>
     </div>
   );

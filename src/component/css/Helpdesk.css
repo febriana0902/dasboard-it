@@ -1,70 +1,36 @@
-/* CSS Global */
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f2f5;
-}
-
-.help-content {
+.helpdesk-container {
     background-color: #E5E7EB;
-    height: 670px;
+    height: 94vh;
     width: auto;
     margin: 0;
     padding: 10px;
     border-radius: 15px;
-    overflow: auto;
+    overflow-y: auto;
   }
-  
-.h-menu-sidebar {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-  }
-  
+
 .helpdesk-navbar{
     display: flex;
+    gap: 10px;
     align-items: center;
-    margin-bottom: 10px;
-}
-
-.helpdesk-navbar img {
-    margin-right: 20px;
-}
-
-.helpdesk-navbar h2 {
-    margin: 0;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-/* Navbar icon */
-.h-menu-sidebar {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.h-menu-sidebar:hover {
-    transform: rotate(90deg);
+    margin-bottom: 5px;
+    font-size: 20px;
 }
 
 /* Layout for charts and table */
-.group-tabel-bar {
+.h-group-tabel-bar {
     display: flex;
     flex-direction: column;
     gap: 20px;
     width: 100%;
 }
 
-.bar {
+.h-bar {
     display: flex;
     gap: 20px;
     width: 100%;
 }
 
-.background-bar {
+.h-background-bar {
     background-color: #ffffff;
     border-radius: 15px;
     padding: 20px;
@@ -72,7 +38,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.table-container {
+.h-table-container {
     background-color: #ffffff;
     border-radius: 15px;
     overflow: hidden;
@@ -81,60 +47,58 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 100%; /* Pastikan tabel tidak melampaui lebar kontainer */
     overflow-x: auto;
+    margin-top: 2px;
 }
 
-.table-auto {
+.h-table-auto {
     width: 100%;
     border-collapse: collapse;
 }
 
-.table-auto th, .table-auto td {
+.h-table-auto th, .h-table-auto td {
     border: 1px solid #e0e0e0;
     padding: 12px;
     text-align: left;
     font-size: 14px;
 }
 
-.table-auto th {
+.h-table-auto th {
     background-color: #f8f9fa;
     font-weight: bold;
     font-size: 14px;
 }
 
 /* Search and dropdown */
-.group-search {
+.h-group-search {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
-.dropdown-container {
+.h-dropdown-container {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.search-container input {
+.h-search-container input {
     padding: 8px;
     border: 1px solid #ced4da;
-    border-radius: 5px;
-    width: 200px;
+    border-radius: 15px;
+    width: 300px;
     transition: border-color 0.3s ease;
 }
 
-.search-container input:focus {
-    border-color: #007bff;
-    outline: none;
-}
 
 /* Pagination container */
-.info-container {
+.h-info-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 20px;
 }
 
-.pagination-container {
+.h-pagination-container {
     border: 1px solid #e0e0e0;
     width: auto;
     border-radius: 15px;
@@ -144,9 +108,10 @@ body {
     padding: 5px 10px;
     background-color: #f8f9fa;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
-.pagination-container span {
+.h-pagination-container span {
     font-size: 14px;
     background-color: #ffffff;
     padding: 5px 10px;
@@ -154,29 +119,37 @@ body {
     border: 1px solid #ced4da;
     margin: 0 5px;
 }
-/* Add these styles to your CSS file */
-/* Add these styles to your CSS file */
-.bar-chart-container {
+
+.h-bar-chart-container {
     width: 100%;
 }
 
-.filter-container {
+.h-filter-container{
     display: flex;
-    gap: 10px; /* Adjust the space between dropdowns */
+    justify-content: flex-end;
+    gap: 10px; 
     margin-bottom: 15px;
 }
 
-.dropdown {
-    padding: 6px 10px; /* Smaller padding for a more compact look */
+.filter-container select{
+    padding: 6px 10px; 
     border: 1px solid #ced4da;
-    border-radius: 4px; /* Slightly smaller border radius */
+    border-radius: 15px; 
     background-color: #ffffff;
-    font-size: 12px; /* Smaller font size */
-    color: #333;
-    transition: border-color 0.3s ease;
+    font-size: 12px; 
+    color: #272727;
+    width: 80px;
+    margin-left: 80%;
+    cursor: pointer;
 }
 
-.dropdown:focus {
-    border-color: #007bff;
-    outline: none;
+.h-dropdown{
+    padding: 6px 10px; 
+    border: 1px solid #ced4da;
+    border-radius: 15px; 
+    background-color: #ffffff;
+    font-size: 12px; 
+    color: #272727;
+    cursor: pointer;
 }
+

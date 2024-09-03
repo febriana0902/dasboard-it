@@ -57,7 +57,7 @@ const Finance = ({ toggleSidebar, isSidebarOpen }) => {
             <div className='finance-navbar'>
                 <div className='title'>
                     <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
-                    <h2>Finance</h2>
+                    <h2>FINANCE</h2>
                 </div>
 
                 <div className="f-filter">

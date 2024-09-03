@@ -62,13 +62,13 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
     return(
         <div className="wko-content">
             <div className='wko-navbar'>
-                <div className='title'>
+                <div className='w-title'>
                     <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar}/>
-                    <h2>Work Order</h2>
+                    <h2>WORK ORDER</h2>
                 </div>
 
-                <div className="filter-container">
-                    <div className="filter-month">
+                <div className="w-filter-container">
+                    <div className="w-filter-month">
                         <select id="month" value={selectedMonth} onChange={handleMonthChange}>
                                 <option value="Januari">Januari</option>
                                 <option value="Februari">Februari</option>
@@ -84,7 +84,7 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
                                 <option value="Desember">Desember</option>
                         </select>
                     </div>
-                    <div className="filter-year">
+                    <div className="w-filter-year">
                         <select id="year" value={selectedYear} onChange={handleYearChange}>
                                 <option value={currentYear}>{currentYear}</option>
                                 <option value={currentYear - 1}>{currentYear - 1}</option>

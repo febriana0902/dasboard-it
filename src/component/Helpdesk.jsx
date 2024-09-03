@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import menu from './asset/menu-sidebar.png'; // Pastikan path ini benar
-import './css/Helpdesk.css'; // Pastikan CSS ini benar
-import BarChart2 from './BarCharHelp2';
-import BarChart3 from './BarCharHelp3';
+import { useState } from 'react';
+import menu from './asset/menu-sidebar.png';
+import './css/Helpdesk.css'; 
+import BarChart2 from './barChart/BarCharHelp2';
+import BarChart3 from './barChart/BarCharHelp3';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -44,17 +44,12 @@ const sampleData = [
 
 const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
     const currentYear = new Date().getFullYear();
-    const [selectedMonth, setSelectedMonth] = useState('Agustus');
     const [selectedYear, setSelectedYear] = useState(currentYear.toString());
     const [selectedStatus, setSelectedStatus] = useState('Open');
     const [entriesPerPage, setEntriesPerPage] = useState(10);
     const [searchTerm, setSearchTerm] = useState('');
     const [data, setData] = useState(sampleData);
     const [currentPage, setCurrentPage] = useState(1);
-
-    const handleMonthChange = (event) => {
-        setSelectedMonth(event.target.value);
-    };
 
     const handleYearChange = (event) => {
         setSelectedYear(event.target.value);
@@ -83,31 +78,34 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {
+            console.log('Previous page clicked');
             setCurrentPage(currentPage - 1);
         }
     };
-
+    
     const handleNextPage = () => {
         const maxPage = Math.ceil(filteredData.length / entriesPerPage);
         if (currentPage < maxPage) {
+            console.log('Next page clicked');
             setCurrentPage(currentPage + 1);
         }
     };
+    
 
     return (
         <div className="helpdesk-container">
             <div className="helpdesk-navbar">
-                <img className="k-menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
-                <h2 className="title">IT HELPDESK</h2>
-                <div className="garis-ikon"></div>
+                <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
+                <h2>IT HELPDESK</h2>
+
             </div>
 
-            <div className='group-tabel-bar'>
-                <div className='bar'>
-                    <div className='background-bar'>
-                        <div className="filter-container">
+            <div className='h-group-tabel-bar'>
+                <div className='h-bar'>
+                    <div className='h-background-bar'>
+                        <div className="h-filter-container">
                             <select
-                                className="dropdown"
+                                className="h-dropdown"
                                 value={selectedStatus}
                                 onChange={handleStatusChange}
                             >
@@ -115,7 +113,7 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
                                 <option value="Closed">Closed</option>
                             </select>
                             <select
-                                className="dropdown"
+                                className="h-dropdown"
                                 value={selectedYear}
                                 onChange={handleYearChange}
                             >
@@ -128,16 +126,16 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
                         </div>
                         <BarChart2 filteredData={filteredData} />
                     </div>
-                    <div className='background-bar'>
+                    <div className='h-background-bar'>
                         <BarChart3 />
                     </div>
                 </div>
 
-                <div className='tabel'>
-                    {selectedMonth === "Agustus" && selectedYear === currentYear.toString() && (
-                        <div className="table-container">
-                            <div className='group-search'>
-                                <div className="dropdown-container">
+                <div className='h-tabel'>
+                    {selectedYear === currentYear.toString() && (
+                        <div className="h-table-container">
+                            <div className='h-group-search'>
+                                <div className="h-dropdown-container">
                                     <label htmlFor="entries">Show </label>
                                     <select
                                         id="entries"
@@ -151,7 +149,7 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
                                     <label> entries</label>
                                 </div>
 
-                                <div className="search-container">
+                                <div className="h-search-container">
                                     <input
                                         type="text"
                                         id="search-input"
@@ -162,7 +160,7 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
                                 </div>
                             </div>
 
-                            <table className="table-auto">
+                            <table className="h-table-auto">
                                 <thead>
                                     <tr>
                                         <th>No Tiket</th>
@@ -198,9 +196,9 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
                                     )}
                                 </tbody>
                             </table>
-                            <div className="info-container">
+                            <div className="h-info-container">
                                 <p>Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} entries</p>
-                                <div className="pagination-container">
+                                <div className="h-pagination-container">
                                     <FontAwesomeIcon icon={faAnglesLeft} onClick={handlePreviousPage} />
                                     <span>{currentPage}</span>
                                     <FontAwesomeIcon icon={faAnglesRight} onClick={handleNextPage} />

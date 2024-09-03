@@ -68,6 +68,26 @@
   padding: 15px;
 }
 
+hr{
+  border: solid 1px #E5E7EB;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+
+.sidebar-upload{
+  background-color: #000084;
+  border-radius: 15px;
+  height: 30px;
+  width: 120px;
+  align-content: center;
+  cursor: pointer;
+}
+
+.sidebar-upload:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Menambahkan bayangan saat hover */
+}
+
 /* layar tablet */
 @media (max-width: 1024px) {
   .app {

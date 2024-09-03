@@ -4,50 +4,66 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 // Registrasi komponen Chart.js yang dibutuhkan
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const PieChartLearning = () => {
-  // Data untuk pie chart
-  const data= {
-    labels: ['Divisi A', 'Divisi B', 'Divisi C', 'Divisi D'],  // Label untuk setiap bagian pie chart
+const PieChartLearning = ({ products }) => {
+  // Fungsi untuk menghitung jumlah produk berdasarkan status stok
+  const stockCount = () => {
+    const lowStock = products.filter(product => product.availabilityStatus === 'Low Stock').length;
+    const inStock = products.filter(product => product.availabilityStatus === 'In Stock').length;
+
+    return [lowStock, inStock];
+  };
+
+  // Data untuk Pie Chart
+  const data = {
+    labels: ['Low Stock', 'In Stock'],  // Label sesuai dengan status stok
     datasets: [
       {
-        data: [30, 30, 20, 10],  // Nilai untuk setiap bagian pie chart
-        backgroundColor: ['#DE6E6A', '#5971C0', '#9EC97F', '#F3C96B'],  // Warna untuk setiap bagian
-        hoverBackgroundColor: ['#DE6E6A', '#5971C0', '#9EC97F', '#F3C96B'],
+        data: stockCount(),  // Menggunakan fungsi stockCount untuk mengambil data
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+        ],
+        borderWidth: 1,
       },
     ],
   };
 
-  const options= {
-    responsive: true,  // Agar chart menyesuaikan ukuran container
-    maintainAspectRatio: false,  // Nonaktifkan aspek rasio agar bisa mengatur ukuran sendiri
+  // Opsi untuk Pie Chart
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: true,
-        position: 'right',  // Posisi legend di bawah chart
+        position: 'right',
         labels: {
-          color: '#333',  // Warna teks legend
+          color: '#333',
           font: {
-            size: 17,  // Ukuran font legend
+            size: 12,
           },
-        padding: 2,  
-        boxWidth: 20,  // Ukuran kotak warna legend
+          padding: 2,
+          boxWidth: 20,
         },
       },
       tooltip: {
-        backgroundColor: '#000',  // Warna latar belakang tooltip
-        bodyColor: '#fff',  // Warna teks tooltip
+        backgroundColor: '#000',
+        bodyColor: '#fff',
         bodyFont: {
-          size: 12,  // Ukuran font tooltip
+          size: 12,
         },
       },
     },
   };
 
   return (
-    <div style={{ width: '98%', height: '170px', marginTop: '20px', marginLeft: '-120px'}}>  {/* Sesuaikan ukuran chart */}
-        <Pie data={data} options={options} />
+    <div className='pie-style-learning' style={{ width: '100%', height: '230px', marginTop: '30px', marginLeft: '-40px' }}>
+      <Pie data={data} options={options} />
     </div>
-  )
+  );
 };
 
 export default PieChartLearning;

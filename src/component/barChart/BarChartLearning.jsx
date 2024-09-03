@@ -1,34 +1,35 @@
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { useState, useEffect } from 'react';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BarChart = () => {
+const BarChart = ({ products }) => {
+  // Menghitung jumlah brand unik
+  const uniqueBrands = [...new Set(products.map(product => product.brand))];
+  const totalBrands = uniqueBrands.length;
+
   const data = {
-    labels: [
-      'Jawa Barat', 'Jawa Timur', 'Jawa Tengah', 
-      'DKI Jakarta', 'Sumatera Utara', 'Banten', 
-      'Bali', 'Sulawesi Selatan', 'Kalimantan Timur'
-    ],
+    labels: uniqueBrands,  // Menampilkan brand unik di sumbu X
     datasets: [
       {
-        data: [45, 30, 28, 50, 25, 20, 18, 15, 10], // Jumlah kerjasama instansi di setiap provinsi
-        backgroundColor: ['#5971C0', '#9EC97F', '#F3C96B', '#F59E7A', '#A0C4FF', '#FFAFCC', '#BDE0FE', '#CAFFBF', '#FFC6FF'],
-        borderWidth: 0,
-      },
-    ],
+        label: 'Stock',  // Label untuk dataset
+        data: products.map(product => product.stock),  // Mengambil data stock
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      }
+    ]
   };
 
-  // Opsi untuk bar chart
   const options = {
     responsive: true,
     plugins: {
       legend: {
         position: 'top',
-        display: false, 
+        display: true, 
       },
       title: {
-        display: false,
+        display: true,
+        text: `Data Produk Berdasarkan Merek (Total Brand: ${totalBrands})`,  // Judul grafik dengan total brand
       },
       tooltip: {
         bodyFont: {
@@ -40,14 +41,14 @@ const BarChart = () => {
       y: {
         beginAtZero: true,
         ticks: {
-          stepSize: 10, 
+          stepSize: 10,  // Mengatur jarak antar angka di sumbu Y
         },
       },
     },
   };
 
   return (
-    <div style={{ width: '100%', height: '210px', marginTop: '20px' }}>
+    <div style={{ width: '100%', height: '100%', marginTop: '20px' }}>
       <Bar data={data} options={options} />
     </div>
   );

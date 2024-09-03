@@ -3,31 +3,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
-const ContractModal = ({ contract, onClose, currentPage, totalPages, onPreviousPage, onNextPage }) => {
+const ContractModal = ({ contract, onClose}) => {
   if (!contract) return null;
 
+  // Menyusun data kontrak utama
   const mainContractData = {
-    no: 1,
-    contractNo: contract.contractNo || 'N/A',
-    contractDate: contract.contractDate || 'N/A',
-    customerCode: contract.customerCode || '100060',
-    contractEndDate: contract.contractEndDate || '2021-12-13',
-    salesOrderNo: contract.salesOrderNo || '4900000001',
-    salesOrderDate: contract.salesOrderDate || '2021-06-24',
-    orderDeliveryNo: contract.orderDeliveryNo || '5900000000',
-    revenueBillingNo: contract.revenueBillingNo || '6900000002',
-    revenueBillingDate: contract.revenueBillingDate || '2023-03-01',
-    arBillingNo: contract.arBillingNo || '6900000001',
-    arBillingDate: contract.arBillingDate || '2021-12-06',
+    id: contract.id || 'N/A',
+    firstName: contract.firstName || 'N/A',
+    lastName: contract.lastName || 'N/A',
+    age: contract.age || 'N/A',
+    email: contract.email || 'N/A',
+    phone: contract.phone || 'N/A',
+    gender: contract.gender || 'N/A',
+    role: contract.role || 'N/A',
+    address: contract.address.address || 'N/A',
+    country: contract.address.country || 'N/A',
+    city: contract.address.city || 'N/A',
   };
-
-  if (contract.customerCode === '100060') {
-    mainContractData.contractEndDate = '2022-12-13';
-    mainContractData.salesOrderNo = '4900000002';
-  } else if (contract.customerCode === '200070') {
-    mainContractData.contractEndDate = '2023-12-13';
-    mainContractData.salesOrderNo = '4900000003';
-  }
 
   const combinedData = [mainContractData];
 
@@ -35,65 +27,43 @@ const ContractModal = ({ contract, onClose, currentPage, totalPages, onPreviousP
     <div className="modal-overlay">
       <div className="modal-content">
         <button className="close-button" onClick={onClose}>X</button>
-        <h2 className="text-2xl font-semibold mb-4">Contract Details</h2>
+        <h2 className="text-2xl font-semibold mb-4">Detail Kontrak</h2>
         
-        <div className="table-container-modal">
-          <table className="table-auto w-full border-collapse border border-gray-200">
+        <table className="c-table-auto w-full border-collapse border border-gray-200" style={{padding: '20px'}}>
             <thead>
               <tr>
-                <th className="border border-gray-300 px-4 py-2">No</th>
-                <th className="border border-gray-300 px-4 py-2">No Kontrak (SAP)</th>
-                <th className="border border-gray-300 px-4 py-2">Tanggal Kontrak</th>
-                <th className="border border-gray-300 px-4 py-2">Kode Customer</th>
-                <th className="border border-gray-300 px-4 py-2">Tanggal Berakhir Kontrak</th>
-                <th className="border border-gray-300 px-4 py-2">No SO</th>
-                <th className="border border-gray-300 px-4 py-2">Tanggal SO</th>
-                <th className="border border-gray-300 px-4 py-2">No OD</th>
-                <th className="border border-gray-300 px-4 py-2">No Billing Revenue</th>
-                <th className="border border-gray-300 px-4 py-2">Tanggal Billing Revenue</th>
-                <th className="border border-gray-300 px-4 py-2">No Billing AR</th>
-                <th className="border border-gray-300 px-4 py-2">Tanggal Billing AR</th>
+              <th className="border border-gray-300 px-4 py-2">Id</th>
+                <th className="border border-gray-300 px-4 py-2">Nama Depan</th>
+                <th className="border border-gray-300 px-4 py-2">Nama Belakang</th>
+                <th className="border border-gray-300 px-4 py-2">Usia</th>
+                <th className="border border-gray-300 px-4 py-2">Email</th>
+                <th className="border border-gray-300 px-4 py-2">Telepon</th>
+                <th className="border border-gray-300 px-4 py-2">Jenis Kelamin</th>
+                <th className="border border-gray-300 px-4 py-2">Jabatan</th>
+                <th className="border border-gray-300 px-4 py-2">Alamat</th>
+                <th className="border border-gray-300 px-4 py-2">Negara</th>
+                <th className="border border-gray-300 px-4 py-2">Kota</th>
               </tr>
             </thead>
             <tbody>
               {combinedData.map((item, index) => (
                 <tr key={index}>
-                  <td className="border border-gray-300 px-4 py-2">{item.no}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.contractNo}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.contractDate}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.customerCode}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.contractEndDate}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.salesOrderNo}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.salesOrderDate}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.orderDeliveryNo}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.revenueBillingNo}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.revenueBillingDate}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.arBillingNo}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.arBillingDate}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item.id}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item.firstName}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item.lastName}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item.age}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item.email}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item.phone}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item.gender}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item.role}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item.address}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item.country}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item.city}</td>
                 </tr>
               ))}
             </tbody>
-          </table>
-          
-          <div className="info-container">
-            {/* <p>Showing {currentPage} of {totalPages} pages</p> */}
-            <p>Showing 1 of 2 pages</p>
-            <div className="pagination-container">
-              <FontAwesomeIcon 
-                icon={faAnglesLeft} 
-                onClick={onPreviousPage} 
-                className={`pagination-icon ${currentPage === 1 ? 'disabled' : ''}`} 
-              />
-              {/* <span className="pagination-info">{currentPage}</span> */}
-              <span className="pagination-info">1</span>
-              <FontAwesomeIcon 
-                icon={faAnglesRight} 
-                onClick={onNextPage} 
-                className={`pagination-icon ${currentPage === totalPages ? 'disabled' : ''}`} 
-              />
-            </div>
-          </div>
-        </div>
+        </table>
+        
       </div>
     </div>
   );

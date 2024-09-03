@@ -1,16 +1,16 @@
 .kpi-content {
   background-color: #E5E7EB;
-  height: 670px;
+  height: 94vh;
   width: auto;
   margin: 0;
   padding: 10px;
   border-radius: 15px;
-  overflow: auto;
+  overflow-y: auto;
 }
 
 .k-menu-sidebar {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
 }
 
@@ -19,14 +19,16 @@
   justify-content: space-between; 
   align-items: center;
   margin-bottom: 10px;
+  font-size: 20px;
 }
 
-.filter {
+.k-filter {
   display: flex;
   gap: 10px;
+  margin-right: 20px;
 }
 
-.filter select {
+.k-filter select {
   padding: 5px;
   border-radius: 15px;
   outline: none;
@@ -51,8 +53,9 @@
   justify-content: center;
 }
 
-.ring,
-.ring-green {
+.ring-red,
+.ring-green,
+.ring-blue {
   margin-top: 20px;
   background-color: #DE6E6A;
   color: white;
@@ -68,17 +71,6 @@
   background-color: #9EC97F;
 }
 
-.ring-blue {
-  margin-top: 20px;
-  background-color: #DE6E6A;
-  color: white;
-  font-weight: 500;
-  width: 200px;
-  height: 200px;
-  border-radius: 100%;
-  text-align: center;
-  align-content: center;
-}
 .ring-blue{
   background-color: #5971C0;
 }
