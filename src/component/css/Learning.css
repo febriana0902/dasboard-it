@@ -23,6 +23,16 @@
     font-size: 20px;
   }
 
+  .l-title {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+    margin-bottom: 20px;
+    color: #262626;
+    margin: 10px;
+    font-size: 20px;
+  }
+
 .l-filter{
     display: flex;
     align-items: center; 
@@ -151,10 +161,6 @@ h3{
 
     .l-group-3 {
       overflow-x: auto;
-    }
-
-    .pie-style-learning{
-    
     }
   
     h3 {

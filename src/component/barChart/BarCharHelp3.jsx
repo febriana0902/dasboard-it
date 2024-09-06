@@ -4,18 +4,20 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BarChart3 = () => {
+const BarChart3 = ({todos}) => {
     const currentYear = new Date().getFullYear();
     const lastFiveYears = Array.from({ length: 5 }, (_, i) => currentYear - i);
 
     const [selectedYear, setSelectedYear] = useState(lastFiveYears[0]);
 
+    const trueCount = todos.filter(todo => todo.completed === true).length;
+    const falseCount = todos.filter(todo => todo.completed === false).length;
     const data = {
-        labels: ['PPM1', 'TI1', 'TI2'],
+        labels: ['True ', 'False '], // Menampilkan label dengan jumlah 'True' dan 'False'
         datasets: [
             {
-                data: [15, 25, 35, 45],
-                backgroundColor: ['#5971C0'],
+                data: [trueCount, falseCount], // Menggunakan data yang dihitung
+                backgroundColor: ['#5971C0', '#D9534F'], // Misalnya, dua warna untuk true dan false
                 borderWidth: 0,
             },
         ],
@@ -30,7 +32,7 @@ const BarChart3 = () => {
             tooltip: { bodyFont: { size: 12 } },
         },
         scales: {
-            x: { beginAtZero: true, min: 0, max: 50, ticks: { stepSize: 10 } },
+            x: { beginAtZero: true, min: 0, max: 20, ticks: { stepSize: 1 } },
             y: { beginAtZero: true },
         },
     };

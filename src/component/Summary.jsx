@@ -52,14 +52,14 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
   }, [selectedMonth, selectedYear]);
 
 
-  //mengambil data sales contract
+  //MENGAMBIL DATA SALES CONTRACT
   const { users } = useContractData();
   if (!users) return <div>Loading...</div>;
 
   const maleCount = users.filter(user => user.gender === 'male').length;
   const femaleCount = users.filter(user => user.gender === 'female').length;
 
-  //mengambil data e-learning
+  //MENGAMBIL DATA E-LEARNING, DATA CENTER, MPTI
   const { products } = useContractData();
   if (!products) return <div>Loading...</div>;
 
@@ -74,19 +74,102 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
   const averageRating = totalRating / ratings.length;
   const rating = averageRating.toFixed(2);
 
+  // rata-rata diskon
+  const calculateAverageDiscount = (products) => {
+    if (products.length === 0) return 0;
+    const totalDiscount = products.reduce((sum, product) => sum + product.discountPercentage, 0);
+    return totalDiscount / products.length;
+  };
+  
+  const [averageDiscount, setAverageDiscount] = useState(0);
+  
+  useEffect(() => {
+    setAverageDiscount(calculateAverageDiscount(products));
+  }, [products]);
+  
+  //rata-rata harga
+  const calculateAveragePrice = (products) => {
+    if (products.length === 0) return 0; // Menghindari pembagian dengan 0
+    const totalPrice = products.reduce((sum, product) => sum + product.price, 0);
+    return totalPrice / products.length;
+  };
+  
+  const averagePrice = calculateAveragePrice(products);
+  const averagePriceFixed = averagePrice.toFixed(2);
+  
+  //rata-rata garansi
+  const [averageWarranty, setAverageWarranty] = useState(0);
+
+  useEffect(() => {
+    // Log data produk
+    console.log('Produk:', products);
+
+    const totalMonths = products.reduce((sum, product) => {
+      const warranty = product.warrantyInformation;
+      if (typeof warranty === 'string') {
+        const match = warranty.match(/(\d+) month/);
+        return sum + (match ? parseInt(match[1], 10) : 0);
+      }
+      return sum;
+    }, 0);
+
+    // Hitung rata-rata garansi
+    const newAverageWarranty = products.length > 0 ? totalMonths / products.length : 0;
+    setAverageWarranty(newAverageWarranty);
+  }, [products]);
+
+
+  //MENGAMBIL DATA HELDESK
+  const { todos } = useContractData();
+  if (!todos) return <div>Loading...</div>;
+
+  const trueCount = todos.filter(todo => todo.completed === true).length;
+  const falseCount = todos.filter(todo => todo.completed === false).length;
+
+  //MENGAMBIL DATA FINANCE
+  const { recipes } = useContractData();
+  if (!recipes) return <div>Loading...</div>;
+  
+  const totalReviewCount = recipes.reduce((accumulator, recipe) => accumulator + recipe.reviewCount, 0);
+  const totalCuisine = recipes.reduce((accumulator, recipe) => {
+    if (!accumulator.includes(recipe.cuisine)) {
+      accumulator.push(recipe.cuisine);
+    }
+    return accumulator;
+  }, []).length;  // Menghitung jumlah cuisine yang unik
+
+  const totalMealType = recipes.reduce((accumulator, recipe) => {
+    recipe.mealType.forEach(type => {
+      if (!accumulator.includes(type)) {
+        accumulator.push(type);
+      }
+    });
+    return accumulator;
+  }, []).length; 
+
+  const ratingsF = recipes.map(recipe => recipe.rating);
+  const totalRatingF = ratingsF.reduce((acc, rating) => acc + rating, 0);
+  const averageRatingF = totalRatingF / ratings.length;
+  const ratingF = averageRatingF.toFixed(2);
+  
+  // MENGAMBIL DATA WORK ORDER
+  const { posts } = useContractData();
+  if (!posts) return <div>Loading...</div>;
+  
+  
 
   return (
     <div>
       <div className="summary-content">
         <div className="summary-navbar">
 
-          <div className="title">
-            <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
+          <div className="s-title">
+            <img className="s-menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
             <h2>SUMMARY</h2>
           </div>
 
-          <div className="filter">
-            <div className="filter-month">
+          <div className="s-filter">
+            <div className="s-filter-month">
               <select id="month" value={selectedMonth} onChange={handleMonthChange}>
                 <option value="Januari">Januari</option>
                 <option value="Februari">Februari</option>
@@ -103,7 +186,7 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
               </select>
             </div>
 
-            <div className="filter-year">
+            <div className="s-filter-year">
               <select id="year" value={selectedYear} onChange={handleYearChange}>
                 <option value={currentYear}>{currentYear}</option>
                 <option value={currentYear - 1}>{currentYear - 1}</option>
@@ -117,280 +200,287 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
         
         {/* data bulan agustus */}
         {selectedMonth === currentMonth && selectedYear === currentYear.toString() && (
-          <div className="grid-container">
+          <div className="s-grid-container">
 
             {/* Sales Contract */}
-            <div className="item1">
-              <p className="label-title">Sales Contract (Dalam Juta)</p>
+            <div className="s-item1">
+              <p className="s-label-title">Sales Contract (Dalam Juta)</p>
 
-              <div className="sc">
-                <p className="label-teks">Jumlah Karyawan Laki-Laki</p>
-                <div className="progress-bar">
-                  <div className="progress-bar-label">{maleCount} Org</div>
-                  <div className="progress-bar-bg"></div>
-                  <div className="progress-bar-fill" style={{ width: `${maleCount}%` }}></div>
+              <div className="s-sc">
+                <p className="s-label-teks">Jumlah Karyawan Laki-Laki</p>
+                <div className="s-progress-bar">
+                  <div className="s-progress-bar-label">{maleCount} Org</div>
+                  <div className="s-progress-bar-bg"></div>
+                  <div className="s-progress-bar-fill" style={{ width: `${maleCount}%` }}></div>
                 </div>
 
-                <p className="label-teks">Jumlah Karyawan Perempuan</p>
-                <div className="progress-bar">
-                  <div className="progress-bar-label">{femaleCount} Org</div>
-                  <div className="progress-bar-bg"></div>
-                  <div className="progress-bar-fill" style={{ width: `${femaleCount}%` }}></div>
+                <p className="s-label-teks">Jumlah Karyawan Perempuan</p>
+                <div className="s-progress-bar">
+                  <div className="s-progress-bar-label">{femaleCount} Org</div>
+                  <div className="s-progress-bar-bg"></div>
+                  <div className="s-progress-bar-fill" style={{ width: `${femaleCount}%` }}></div>
                 </div>
               </div>
 
-              <div className="update">
+              <div className="s-update">
                 <p>Last Update</p>
                 <p>Tidak ada</p>
               </div>
             </div>
 
             {/* Finance */}
-            <div className="item2">
+            <div className="s-item2">
 
-              <div className="top">
-                <p className="label-title">Finance</p>
+              <div className="s-top">
+                <p className="s-label-title">Finance</p>
 
-                <div className="update">
+                <div className="s-update">
                   <p>Last Update</p>
                   <p>Tidak ada</p>
                 </div>
               </div>
 
-              <div className="flex">
-                <p className="label-teks">COGS</p>
-                <div className="progress-bar-2">
-                  <div className="progress-bar-label">{cogs}%</div>
-                  <div className="progress-bar-bg"></div>
-                  <div className="progress-bar-fill" style={{ width: `${cogs}%` }}></div>
+              <div className="s-flex">
+                <p className="s-label-teks">Masakan</p>
+                <div className="s-progress-bar-2">
+                  <div className="s-progress-bar-label">{totalCuisine}</div>
+                  <div className="s-progress-bar-bg"></div>
+                  <div className="s-progress-bar-fill" style={{ width: `${totalCuisine}%` }}></div>
                 </div>
               </div>
 
-              <div className="flex">
-                <p className="label-teks">Assets</p>
-                <div className="progress-bar-2">
-                  <div className="progress-bar-label">{assets}%</div>
-                  <div className="progress-bar-bg"></div>
-                  <div className="progress-bar-fill" style={{ width: `${assets}%` }}></div>
+              <div className="s-flex">
+                <p className="s-label-teks">Meal Type</p>
+                <div className="s-progress-bar-2">
+                  <div className="s-progress-bar-label">{totalMealType}</div>
+                  <div className="s-progress-bar-bg"></div>
+                  <div className="s-progress-bar-fill" style={{ width: `${totalMealType}%` }}></div>
                 </div>
               </div>
 
-              <div className="flex">
-                <p className="label-teks">Expenses</p>
-                <div className="progress-bar-2">
-                  <div className="progress-bar-label">{expenses}%</div>
-                  <div className="progress-bar-bg"></div>
-                  <div className="progress-bar-fill" style={{ width: `${expenses}%` }}></div>
+              <div className="s-flex">
+                <p className="s-label-teks">Review</p>
+                <div className="s-progress-bar-2">
+                  <div className="s-progress-bar-label">{totalReviewCount}</div>
+                  <div className="s-progress-bar-bg"></div>
+                  <div className="s-progress-bar-fill" style={{ width: `${totalReviewCount}%` }}></div>
                 </div>
               </div>
 
-              <div className="flex">
-                <p className="label-teks">Ope Cost</p>
-                <div className="progress-bar-2">
-                  <div className="progress-bar-label">{opeCost}%</div>
-                  <div className="progress-bar-bg"></div>
-                  <div className="progress-bar-fill" style={{ width: `${opeCost}%` }}></div>
+              <div className="s-flex">
+                <p className="s-label-teks">Rating</p>
+                <div className="s-progress-bar-2">
+                  <div className="s-progress-bar-label">{ratingF}</div>
+                  <div className="s-progress-bar-bg"></div>
+                  <div className="s-progress-bar-fill" style={{ width: `${ratingF}%` }}></div>
                 </div>
               </div>
 
             </div>
 
             {/* E-Learning */}
-            <div className="item3">
-              <p className="label-title">E-Learning</p>
+            <div className="s-item3">
+              <p className="s-label-title">E-Learning</p>
               
-              <div className="el">
-                <div className="teks1">
+              <div className="s-el">
+                <div className="s-teks1">
                   <p>Brands</p>
                   <p>{totalBrands}</p>
                 </div>
 
-                <div className="teks2">
+                <div className="s-teks2">
                   <p>Low Stock</p>
                   <p>{lowStock}</p>
                 </div>
 
-                <div className="teks3">
+                <div className="s-teks3">
                   <p>Rating</p>
                   <p>{rating}</p>
                 </div>
               </div>
 
-              <div className="update">
+              <div className="s-update">
                 <p>Last Update</p>
                 <p>Tidak ada</p>
               </div>
             </div>  
 
             {/* RKA */}
-            <div className="item4">
-              <p className="label-title">RKA</p>
+            <div className="s-item4">
+              <p className="s-label-title">RKA</p>
 
               <PieChartRka />
 
-              <div className="update">
+              <div className="s-update">
                 <p>Last Update</p>
                 <p>Tidak ada</p>
               </div>
             </div>
 
             {/* MPTI */}
-            <div className="item5">
-              <p className="label-title">MPTI</p>
+            <div className="s-item5">
+              <p className="s-label-title">MPTI</p>
               
-              <PieChartMpti />
+              <PieChartMpti products={products}/>
 
-              <div className="update">
+              <div className="s-update">
                   <p>Last Update</p>
                   <p>Tidak ada</p>
                 </div>
             </div>
 
             {/* Work Order */}
-            <div className="item6">
+            <div className="s-item6">
 
-              <div className="top">
-                <p className="label-title">Work Order</p>
-                <div className="update">
+              <div className="s-top">
+                <p className="s-label-title">Work Order</p>
+                <div className="s-update">
                   <p>Last Update</p>
                   <p>Tidak ada</p>
                 </div>
               </div>
 
-              <BarChartWorkOrder />
+              <BarChartWorkOrder posts={posts}/>
             </div>
 
             {/* Data Center */}
-            <div className="item7">
+            <div className="s-item7">
 
-              <div className="top">
-                <p className="label-title">Data Center</p>
-                <div className="start-ends">
+              <div className="s-top">
+                <p className="s-label-title">Data Center</p>
+                <div className="s-start-ends">
                     <p>Start</p>
                     <p>Ends</p>
                 </div>
               </div>
 
-              <div className="content-dc">
-                <p>Data Tidak Tersedia</p>
-                <p>Uptime Server</p>
+              <div className="s-content-dc">
+                <p>{averageDiscount.toFixed(2)}%</p>
+                <p>Rata-rata Diskon</p>
               </div>
 
-              <div className="update">
+              <div className="s-update">
                 <p>Last Update</p>
                 <p>Tidak ada</p>
               </div>
             </div>
 
-            <div className="item8">
+            <div className="s-item8">
 
-              <div className="content-dc-8">
-                  <p>Data Tidak Tersedia</p>
-                  <p>End Of Ups Uptime</p>
+              <div className="s-content-dc-8">
+                  <p>{averagePriceFixed}</p>
+                  <p>Rata - rata Harga</p>
               </div>
 
-              <div className="update">
+              <div className="s-update">
                 <p>Last Update</p>
                 <p>Tidak ada</p>
               </div>
             </div>
 
-            <div className="item9">
+            <div className="s-item9">
 
-              <div className="content-dc-9">
-                <p>Data Tidak Tersedia</p>
-                <p>Max Switch Traffic</p>
+              <div className="s-content-dc-9">
+                <p>{averageWarranty} Bulan</p>
+                <p>Rata - rata Garansi</p>
               </div>
 
-              <div className="update">
+              <div className="s-update">
                 <p>Last Update</p>
                 <p>Tidak ada</p>
               </div>
             </div>
 
             {/* Help Desk */}
-            <div className="item10">
+            <div className="s-item10">
 
-              <div className="top">
-                <p className="label-title">Help Desk</p>
+              <div className="s-top">
+                <p className="s-label-title">Help Desk</p>
 
-                <div className="update">
+                <div className="s-update">
                   <p>Last Update</p>
                   <p>Tidak ada</p>
                 </div>
               </div>
 
-              <div className="hd">
-                <p className="label-teks">Total Ticket</p>
-                <div className="progress-bar-3">
-                  <div className="progress-bar-label"></div>
-                  <div className="progress-bar-bg"></div>
-                  <div className="progress-bar-fill-3" style={{ width: `${totalTicket}%` }}></div>
+              <div className="s-hd">
+
+                <div className="s-hd-group">
+                  <p className="s-label-teks">Completed</p>
+                  <div className="s-progress-bar-3">
+                    <div className="s-progress-bar-label">{trueCount}</div>
+                    <div className="s-progress-bar-bg"></div>
+                    <div className="s-progress-bar-fill-3" style={{ width: `${trueCount}%` }}></div>
+                  </div>
                 </div>
 
-                <p className="label-teks">Open</p>
-                <div className="progress-bar-4">
-                  <div className="progress-bar-label"></div>
-                  <div className="progress-bar-bg"></div>
-                  <div className="progress-bar-fill-4" style={{ width: `${open}%` }}></div>
+                <div className="s-hd-group">
+                  <p className="s-label-teks">True</p>
+                  <div className="s-progress-bar-4">
+                    <div className="s-progress-bar-label">{trueCount}</div>
+                    <div className="s-progress-bar-bg"></div>
+                    <div className="s-progress-bar-fill-4" style={{ width: `${trueCount}%` }}></div>
+                  </div>
                 </div>
 
-                <p className="label-teks">Close</p>
-                <div className="progress-bar-5">
-                  <div className="progress-bar-label"></div>
-                  <div className="progress-bar-bg"></div>
-                  <div className="progress-bar-fill-5" style={{ width: `${close}%` }}></div>
+                <div className="s-hd-group">
+                  <p className="s-label-teks">False</p>
+                  <div className="s-progress-bar-5">
+                    <div className="s-progress-bar-label">{falseCount}</div>
+                    <div className="s-progress-bar-bg"></div>
+                    <div className="s-progress-bar-fill-5" style={{ width: `${falseCount}%` }}></div>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* KPI */}
-            <div className="item11">
-              <div className="top">
-                <p className="label-title">KPI</p>
-                <div className="update">
+            <div className="s-item11">
+              <div className="s-top">
+                <p className="s-label-title">KPI</p>
+                <div className="s-update">
                   <p>Last Update</p>
                   <p>Tidak ada</p>
                 </div>
               </div>
 
-              <div className="group">
-                <div className="group-1">
-                  <div className="flex">
-                    <p className="label-teks">TRW I</p>
-                    <div className="progress-bar">
-                      <div className="progress-bar-label">{trwI}%</div>
-                      <div className="progress-bar-bg"></div>
-                      <div className="progress-bar-fill" style={{ width: `${trwI}%` }}></div>
+              <div className="s-group">
+                <div className="s-group-1">
+                  <div className="s-flex">
+                    <p className="s-label-teks">TRW I</p>
+                    <div className="s-progress-bar">
+                      <div className="s-progress-bar-label">{trwI}%</div>
+                      <div className="s-progress-bar-bg"></div>
+                      <div className="s-progress-bar-fill" style={{ width: `${trwI}%` }}></div>
                     </div>
                   </div>
 
-                  <div className="flex">
-                    <p className="label-teks">TRW II</p>
-                    <div className="progress-bar">
-                      <div className="progress-bar-label">{trwII}%</div>
-                      <div className="progress-bar-bg"></div>
-                      <div className="progress-bar-fill" style={{ width: `${trwII}%` }}></div>
+                  <div className="s-flex">
+                    <p className="s-label-teks">TRW II</p>
+                    <div className="s-progress-bar">
+                      <div className="s-progress-bar-label">{trwII}%</div>
+                      <div className="s-progress-bar-bg"></div>
+                      <div className="s-progress-bar-fill" style={{ width: `${trwII}%` }}></div>
                     </div>
                   </div>
                 </div>
 
-                <div className="group-2">
-                  <div className="flex">
-                    <p className="label-teks">TRW III</p>
-                    <div className="progress-bar">
-                      <div className="progress-bar-label">{trwIII}%</div>
-                      <div className="progress-bar-bg"></div>
-                      <div className="progress-bar-fill" style={{ width: `${trwIII}%` }}></div>
+                <div className="s-group-2">
+                  <div className="s-flex">
+                    <p className="s-label-teks">TRW III</p>
+                    <div className="s-progress-bar">
+                      <div className="s-progress-bar-label">{trwIII}%</div>
+                      <div className="s-progress-bar-bg"></div>
+                      <div className="s-progress-bar-fill" style={{ width: `${trwIII}%` }}></div>
                     </div>
                   </div>
 
-                  <div className="flex">
-                    <p className="label-teks">TRW IV</p>
-                    <div className="progress-bar">
-                      <div className="progress-bar-label">{trwIV}%</div>
-                      <div className="progress-bar-bg"></div>
-                      <div className="progress-bar-fill" style={{ width: `${trwIV}%` }}></div>
+                  <div className="s-flex">
+                    <p className="s-label-teks">TRW IV</p>
+                    <div className="s-progress-bar">
+                      <div className="s-progress-bar-label">{trwIV}%</div>
+                      <div className="s-progress-bar-bg"></div>
+                      <div className="s-progress-bar-fill" style={{ width: `${trwIV}%` }}></div>
                     </div>
                   </div>
                 </div>
@@ -398,12 +488,12 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
             </div>
 
             {/* tata kelola */}
-            <div className="item12">
+            <div className="s-item12">
 
-              <div className="top">
-                <p className="label-title">Tata Kelola</p>
+              <div className="s-top">
+                <p className="s-label-title">Tata Kelola</p>
 
-                <div className="update">
+                <div className="s-update">
                   <p>Last Update</p>
                   <p>Tidak ada</p>
                 </div>
@@ -413,33 +503,33 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
             </div>
 
             {/* hasil asesmen */}
-            <div className="item13">
+            <div className="s-item13">
 
-              <div className="top">
-                <p className="label-title">Hasil Asesmen</p>
+              <div className="s-top">
+                <p className="s-label-title">Hasil Asesmen</p>
 
-                <div className="update">
+                <div className="s-update">
                   <p>Last Update</p>
                   <p>Tidak ada</p>
                 </div>
 
               </div>
 
-              <div className="group-3">
-                <p className="year">2023</p>
-                <div className="teks4">
+              <div className="s-group-3">
+                <p className="s-year">2023</p>
+                <div className="s-teks4">
                   <p>ITML</p>
                   <p>3.63</p>
                 </div>
 
-                <p className="year">2023</p>
-                <div className="teks5">
+                <p className="s-year">2023</p>
+                <div className="s-teks5">
                   <p>INDI 4.0</p>
                   <p>2.56</p>
                 </div>
 
-                <p className="year">2022</p>
-                <div className="teks6">
+                <p className="s-year">2022</p>
+                <div className="s-teks6">
                   <p>ITML</p>
                   <p>3</p>
                 </div>
@@ -454,5 +544,6 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
 };
 
 export default Summary;
+
 
 

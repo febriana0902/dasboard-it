@@ -51,15 +51,19 @@
   
 
 @media (max-width: 1024px) {
-  .table-container-modal{
+  .modal-content{
     overflow-x: auto;
   }
 }
 
 @media (max-width: 768px) {
-  .table-container-modal{
+  .modal-content{
+    font-size: 12px;
     overflow-x: auto;
   }
-  
+
+  .close-button {
+    position: fixed;
+  }
 }
 

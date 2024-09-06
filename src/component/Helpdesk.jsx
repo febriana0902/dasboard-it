@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useContractData } from './DataContext';
 import menu from './asset/menu-sidebar.png';
 import './css/Helpdesk.css'; 
 import BarChart2 from './barChart/BarCharHelp2';
@@ -7,48 +8,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 
-// Sample data for the table
-const sampleData = [
-    {
-        ticketNo: "PPM1",
-        title: "System Outage",
-        organization: "IT Department",
-        caller: "John Doe",
-        startDate: "2024-09-01",
-        status: "Open",
-        serviceFamily: "Network",
-        agent: "Agent Smith"
-    },
-    {
-        ticketNo: "TI1",
-        title: "Login Issue",
-        organization: "HR",
-        caller: "Jane Roe",
-        startDate: "2024-09-02",
-        status: "Open",
-        serviceFamily: "Software",
-        agent: "Agent Johnson"
-    },
-    {
-        ticketNo: "TI2",
-        title: "Password Reset",
-        organization: "Finance",
-        caller: "Alice Brown",
-        startDate: "2024-09-03",
-        status: "Closed",
-        serviceFamily: "Support",
-        agent: "Agent Davis"
-    },
-    // Add more data as needed
-];
 
 const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
+    //mengambil data 
+    const { todos } = useContractData();
+    if (!todos) return <div>Loading...</div>;
+    console.log(todos);
+
     const currentYear = new Date().getFullYear();
     const [selectedYear, setSelectedYear] = useState(currentYear.toString());
-    const [selectedStatus, setSelectedStatus] = useState('Open');
+    const [selectedStatus, setSelectedStatus] = useState('True');
     const [entriesPerPage, setEntriesPerPage] = useState(10);
     const [searchTerm, setSearchTerm] = useState('');
-    const [data, setData] = useState(sampleData);
+    // const [data, setData] = useState(sampleData);
     const [currentPage, setCurrentPage] = useState(1);
 
     const handleYearChange = (event) => {
@@ -59,18 +31,24 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
         setSelectedStatus(event.target.value);
     };
 
-    const filteredData = data.filter(item => {
-        return (
-            item.ticketNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.organization.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.caller.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.startDate.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.serviceFamily.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.agent.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-    }).filter(item => item.status === selectedStatus && item.startDate.startsWith(selectedYear));
+    const filteredData = todos.filter(todo => {
+        // Filter berdasarkan status yang dipilih (True atau False)
+        const statusMatch = selectedStatus === 'True' 
+            ? todo.completed === true 
+            : todo.completed === false;
+    
+        // Filter berdasarkan pencarian (searchTerm)
+        const searchMatch = 
+            todo.id.toString().includes(searchTerm) || 
+            todo.todo.toLowerCase().includes(searchTerm.toLowerCase()) || 
+            todo.completed.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+            todo.userId.toString().includes(searchTerm)
+    
+        // Mengembalikan hasil filter gabungan antara status dan pencarian
+        return statusMatch && searchMatch;
+    });
+    
+    
 
     const startIndex = (currentPage - 1) * entriesPerPage;
     const endIndex = startIndex + entriesPerPage;
@@ -109,8 +87,8 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
                                 value={selectedStatus}
                                 onChange={handleStatusChange}
                             >
-                                <option value="Open">Open</option>
-                                <option value="Closed">Closed</option>
+                                <option value="True">True</option>
+                                <option value="False">False</option>
                             </select>
                             <select
                                 className="h-dropdown"
@@ -124,10 +102,10 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
                                 ))}
                             </select>
                         </div>
-                        <BarChart2 filteredData={filteredData} />
+                        <BarChart2 filteredData={filteredData} todos={todos}/>
                     </div>
                     <div className='h-background-bar'>
-                        <BarChart3 />
+                        <BarChart3 todos={todos}/>
                     </div>
                 </div>
 
@@ -163,28 +141,20 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
                             <table className="h-table-auto">
                                 <thead>
                                     <tr>
-                                        <th>No Tiket</th>
-                                        <th>Title</th>
-                                        <th>Organization</th>
-                                        <th>Caller</th>
-                                        <th>Start Date</th>
-                                        <th>Status</th>
-                                        <th>Service Family</th>
-                                        <th>Agent</th>
+                                        <th>Id</th>
+                                        <th>Todo</th>
+                                        <th>Completed</th>
+                                        <th>User Id</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {displayedData.length > 0 ? (
-                                        displayedData.map((item, index) => (
-                                            <tr key={index}>
-                                                <td>{item.ticketNo}</td>
-                                                <td>{item.title}</td>
-                                                <td>{item.organization}</td>
-                                                <td>{item.caller}</td>
-                                                <td>{item.startDate}</td>
-                                                <td>{item.status}</td>
-                                                <td>{item.serviceFamily}</td>
-                                                <td>{item.agent}</td>
+                                        displayedData.map((todo) => (
+                                            <tr key={todo.id}>
+                                                <td>{todo.id}</td>
+                                                <td>{todo.todo}</td>
+                                                <td>{todo.completed ? "True" : "False"}</td>
+                                                <td>{todo.userId}</td>
                                             </tr>
                                         ))
                                     ) : (

@@ -20,7 +20,7 @@ const Kpi = ({ toggleSidebar, isSidebarOpen }) => {
         <div className="kpi-content">
 
             <div className='k-navbar'>
-                <div className="title">
+                <div className="k-title">
                   <img className="k-menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
                   <h2>KPI</h2>
                 </div>
@@ -143,7 +143,7 @@ const Kpi = ({ toggleSidebar, isSidebarOpen }) => {
 
               {selectedTrw === "IV" && selectedYear === currentYear.toString() && (
                   <div className="rtw-IV">
-                    <h3>Realisasi KPI TRW I</h3>
+                    <h3>Realisasi KPI TRW IV</h3>
 
                     <div className="k-content">
                       <div className="ring-blue">

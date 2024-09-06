@@ -31,7 +31,7 @@ const Learning = ({ toggleSidebar, isSidebarOpen }) => {
     return (
         <div className="learning-content">
             <div className='learning-navbar'>
-                <div className='title'>
+                <div className='l-title'>
                     <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
                     <h2>E-LEARNING</h2>
                 </div>
@@ -59,18 +59,18 @@ const Learning = ({ toggleSidebar, isSidebarOpen }) => {
                 <div className='learning-container'>
                     <div className='l-grid-group'>
                         <div className='l-group-1'>
-                            <h3>Data Kerjasama Instansi</h3>
+                            <h3>Produk Berdasarkan Merek</h3>
                             <BarChart  products= {products}/>
                         </div>
 
                         <div className='l-group-2'>
-                            <h3>Kuota Magang dan Prakerin</h3>
+                            <h3>Jumlah Stock</h3>
                             <PieChartLearning products= {products}/>
                         </div>
                     </div>
 
                     <div className='l-group-3'>
-                        <h3>Data Pesebaran Magang</h3>
+                        <h3>Rating Produk Berdasarkan Tag</h3>
 
                         {products.length > 0 ? (
                             products.map((product, index) => (
@@ -81,7 +81,7 @@ const Learning = ({ toggleSidebar, isSidebarOpen }) => {
                                             <span className="l-progress-bar-label">{product.rating}</span>
                                         </div>
                                     </div>
-                                    <p className="l-label-teks">{product.tags}</p>
+                                    <p className="l-label-teks">{product.tags.join(', ')}</p>
                                 </div>
                             ))
                         ) : (

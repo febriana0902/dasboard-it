@@ -1,5 +1,6 @@
 import menu from './asset/menu-sidebar.png';
 import './css/DataCenter.css';
+import { useContractData } from './DataContext';
 import { useState, useEffect } from "react";
 import BarChart from './barChart/BarChartData1';
 import BarChart2 from './barChart/BarChartData2';
@@ -7,6 +8,10 @@ import BarChart3 from './barChart/BarChartData3';
 import BarChart4 from './barChart/BarChartData4';
 
 const DataCenter = ({ toggleSidebar, isSidebarOpen }) => {
+  // Mengambil data
+  const { products } = useContractData();
+  if (!products) return <div>Loading...</div>;
+
   //card 1
   const currentYear = new Date().getFullYear();
 
@@ -75,7 +80,7 @@ const DataCenter = ({ toggleSidebar, isSidebarOpen }) => {
     return (
       <div className="data-content">
 
-          <div className="title">
+          <div className="d-title">
             <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
             <h2>DATA CENTER</h2>
           </div>
@@ -87,7 +92,7 @@ const DataCenter = ({ toggleSidebar, isSidebarOpen }) => {
               <div className='item'>
 
                 <div className='top-dc'>
-                  <p>UPTIME SERVER</p>
+                  <p>Jumlah Komentar Produk</p>
                   <div className="filter-year-dc">
                     <select id="year" value={selectedYear} onChange={handleYearChange}>
                       <option value={currentYear}>{currentYear}</option>
@@ -99,7 +104,7 @@ const DataCenter = ({ toggleSidebar, isSidebarOpen }) => {
                   </div>
 
                 </div>
-                <BarChart />
+                <BarChart products={products}/>
 
               </div>  
             )}
@@ -108,7 +113,7 @@ const DataCenter = ({ toggleSidebar, isSidebarOpen }) => {
             {selectedYear2 === currentYear2.toString() && (
               <div className='item'>
                 <div className='top-dc'>
-                  <p>SWICTH TRAFFIC</p>
+                  <p>Produk dengan Diskon</p>
                   <div className="filter-year-dc">
                     <select id="year" value={selectedYear2} onChange={handleYearChange2}>
                       <option value={currentYear2}>{currentYear2}</option>
@@ -121,7 +126,7 @@ const DataCenter = ({ toggleSidebar, isSidebarOpen }) => {
 
                 </div>
 
-                <BarChart2 />
+                <BarChart2 products={products}/>
               </div>
             )}
 
@@ -129,7 +134,7 @@ const DataCenter = ({ toggleSidebar, isSidebarOpen }) => {
             {selectedServer && selectedYear3 === currentYear.toString() && (
               <div className='item'>
                 <div className='top-dc'>
-                    <p>SERVER ULTILIZATION</p>
+                    <p>Harga Tiap Produk</p>
 
                     <div className='filter-dc'>
                       <div className="filter-year-dc">
@@ -154,7 +159,7 @@ const DataCenter = ({ toggleSidebar, isSidebarOpen }) => {
                     
                 </div>
 
-                <BarChart3 />
+                <BarChart3 products={products}/>
               </div>
             )}
 
@@ -163,7 +168,7 @@ const DataCenter = ({ toggleSidebar, isSidebarOpen }) => {
               <div className='item'>
 
                 <div className='top-dc'>
-                  <p>UPS LIFE TIME</p>
+                  <p>Garansi Tiap Produk</p>
 
                   <div className='filter-dc'>
                     <div className="filter-month-dc">
@@ -195,7 +200,7 @@ const DataCenter = ({ toggleSidebar, isSidebarOpen }) => {
                   </div>
                 </div>
 
-                <BarChart4 />
+                <BarChart4 products={products}/>
               </div>
             )}
 

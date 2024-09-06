@@ -59,21 +59,21 @@
 }
 
 .w-search-container input {
-    width: 270px; 
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 15px;
+    width: 300px;
     height: 30px;
-    padding: 10px; 
-    border: 1px solid #b9b9b9;
-    border-radius: 15px; 
-    outline: none; 
-    color: #262626;
-    margin-bottom: 10px;
-    margin-right: 10px;
-} 
+    transition: border-color 0.3s ease;
+}
 
 .w-group-search {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 20px;
+    margin-top: 20px;
 }
 
 .w-table-container {
@@ -83,7 +83,7 @@
     border: 1px solid #B9B9B9;
     padding: 5px;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 10px;
 }
   
 .w-table-auto {
@@ -105,39 +105,43 @@
     background-color: rgba(185, 185, 185, 0.5);
 }
 
-.w-info-container {
-    margin: 12px;
-    padding: 20px;
-    margin-left: -10px;
-}
-
 .w-pagination-container {
     border: 1px solid #b9b9b9;
-    width: 140px; 
-    height: 30px;
+    width: auto;
     border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: -40px; 
-    gap: 15px; 
-    margin-left: 90%;
+    padding: 5px 10px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.w-info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .w-pagination-container span {
-    font-size: 14px; 
-    background-color: #f0f0f0; 
-    padding: 10px 20px; 
-    border-radius: 5px; 
-    border: 1px solid #ccc;
+    font-size: 14px;
+    background-color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #b9b9b9;
+    margin: 0 5px;
 }
 
 .w-update {
     display: flex;
     padding: 10px;
     gap: 10px;
-    margin-top: -30px;
-    margin-bottom: -15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     justify-content: flex-end;
     color: rgba(38, 38, 38, 0.5);
     font-size: 12px;
@@ -184,12 +188,8 @@
 
     .w-search-container input {
         width: 100%; /* Lebar penuh */
+        height: 30px;
         margin-right: 0;
-    }
-
-    .w-group-search {
-        flex-direction: column;
-        gap: 10px;
     }
 
     .w-table-container {
@@ -203,7 +203,7 @@
     }
 
     .w-pagination-container {
-        width: 50%; /* Lebar penuh */
+        width: 30%; /* Lebar penuh */
         margin-left: 0; /* Menghapus margin kiri */
         margin-top: 10px;
         gap: 10px;

@@ -1,43 +1,46 @@
 import { useState, useEffect } from 'react';
 import './css/WorkOrder.css';
+import { useContractData } from './DataContext';
 import menu from './asset/menu-sidebar.png';
 import BarChart from './barChart/BarChartWorkOrder2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAnglesLeft, faAnglesRight  } from '@fortawesome/free-solid-svg-icons';
+import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
 const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
+    // Mengambil data
+    const { posts } = useContractData();
+    if (!posts) return <div>Loading...</div>;
+
     const currentYear = new Date().getFullYear();
     const monthIndex = new Date().getMonth(); // 0-based index for month
     const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
     const currentMonth = monthNames[monthIndex];
-  
+
     const [selectedYear, setSelectedYear] = useState(currentYear.toString());
     const [selectedMonth, setSelectedMonth] = useState(currentMonth);
-  
+
     const handleMonthChange = (e) => {
         setSelectedMonth(e.target.value);
     };
-  
+
     const handleYearChange = (e) => {
         setSelectedYear(e.target.value);
     };
-  
+
     useEffect(() => {
         console.log(`Menampilkan data untuk ${selectedMonth} ${selectedYear}`);
     }, [selectedMonth, selectedYear]);
 
-
     const [entriesPerPage, setEntriesPerPage] = useState(10);
-    const [searchTerm, setSearchTerm] = useState(''); 
-    const [data, setData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
-    const filteredData = data.filter(item => {
+    const filteredData = posts.filter(item => {
         return (
-            item.workOrder.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.pic.toLowerCase().includes(searchTerm.toLowerCase())
+            item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.body.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.tags.join(' ').toLowerCase().includes(searchTerm.toLowerCase())
         );
     });
 
@@ -52,52 +55,40 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
     };
 
     const handleNextPage = () => {
-        const maxPage = Math.ceil(data.length / entriesPerPage);
+        const maxPage = Math.ceil(filteredData.length / entriesPerPage);
         if (currentPage < maxPage) {
             setCurrentPage(currentPage + 1);
         }
     };
 
-
-    return(
+    return (
         <div className="wko-content">
             <div className='wko-navbar'>
                 <div className='w-title'>
-                    <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar}/>
+                    <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
                     <h2>WORK ORDER</h2>
                 </div>
 
                 <div className="w-filter-container">
                     <div className="w-filter-month">
                         <select id="month" value={selectedMonth} onChange={handleMonthChange}>
-                                <option value="Januari">Januari</option>
-                                <option value="Februari">Februari</option>
-                                <option value="Maret">Maret</option>
-                                <option value="April">April</option>
-                                <option value="Mei">Mei</option>
-                                <option value="Juni">Juni</option>
-                                <option value="Juli">Juli</option>
-                                <option value="Agustus">Agustus</option>
-                                <option value="September">September</option>
-                                <option value="Oktober">Oktober</option>
-                                <option value="November">November</option>
-                                <option value="Desember">Desember</option>
+                            {monthNames.map((month, index) => (
+                                <option key={index} value={month}>{month}</option>
+                            ))}
                         </select>
                     </div>
                     <div className="w-filter-year">
                         <select id="year" value={selectedYear} onChange={handleYearChange}>
-                                <option value={currentYear}>{currentYear}</option>
-                                <option value={currentYear - 1}>{currentYear - 1}</option>
-                                <option value={currentYear - 2}>{currentYear - 2}</option>
-                                <option value={currentYear - 3}>{currentYear - 3}</option>
-                                <option value={currentYear - 4}>{currentYear - 4}</option>
+                            {[0, 1, 2, 3, 4].map(offset => (
+                                <option key={offset} value={currentYear - offset}>{currentYear - offset}</option>
+                            ))}
                         </select>
                     </div>
                 </div>
             </div>
 
             <div className='w-background-bar'>
-                <BarChart />
+                <BarChart posts={posts}/>
 
                 {selectedMonth === currentMonth && selectedYear === currentYear.toString() && (
                     <div className="w-table-container">
@@ -126,39 +117,36 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
                             </div>
-
                         </div>
 
                         <table className="w-table-auto">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Work Order</th>
-                                    <th>Description</th> 
-                                    <th>Current State</th>
-                                    <th>PIC</th>
-                                    <th>Due Date</th>
-                                    <th>Status</th>
-                                    <th>%Progress</th>
+                                    <th>Id</th>
+                                    <th>User Id</th>
+                                    <th>Title</th>
+                                    <th>Likes</th>
+                                    <th>Dislikes</th>
+                                    <th>Views</th>
+                                    <th>Tags</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {displayedData.length > 0 ? (
-                                    displayedData.map((item, index) => (
-                                        <tr key={index}>
-                                            <td>{startIndex + index + 1}</td>
-                                            <td>{item.workOrder}</td>
-                                            <td>{item.description}</td>
-                                            <td>{item.currentState}</td>
-                                            <td>{item.pic}</td>
-                                            <td>{item.dueDate}</td>
-                                            <td>{item.status}</td>
-                                            <td>{item.progress}%</td>
+                                    displayedData.map((post) => (
+                                        <tr key={post.id}>
+                                            <td>{post.id}</td>
+                                            <td>{post.userId}</td>
+                                            <td>{post.title}</td>
+                                            <td>{post.reactions.likes}</td>
+                                            <td>{post.reactions.dislikes}</td>
+                                            <td>{post.views}</td>
+                                            <td>{post.tags.join(', ')}</td>
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="8" style={{ textAlign: 'center' }}>
+                                        <td colSpan="7" style={{ textAlign: 'center' }}>
                                             No data available
                                         </td>
                                     </tr>
@@ -168,20 +156,20 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
                         <div className="w-info-container">
                             <p>Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} entries</p>
                             <div className="w-pagination-container">
-                            <FontAwesomeIcon icon={faAnglesLeft} onClick={handlePreviousPage}/>
-                            <span> 1</span>
-                            <FontAwesomeIcon icon={faAnglesRight} onClick={handleNextPage}/>
-                        </div>
+                                <FontAwesomeIcon icon={faAnglesLeft} onClick={handlePreviousPage} />
+                                <span> {currentPage} </span>
+                                <FontAwesomeIcon icon={faAnglesRight} onClick={handleNextPage} />
+                            </div>
                         </div>
                         <div className='w-update'>
-                            <p>Last Update </p>
-                            <p>Tidak Ada </p>
+                            <p>Last Update</p>
+                            <p>Tidak Ada</p>
                         </div>
                     </div>
                 )}
             </div>
         </div>
-    )
+    );
 };
 
 export default WorkOrder;

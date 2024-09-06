@@ -20,12 +20,18 @@ const PieChartLearning = ({ products }) => {
       {
         data: stockCount(),  // Menggunakan fungsi stockCount untuk mengambil data
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
+          '#5470C6', 
+          '#91CC75', 
+          '#FAC858', 
+          '#EE6666', 
+          '#73C0DE'
         ],
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
+          '#5470C6', 
+          '#91CC75', 
+          '#FAC858', 
+          '#EE6666', 
+          '#73C0DE'
         ],
         borderWidth: 1,
       },

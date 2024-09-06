@@ -4,13 +4,17 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 // Daftarkan komponen ChartJS
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BarChart2 = ({ filteredData }) => {
+const BarChart2 = ({ filteredData}) => {
+    
+    const trueCount = filteredData.filter(todo => todo.completed === true).length;
+    const falseCount = filteredData.filter(todo => todo.completed === false).length;
+
     const data = {
-        labels: filteredData.map(item => item.ticketNo),
+        labels: ['True ', 'False '],
         datasets: [
             {
-                data: filteredData.map(item => item.status === 'Open' ? 1 : 0),
-                backgroundColor: ['#5971C0'],
+                data: [trueCount, falseCount], 
+                backgroundColor: ['#5971C0', '#D9534F'], 
                 borderWidth: 0,
             },
         ],
@@ -25,7 +29,7 @@ const BarChart2 = ({ filteredData }) => {
             tooltip: { bodyFont: { size: 12 } },
         },
         scales: {
-            x: { beginAtZero: true, min: 0, max: 5, ticks: { stepSize: 1 } },
+            x: { beginAtZero: true, min: 0, max: 20, ticks: { stepSize: 1 } },
             y: { beginAtZero: true },
         },
     };

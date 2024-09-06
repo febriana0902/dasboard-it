@@ -22,6 +22,16 @@
   font-size: 20px;
 }
 
+.k-title {
+  display: flex;
+  align-items: center; 
+  gap: 10px;
+  margin-bottom: 20px;
+  color: #262626;
+  margin: 10px;
+  font-size: 20px;
+}
+
 .k-filter {
   display: flex;
   gap: 10px;
@@ -34,6 +44,7 @@
   outline: none;
   border: none;
   cursor: pointer;
+  font-size: 15px;
 }
 
 .k-container {
@@ -97,4 +108,44 @@
   gap: 10px;
   align-content: center;
   align-items: center;
+}
+
+/* Untuk tablet */
+@media (max-width: 1024px) {
+  .k-filter {
+    margin-right: 10px; 
+  }
+
+  .ring-red,
+  .ring-green,
+  .ring-blue {
+    width: 150px; 
+    height: 150px;
+  }
+}
+
+/* Untuk handphone */
+@media (max-width: 768px) {
+
+  .k-filter select {
+    font-size: 14px;
+    padding: 4px;
+  }
+
+  .k-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .ring-red,
+  .ring-green,
+  .ring-blue {
+    width: 120px;
+    height: 120px;
+    font-size: 14px;
+  }
+
+  .row {
+    gap: 5px; 
+  }
 }

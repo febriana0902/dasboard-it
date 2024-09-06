@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useContractData } from './DataContext';
 import './css/Finance.css';
 import menu from './asset/menu-sidebar.png';
 import BarChartOp from "./barChart/BarChartFinanceOp";
@@ -6,14 +7,20 @@ import BarChartCogs from "./barChart/BarChartFinanceCogs";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 
-// Dummy data for demonstration
-const data = [
-    { asesmen: "A", workOrder: "WO001", description: "Task A", status: "Ongoing" },
-    { asesmen: "B", workOrder: "WO002", description: "Task B", status: "Done" },
-    // Add more data here...
-];
 
 const Finance = ({ toggleSidebar, isSidebarOpen }) => {
+    // Mengambil data
+    const { recipes } = useContractData();
+    if (!recipes) return <div>Loading...</div>;
+
+    const ratings = recipes.map(recipe => recipe.rating);
+    const totalRating = ratings.reduce((acc, rating) => acc + rating, 0);
+    const averageRating = totalRating / ratings.length;
+    const rating = averageRating.toFixed(2);
+
+    const totalReviewCount = recipes.reduce((accumulator, recipe) => accumulator + recipe.reviewCount, 0);
+
+
     // Filter
     const currentYear = new Date().getFullYear();
     const [selectedYear, setSelectedYear] = useState(currentYear.toString());
@@ -26,15 +33,18 @@ const Finance = ({ toggleSidebar, isSidebarOpen }) => {
     };
 
     // Filter data
-    const filteredData = data.filter(item => {
+    const filteredData = recipes.filter(recipe => {
         return (
-            item.workOrder.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.status.toLowerCase().includes(searchTerm.toLowerCase())
+            recipe.id.toString().includes(searchTerm.toLowerCase()) ||
+            recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            recipe.cookTimeMinutes.toString().includes(searchTerm.toLowerCase()) ||
+            recipe.difficulty.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            recipe.cuisine.toLowerCase().includes(searchTerm.toLowerCase())
         );
     });
 
     // Pagination calculations
+    const maxPage = Math.ceil(filteredData.length / entriesPerPage);
     const startIndex = (currentPage - 1) * entriesPerPage;
     const endIndex = startIndex + entriesPerPage;
     const displayedData = filteredData.slice(startIndex, endIndex);
@@ -55,7 +65,7 @@ const Finance = ({ toggleSidebar, isSidebarOpen }) => {
     return (
         <div className="finance-content">
             <div className='finance-navbar'>
-                <div className='title'>
+                <div className='f-title'>
                     <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
                     <h2>FINANCE</h2>
                 </div>
@@ -75,11 +85,11 @@ const Finance = ({ toggleSidebar, isSidebarOpen }) => {
 
             {selectedYear === currentYear.toString() && (
                 <div className='finance-container'>
-                    <div><BarChartOp selectedYear={selectedYear} /></div>
-                    <div><BarChartCogs /></div>
+                    <div><BarChartOp recipes={recipes}/></div>
+                    <div><BarChartCogs recipes={recipes}/></div>
                     
                     <div className="f-table">
-                        <h1 className="title-table">Expense</h1>
+                        <h1 className="title-table">Data Recipe</h1>
                         <div className="f-table-container">
 
                             <div className='f-group-search'>
@@ -107,24 +117,28 @@ const Finance = ({ toggleSidebar, isSidebarOpen }) => {
                                     />
                                 </div>
                             </div>
-
+                        
                             <table className="f-table-auto">
                                 <thead>
                                     <tr>
-                                        <th>Asesmen</th>
-                                        <th>Work Order</th>
-                                        <th>Description</th>
-                                        <th>Status</th>
+                                        <th>Id</th>
+                                        <th>Nama</th>
+                                        <th>Waktu Masak</th>
+                                        <th>Kesulitan</th>
+                                        <th>Masakan</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {displayedData.length > 0 ? (
-                                        displayedData.map((item, index) => (
-                                            <tr key={index}>
-                                                <td>{item.asesmen}</td>
-                                                <td>{item.workOrder}</td>
-                                                <td>{item.description}</td>
-                                                <td>{item.status}</td>
+                                        displayedData.map((recipe) => (
+                                            <tr key={recipe.id}>
+                                                <td>{recipe.id}</td>
+                                                <td>{recipe.name}</td>
+                                                <td>{recipe.cookTimeMinutes}</td>
+                                                <td>{recipe.difficulty}</td>
+                                                <td>{recipe.cuisine}</td>
+                                            
                                             </tr>
                                         ))
                                     ) : (
@@ -138,28 +152,38 @@ const Finance = ({ toggleSidebar, isSidebarOpen }) => {
                             </table>
 
                             <div className="f-info-container">
-                                <p>Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} entries</p>
+                                <p>
+                                Showing {startIndex + 1} to {endIndex} of {filteredData.length} entries
+                                </p>
                                 <div className="f-pagination-container">
-                                    <FontAwesomeIcon icon={faAnglesLeft} onClick={handlePreviousPage} />
-                                    <span>{currentPage}</span>
-                                    <FontAwesomeIcon icon={faAnglesRight} onClick={handleNextPage} />
+                                <FontAwesomeIcon
+                                    icon={faAnglesLeft}
+                                    onClick={handlePreviousPage}
+                                    style={{ cursor: currentPage > 1 ? 'pointer' : 'not-allowed' }}
+                                />
+                                <span>{currentPage}</span>
+                                <FontAwesomeIcon
+                                    icon={faAnglesRight}
+                                    onClick={handleNextPage}
+                                    style={{ cursor: currentPage < maxPage ? 'pointer' : 'not-allowed' }}
+                                />
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                     <div className="f-grid">
-                        <h1 className="title-grid">Aset TI</h1>
-                        <div className="f-grid-container">
-                            <div className="f-grid-item1">
-                                <h3>0.00 M</h3>
-                                <p>Anggaran</p>
+                        <h1 className="title-grid">Jumlah Rating dan Review</h1>
+                            <div className="f-grid-container">
+                                <div className="f-grid-item1">
+                                    <h3>{rating}</h3>
+                                    <p>Ratings</p>
+                                </div>
+                                <div className="f-grid-item2">
+                                    <h3>{totalReviewCount}</h3>
+                                    <p>Review</p>
+                                </div>
                             </div>
-                            <div className="f-grid-item2">
-                                <h3>0.00 M</h3>
-                                <p>Realisasi</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             )}

@@ -21,6 +21,16 @@
     margin-right: 30px;
   }
 
+  .d-title {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+    margin-bottom: 20px;
+    color: #262626;
+    margin: 10px;
+    font-size: 20px;
+  }
+
 .item {
   background-color: white;
   border-radius: 15px;

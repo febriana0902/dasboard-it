@@ -15,7 +15,7 @@ const BarChart = ({ products }) => {
       {
         label: 'Stock',  // Label untuk dataset
         data: products.map(product => product.stock),  // Mengambil data stock
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        backgroundColor: ['#5470C6', '#91CC75', '#FAC858', '#EE6666', '#73C0DE'],
       }
     ]
   };
@@ -25,7 +25,7 @@ const BarChart = ({ products }) => {
     plugins: {
       legend: {
         position: 'top',
-        display: true, 
+        display: false, 
       },
       title: {
         display: true,

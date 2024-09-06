@@ -1,53 +1,56 @@
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import ReactECharts from 'echarts-for-react';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+const BarChartReactions = ({ posts }) => {
+  const rawData = posts.map(post => ({
+    Post: `Post ${post.id}`,
+    Likes: post.reactions.likes,
+    Dislikes: post.reactions.dislikes
+  }));
 
-const BarChart = () => {
-  const data = {
-    labels: ['Open','Close','Upcoming','Total'],
-    datasets: [
+  const option = {
+    title: {
+      text: 'Likes vs Dislikes per Post',
+      left: 'center', 
+      top: 'top', 
+      padding: [20, 0, 10, 0] 
+    },
+    tooltip: {
+      trigger: 'axis'
+    },
+    legend: {
+      data: ['Likes', 'Dislikes'],
+      top: 'bottom',
+      padding: [10, 0, 10, 0]
+    },
+    xAxis: {
+      type: 'category',
+      data: rawData.map(item => item.Post)
+    },
+    yAxis: {
+      type: 'value',
+      name: 'Count'
+    },
+    series: [
       {
-        data: [10, 5, 9, 40],
-        backgroundColor: ['#5971C0', '#5971C0', '#5971C0'],
-        borderWidth: 0,
+        name: 'Likes',
+        type: 'bar',
+        data: rawData.map(item => item.Likes),
+        itemStyle: {
+          color: '#5470C6'
+        }
       },
-    ],
+      {
+        name: 'Dislikes',
+        type: 'bar',
+        data: rawData.map(item => item.Dislikes),
+        itemStyle: {
+          color: '#EE6666'
+        }
+      }
+    ]
   };
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-        display: false,
-      },
-      title: {
-        display: false,
-      },
-      tooltip: {
-        bodyFont: {
-          size: 12,
-        },
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        min: 0,  // Menentukan nilai minimum pada sumbu Y
-        max: 40,  // Menentukan nilai maksimum pada sumbu Y
-        ticks: {
-          stepSize: 10, // Menentukan langkah antara nilai-nilai pada sumbu Y
-        },
-      },
-    },
-  };
-
-  return (
-    <div style={{ width: '100%', height: '230px', marginTop: '20px' }}>
-      <Bar data={data} options={options} />
-    </div>
-  );
+  return <ReactECharts option={option} style={{ height: 300 }} />;
 };
 
-export default BarChart;
+export default BarChartReactions;

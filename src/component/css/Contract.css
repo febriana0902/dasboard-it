@@ -28,6 +28,7 @@
     align-items: center;  
     justify-content: space-between; 
     font-size: 20px;
+    margin-bottom: 20PX;
 }
 
 .c-title {
@@ -37,36 +38,37 @@
     margin-bottom: 20px;
     margin: 10px;
     color: #262626;
-  }
+}
 
-  .c-table-container {
+.c-table-container {
     background-color: white;
     border-radius: 15px;
     border: 1px solid #B9B9B9;
     padding: 5px;
-    margin-top: 20px;
-  }
+    margin-top: 10px;
+}
   
-  .c-table-auto {
+.c-table-auto {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
     border-radius: 15px;
     padding: 10px;
     overflow-x: auto;
-  }
+}
   
-  .c-table-auto th, .c-table-auto td {
+.c-table-auto th, .c-table-auto td {
     border: 1px solid #b9b9b9;
     padding: 8px;
     text-align: left;
     box-shadow: none; /* Remove any shadow */
-  }
+}
   
-  .c-table-auto th {
+.c-table-auto th {
     background-color: rgba(185, 185, 185, 0.5);
-  }
-  .c-search-container input {
+}
+
+.c-search-container input {
     width: 250px; 
     height: 30px;
     padding: 10px; 
@@ -74,16 +76,17 @@
     border-radius: 15px; 
     outline: none; 
     color: #262626;
-  } 
+} 
   
-  .c-filter-container {
+.c-filter-container {
     display: flex;
     gap: 10px;
     margin-top: 2px;
     justify-content: flex-end;
-  }
-  .c-filter-customer select,
-  .c-filter-tahun select{
+}
+
+.c-filter-customer select,
+.c-filter-tahun select{
     padding: 5px;
     border: none;
     border-radius: 15px;
@@ -92,35 +95,46 @@
     outline: none;  
     cursor: pointer;
     font-size: 15px; 
-  }
-  .c-filter-customer select{
+}
+
+.c-filter-customer select{
     width: 150px;
-  }
-  .c-dropdown-container{
+}
+
+.c-dropdown-container{
     margin: 12px;
-  }
-  .c-info-container{
-    margin: 12px;
-  }
-  .c-pagination-container {
+}
+
+.c-info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.c-pagination-container {
     border: 1px solid #b9b9b9;
-    width: 150px; 
+    width: auto;
     border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: -40px; 
-    gap: 15px; 
-  }
-  
-  .c-pagination-container span {
-    font-size: 14px; 
-    background-color: #f0f0f0; 
-    padding: 10px 20px; 
-    border-radius: 5px; 
-    border: 1px solid #ccc; 
-  }
+    padding: 5px 10px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
 
+.c-pagination-container span {
+    font-size: 14px;
+    background-color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #b9b9b9;
+    margin: 0 5px;
+}
 
 @media (max-width: 1024px) {
     .c-table-container{
@@ -153,6 +167,7 @@
   }
   .c-table-container{
     overflow-x: auto;
+    font-size: 12px;
   }
   .c-table-auto {
     min-width: 900px; /* Pastikan tabel memiliki lebar minimum yang lebih besar dari layar handphone */

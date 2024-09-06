@@ -1,11 +1,15 @@
 import { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 
-const BarChart3 = () => {
+const BarChart3 = ({ products }) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
     const chartInstance = echarts.init(chartRef.current);
+
+    // Ambil nama produk dan harga untuk sumbu X dan data batang
+    const productId = products.map(product => product.id);
+    const productPrices = products.map(product => product.price);
 
     const option = {
       title: {
@@ -27,36 +31,25 @@ const BarChart3 = () => {
           },
         },
       },
-      legend: {
-        data: ['Line Chart', 'Bar Chart'],
-        bottom: '0%',
+      xAxis: {
+        type: 'category',
+        data: productId,
+        axisLabel: {
+          interval: 0, 
+          rotate: 45, 
+        },
       },
-      xAxis: [
-        {
-          type: 'category',
-          data: ['Mar', 'April', 'May'],
+      yAxis: {
+        type: 'value',
+        axisLabel: {
+          formatter: '{value}', 
         },
-      ],
-      yAxis: [
-        {
-          type: 'value',
-          max: 60,
-          axisLabel: {
-            formatter: '{value}%',
-          },
-        },
-      ],
+      },
       series: [
         {
-          name: 'Line Chart',
-          type: 'line',
-          smooth: true,
-          data: [60, 60, 60],
-        },
-        {
-          name: 'Bar Chart',
+          name: 'Harga Produk',
           type: 'bar',
-          data: [50, 55, 60], // Data for the bar chart
+          data: productPrices, 
         },
       ],
     };
@@ -73,10 +66,10 @@ const BarChart3 = () => {
       window.removeEventListener('resize', handleResize);
       chartInstance.dispose();
     };
-  }, []);
+  }, [products]);
 
   return (
-    <div className="bar-chart" ref={chartRef} style={{ width: '90%', height: '230px', marginTop: '-30px' }}></div>
+    <div className="bar-chart" ref={chartRef} style={{ width: '100%', height: '250px', marginTop: '-30px' }}></div>
   );
 };
 

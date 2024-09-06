@@ -3,34 +3,32 @@ import { useContractData } from './DataContext';
 import './css/Contract.css';
 import menu from './asset/menu-sidebar.png';
 import ContractModal from './ContractModal';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 
-const Contract = ({ toggleSidebar, isSidebarOpen}) => {
-  //mengambil data 
+const Contract = ({ toggleSidebar, isSidebarOpen }) => {
+  // Mengambil data
   const { users } = useContractData();
   if (!users) return <div>Loading...</div>;
-  
-  // State dan variabel lainnya
+
+  // State
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear.toString());
   const [entriesPerPage, setEntriesPerPage] = useState(10);
   const [selectedCustomer, setSelectedCustomer] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedContract, setSelectedContract] = useState(null);
-  
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Mendapatkan pelanggan unik dari data
   const uniqueCustomers = [...new Set(users.map(user => user.firstName))];
 
-  // Filter data berdasarkan search 
+  // Filter data berdasarkan search
   const filteredData = users.filter(user => {
     const searchMatches =
       user.id.toString().includes(searchTerm.toLowerCase()) ||
       user.firstName.toLowerCase().includes(searchTerm.toLowerCase());
-      // user.age.toString().includes(searchTerm.toLowerCase()) ||
-      // user.gender.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      // user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      // user.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      // user.role.toLowerCase().includes(searchTerm.toLowerCase());
 
     return (
       searchMatches &&
@@ -38,10 +36,25 @@ const Contract = ({ toggleSidebar, isSidebarOpen}) => {
     );
   });
 
-  // Menampilkan data yang telah difilter
-  const displayedData = filteredData.slice(0, entriesPerPage);
-  const startIndex = filteredData.length > 0 ? 1 : 0;
-  const endIndex = Math.min(entriesPerPage, filteredData.length);
+  // Perhitungan paginasi
+  const maxPage = Math.ceil(filteredData.length / entriesPerPage);
+  const startIndex = (currentPage - 1) * entriesPerPage;
+  const endIndex = Math.min(startIndex + entriesPerPage, filteredData.length);
+  const displayedData = filteredData.slice(startIndex, endIndex);
+
+  // Handle Previous Page
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  // Handle Next Page
+  const handleNextPage = () => {
+    if (currentPage < maxPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   return (
     <div className="contract-content">
@@ -88,22 +101,22 @@ const Contract = ({ toggleSidebar, isSidebarOpen}) => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-
+      
       {selectedYear === currentYear.toString() && (
         <div className="c-table-container">
           <div className="c-dropdown-container">
-            <label htmlFor="entries">Show </label>
-            <select
-              id="entries"
-              value={entriesPerPage}
-              onChange={(e) => setEntriesPerPage(Number(e.target.value))}
-            >
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={30}>30</option>
-              <option value={50}>50</option>
-            </select>
-            <label> entries</label>
+              <label htmlFor="entries">Show </label>
+              <select
+                id="entries"
+                value={entriesPerPage}
+                onChange={(e) => setEntriesPerPage(Number(e.target.value))}
+              >
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={30}>30</option>
+                <option value={50}>50</option>
+              </select>
+              <label> entries</label>
           </div>
 
           <table className="c-table-auto">
@@ -130,25 +143,38 @@ const Contract = ({ toggleSidebar, isSidebarOpen}) => {
                     <td>{user.phone}</td>
                     <td>{user.role}</td>
                   </tr>
-              ))
+                ))
               ) : (
-                  <tr>
-                    <td colSpan="7" style={{ textAlign: 'center' }}>
-                      No data available
-                    </td>
-                  </tr>
+                <tr>
+                  <td colSpan="7" style={{ textAlign: 'center' }}>
+                    No data available
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>
 
           <div className="c-info-container">
             <p>
-              Showing {startIndex} to {endIndex} of {filteredData.length} entries
+              Showing {startIndex + 1} to {endIndex} of {filteredData.length} entries
             </p>
+            <div className="c-pagination-container">
+              <FontAwesomeIcon
+                icon={faAnglesLeft}
+                onClick={handlePreviousPage}
+                style={{ cursor: currentPage > 1 ? 'pointer' : 'not-allowed' }}
+              />
+              <span>{currentPage}</span>
+              <FontAwesomeIcon
+                icon={faAnglesRight}
+                onClick={handleNextPage}
+                style={{ cursor: currentPage < maxPage ? 'pointer' : 'not-allowed' }}
+              />
+            </div>
           </div>
         </div>
       )}
-
+      {/* Modal untuk detail contract */}
       {selectedContract && (
         <ContractModal
           contract={selectedContract}

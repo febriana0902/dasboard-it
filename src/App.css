@@ -112,6 +112,18 @@ hr{
     padding: 1px; 
   }
 
+  hr{
+    margin-left: 10px;
+  }
+
+  .sidebar-upload{
+    height: 30px;
+    width: 120px;
+    padding-left: 20px;
+
+  }
+
+
 }
 
 /* Gaya untuk layar handphone */
@@ -137,5 +149,17 @@ hr{
   .content {
     padding: 1px; 
   }
+
+  hr{
+    margin-left: 10px;
+  }
+
+  .sidebar-upload{
+    height: 30px;
+    width: 80px;
+    padding-left: 3px;
+
+  }
+
 }
 

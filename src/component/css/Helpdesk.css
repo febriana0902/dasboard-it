@@ -12,7 +12,7 @@
     display: flex;
     gap: 10px;
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
     font-size: 20px;
 }
 
@@ -20,13 +20,13 @@
 .h-group-tabel-bar {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     width: 100%;
 }
 
 .h-bar {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     width: 100%;
 }
 
@@ -152,4 +152,64 @@
     color: #272727;
     cursor: pointer;
 }
+
+
+/* Untuk tablet */
+@media (max-width: 1024px) {
+  
+    .h-group-tabel-bar {
+      gap: 8px;
+    }
+  
+    .h-bar {
+      flex-direction: column; 
+    }
+  
+    .h-background-bar {
+      padding: 15px;
+    }
+  
+    .h-table-container {
+      padding: 15px;
+    }
+  
+    .h-search-container input {
+      width: 100%; 
+    }
+  
+  }
+  
+  /* Untuk handphone */
+  @media (max-width: 768px) {
+    .helpdesk-container {
+      padding: 6px;
+    }
+  
+    .h-group-tabel-bar {
+      gap: 6px;
+    }
+  
+    .h-bar {
+      flex-direction: column; 
+      gap: 6px;
+    }
+  
+    .h-background-bar {
+      padding: 12px;
+    }
+  
+    .h-table-container {
+      padding: 12px;
+    }
+  
+    .h-search-container input {
+      width: 100%; 
+    }
+  
+    .h-dropdown {
+      width: 100%; 
+    }
+  }
+  
+  
 

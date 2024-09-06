@@ -74,24 +74,32 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  background-color: #fff;
-  padding: 15px;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  height: 150px;
-  transition: transform 0.3s ease;
-  margin: 10px;
+.card-detail {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Membagi grid menjadi 4 kolom */
+  gap: 16px; /* Spasi antara item */
+  width: 100%;
 }
 
-.card:hover {
-  transform: translateY(-5px);
+.detail-item {
+  background-color: white;
+  border: solid 1px #ccc;
+  border-radius: 15px;
+  height: 100px;
+  text-align: center;
+  padding-top: 20px;
 }
+
+.detail-label {
+  font-weight: bold;
+}
+
+.detail-value {
+  display: block;
+  margin-top: 4px;
+}
+
+
 
 .content-right {
   display: flex;
@@ -186,19 +194,87 @@
   gap: 10px;
   margin-top: 10px; /* Mengurangi jarak atas */
   margin-bottom: 10px; /* Mengurangi jarak bawah */
+  color: #272727;
+  font-weight: lighter;
+  font-size: 15px;
 }
 
 .right-panel div {
-  padding: 8px;
+  padding: 3px;
+  padding-top: 15px;
   border-radius: 5px;
   border: 1px solid #ddd;
   cursor: pointer;
   transition: background-color 0.3s;
   text-align: center;
   background-color: #fff;
+  height: auto;
 }
 
 .right-panel div:hover {
   background-color: #f0f0f0;
+}
+
+
+/* Responsive untuk tablet */
+@media (max-width: 768px) {
+  .m-content {
+    grid-template-columns: 1fr; /* Hanya 1 kolom untuk konten */
+  }
+
+  .content-left {
+    grid-template-columns: 1fr; /* Sesuaikan kolom agar 1 untuk tablet */
+  }
+
+  .right-panel {
+    grid-template-columns: 1fr; /* Ubah panel kanan menjadi 1 kolom */
+  }
+
+  .stat-item {
+    width: 100%; /* Penuh untuk item statistik */
+  }
+
+  .card-detail {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Membagi grid menjadi 4 kolom */
+    gap: 16px; /* Spasi antara item */
+    width: 100%;
+  }
+}
+
+/* Responsive untuk handphone */
+@media (max-width: 480px) {
+  .m-navbar {
+    font-size: 16px; /* Ubah ukuran font navbar */
+    gap: 5px; /* Kurangi jarak antar elemen di navbar */
+  }
+
+  .card-detail {
+    display: grid;
+    grid-template-columns: 1fr ; /* Membagi grid menjadi 4 kolom */
+    gap: 16px; /* Spasi antara item */
+    width: 100%;
+  }
+
+  .content-left {
+    grid-template-columns: 1fr; /* Hanya 1 kolom untuk konten di handphone */
+  }
+
+  .m-content {
+    padding: 5px; /* Kurangi padding untuk konten utama di handphone */
+  }
+
+  .content-right {
+    padding: 5px; /* Kurangi padding panel kanan di handphone */
+  }
+
+  .stat-item {
+    width: 100%; /* Penuh untuk item statistik */
+    font-size: 0.9em; /* Kurangi ukuran font untuk item statistik */
+  }
+
+  .right-panel div {
+    padding: 5px; /* Kurangi padding panel kanan */
+  }
 }
 

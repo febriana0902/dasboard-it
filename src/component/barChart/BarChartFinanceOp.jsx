@@ -1,109 +1,61 @@
 import ReactECharts from 'echarts-for-react';
 
-const BarChartOp = () => {
-  const rawData = [
-    { Month: 'January', Condition: 'Lembur', Value: 300 },
-    { Month: 'February', Condition: 'Lembur', Value: 250 },
-    { Month: 'March', Condition: 'Lembur', Value: 200 },
-    { Month: 'April', Condition: 'Lembur', Value: 150 },
-    { Month: 'May', Condition: 'Lembur', Value: 100 },
-    { Month: 'June', Condition: 'Lembur', Value: 50 },
-    { Month: 'July', Condition: 'Lembur', Value: 75 },
-    { Month: 'August', Condition: 'Lembur', Value: 125 },
-    { Month: 'September', Condition: 'Lembur', Value: 175 },
-    { Month: 'October', Condition: 'Lembur', Value: 225 },
-    { Month: 'November', Condition: 'Lembur', Value: 275 },
-    { Month: 'December', Condition: 'Lembur', Value: 300 },
+const BarChartCogs = ({ recipes }) => {
+  // Menghitung jumlah resep berdasarkan meal type
+  const mealTypeCounts = recipes.reduce((acc, recipe) => {
+    recipe.mealType.forEach(type => {
+      if (!acc[type]) {
+        acc[type] = 0;
+      }
+      acc[type]++;
+    });
+    return acc;
+  }, {});
 
-    { Month: 'January', Condition: 'Dinas', Value: 150 },
-    { Month: 'February', Condition: 'Dinas', Value: 200 },
-    { Month: 'March', Condition: 'Dinas', Value: 250 },
-    { Month: 'April', Condition: 'Dinas', Value: 300 },
-    { Month: 'May', Condition: 'Dinas', Value: 275 },
-    { Month: 'June', Condition: 'Dinas', Value: 225 },
-    { Month: 'July', Condition: 'Dinas', Value: 175 },
-    { Month: 'August', Condition: 'Dinas', Value: 125 },
-    { Month: 'September', Condition: 'Dinas', Value: 100 },
-    { Month: 'October', Condition: 'Dinas', Value: 150 },
-    { Month: 'November', Condition: 'Dinas', Value: 200 },
-    { Month: 'December', Condition: 'Dinas', Value: 250 }
-  ];
+  // Mengubah data menjadi format yang sesuai untuk chart
+  const rawData = Object.keys(mealTypeCounts).map(type => ({
+    Category: type,
+    Value: mealTypeCounts[type]
+  }));
 
   const option = {
-    dataset: [
-      {
-        id: 'dataset_raw',
-        source: rawData
-      },
-      {
-        id: 'dataset_lembur',
-        fromDatasetId: 'dataset_raw',
-        transform: {
-          type: 'filter',
-          config: {
-            and: [{ dimension: 'Condition', '=': 'Lembur' }]
-          }
-        }
-      },
-      {
-        id: 'dataset_dinas',
-        fromDatasetId: 'dataset_raw',
-        transform: {
-          type: 'filter',
-          config: {
-            and: [{ dimension: 'Condition', '=': 'Dinas' }]
-          }
-        }
-      }
-    ],
     title: {
-      text: 'Realisasi Biaya Operasional'
+      text: 'Jumlah Meal Type'
     },
     tooltip: {
       trigger: 'axis'
     },
-    legend: {
-        data: ['Lembur', 'Dinas'],  // Tambahkan legend untuk setiap kondisi
-        top: 'bottom'  // Letakkan legend di bawah chart (atau sesuaikan posisi)
-      },
     xAxis: {
       type: 'category',
-      nameLocation: 'middle',
-      data: rawData.map(item => item.Month).filter((v, i, a) => a.indexOf(v) === i)
+      data: rawData.map(item => item.Category), 
+      name: 'Kategori'
     },
     yAxis: {
       type: 'value',
-      name: 'Dalam Jutaan rupiah / million [M]',
-      max: 300,
-      min: 0
+      name: 'Jumlah'
     },
     series: [
       {
         type: 'bar',
-        datasetId: 'dataset_lembur',
-        name: 'Lembur',
-        encode: {
-          x: 'Month',
-          y: 'Value',
-          tooltip: ['Value']
+        data: rawData.map(item => item.Value), 
+        name: 'Jumlah Makanan',
+        label: {
+          show: false,
+          position: 'top'
         },
-        barGap: '30%'
-      },
-      {
-        type: 'bar',
-        datasetId: 'dataset_dinas',
-        name: 'Dinas',
-        encode: {
-          x: 'Month',
-          y: 'Value',
-          tooltip: ['Value']
-        },
-        barGap: '30%'
+        barGap: '20%',
+        itemStyle: {
+          color: (params) => {
+            // Ubah warna berdasarkan kategori
+            const colors = ['#5470C6', '#91CC75', '#FAC858', '#EE6666', '#73C0DE'];
+            return colors[params.dataIndex % colors.length]; 
+          }
+        }
       }
     ]
   };
 
-  return <ReactECharts option={option} style={{ height: 300}} />;
+  return <ReactECharts option={option} style={{ height: 300 }} />;
 };
 
-export default BarChartOp;
+export default BarChartCogs;

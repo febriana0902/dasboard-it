@@ -55,11 +55,13 @@
     justify-content: space-between;
 }
 
-.f-search-container {
+.f-search-container input{
     border: solid 1px #B9B9B9;
     border-radius: 15px;
-    padding: 3px;
+    padding: 5px;
     outline: none;
+    margin-right: 10px;
+    margin-right: 10px;
 }
 
 .f-table-container {
@@ -67,9 +69,10 @@
     border-radius: 15px;
     overflow: hidden;
     border: 1px solid #B9B9B9;
-    padding: 5px;
+    padding: 20px;
     margin-top: 30px;
     height: 250px;
+    overflow: auto;
 }
 
 .f-table-auto {
@@ -91,46 +94,57 @@
     background-color: rgba(185, 185, 185, 0.5);
 }
 
-.f-info-container {
-    margin-top: 18px;
-    margin-left: 5px;
-}
-
 .f-dropdown-container {
     margin-left: 5px;
     margin-top: 5px;
 }
 
 .f-pagination-container {
-    border: 1px solid #ccc;
-    max-width: 120px; /* Set maksimal lebar jika perlu */
+    border: 1px solid #b9b9b9;
+    width: auto;
     border-radius: 15px;
     display: flex;
     align-items: center;
-    justify-content: center; /* Pusatkan konten */
-    margin-top: -24px; /* Atur margin sesuai kebutuhan */
-    gap: 5px;
-    margin-left: 400px;
+    justify-content: center;
+    padding: 5px 10px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
+
+.f-info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.f-title {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+    margin-bottom: 20px;
+    color: #262626;
+    margin: 10px;
+    font-size: 20px;
+  }
 
 .f-pagination-container span {
     font-size: 14px;
-    background-color: #f0f0f0;
+    background-color: #ffffff;
     padding: 5px 10px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #b9b9b9;
+    margin: 0 5px;
 }
 
-.f-grid-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 20px;
-    width: 70%;
+.f-grid-container{
+    margin-top: 35px;
     margin-left: 100px;
     margin-right: 100px;
 }
-
 .f-grid-item1,
 .f-grid-item2 {
     background-color: #ffffff;
@@ -140,6 +154,11 @@
     border: 2px solid #b9b9b9;
     text-align: center;
     margin: 10px;
+}
+
+.f-grid-item1 p,
+.f-grid-item2 p{
+    margin-top: -20px;
 }
 
 .f-grid-item1 h3 {
@@ -166,7 +185,6 @@
     font-weight: bolder;
 }
 
-/* Media Queries */
 
 /* Handphone (mobile) */
 @media (max-width: 767px) {
@@ -185,7 +203,10 @@
     }
 
     .f-table-container {
-        height: auto; /* Sesuaikan tinggi tabel pada perangkat kecil */
+        height: auto;
+        overflow-x: auto;
+        font-size: 12px;
+        padding: 10px;
     }
 
     .f-grid-container {
@@ -195,19 +216,12 @@
         grid-template-columns: 1fr; /* Satu kolom pada perangkat kecil */
     }
 
-    .f-pagination-container {
-        width: 100%; /* Lebar penuh pada perangkat kecil */
-        margin-left: 0;
-        margin-top: 10px;
-    }
-
     .title-table,
     .title-grid {
         font-size: 18px; /* Ukuran font lebih kecil pada perangkat kecil */
     }
 
     .f-search-container {
-        border: solid 1px #B9B9B9;
         border-radius: 15px;
         padding: 3px;
         outline: none;
