@@ -61,7 +61,7 @@ const BarChart = ({ products }) => {
   return (
     <ReactECharts
       option={option}
-      style={{ width: '100%', height: '220px', marginTop: '-20px', marginLeft: '20px'}}
+      style={{ width: '100%', height: '220px', marginTop: '-20px', marginLeft: '50px'}}
       opts={{ renderer: 'canvas' }}
     />
   );

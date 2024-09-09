@@ -544,6 +544,3 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
 };
 
 export default Summary;
-
-
-

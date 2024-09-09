@@ -13,18 +13,18 @@ const Contract = ({ toggleSidebar, isSidebarOpen }) => {
   if (!users) return <div>Loading...</div>;
 
   // State
-  const currentYear = new Date().getFullYear();
-  const [selectedYear, setSelectedYear] = useState(currentYear.toString());
   const [entriesPerPage, setEntriesPerPage] = useState(10);
   const [selectedCustomer, setSelectedCustomer] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedContract, setSelectedContract] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedRole, setSelectedRole] = useState('');
 
-  // Mendapatkan pelanggan unik dari data
+  // Mendapatkan pelanggan unik dan peran unik dari data
   const uniqueCustomers = [...new Set(users.map(user => user.firstName))];
+  const uniqueRoles = [...new Set(users.map(user => user.role))];
 
-  // Filter data berdasarkan search
+  // Filter data berdasarkan search dan role
   const filteredData = users.filter(user => {
     const searchMatches =
       user.id.toString().includes(searchTerm.toLowerCase()) ||
@@ -32,7 +32,8 @@ const Contract = ({ toggleSidebar, isSidebarOpen }) => {
 
     return (
       searchMatches &&
-      (selectedCustomer === '' || user.firstName === selectedCustomer)
+      (selectedCustomer === '' || user.firstName === selectedCustomer) &&
+      (selectedRole === '' || user.role === selectedRole)
     );
   });
 
@@ -79,14 +80,18 @@ const Contract = ({ toggleSidebar, isSidebarOpen }) => {
             </select>
           </div>
 
-          <div className="c-filter-tahun">
-            <select id="year" value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
-              <option value="">Year</option>
-              <option value={currentYear}>{currentYear}</option>
-              <option value={currentYear - 1}>{currentYear - 1}</option>
-              <option value={currentYear - 2}>{currentYear - 2}</option>
-              <option value={currentYear - 3}>{currentYear - 3}</option>
-              <option value={currentYear - 4}>{currentYear - 4}</option>
+          <div className="c-filter-role">
+            <select
+              id="role"
+              value={selectedRole}
+              onChange={(e) => setSelectedRole(e.target.value)}
+            >
+              <option value="">Role</option>
+              {uniqueRoles.map((role, index) => (
+                <option key={index} value={role}>
+                  {role}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -102,78 +107,76 @@ const Contract = ({ toggleSidebar, isSidebarOpen }) => {
         />
       </div>
       
-      {selectedYear === currentYear.toString() && (
-        <div className="c-table-container">
-          <div className="c-dropdown-container">
-              <label htmlFor="entries">Show </label>
-              <select
-                id="entries"
-                value={entriesPerPage}
-                onChange={(e) => setEntriesPerPage(Number(e.target.value))}
-              >
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={30}>30</option>
-                <option value={50}>50</option>
-              </select>
-              <label> entries</label>
-          </div>
+      <div className="c-table-container">
+        <div className="c-dropdown-container">
+          <label htmlFor="entries">Show </label>
+          <select
+            id="entries"
+            value={entriesPerPage}
+            onChange={(e) => setEntriesPerPage(Number(e.target.value))}
+          >
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={30}>30</option>
+            <option value={50}>50</option>
+          </select>
+          <label> entries</label>
+        </div>
 
-          <table className="c-table-auto">
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>Nama</th>
-                <th>Usia</th>
-                <th>Jenis Kelamin</th>
-                <th>Email</th>
-                <th>Telepon</th>
-                <th>Jabatan</th>
-              </tr>
-            </thead>
-            <tbody>
-              {displayedData.length > 0 ? (
-                displayedData.map((user, id) => (
-                  <tr key={id} onClick={() => setSelectedContract(user)}>
-                    <td>{user.id}</td>
-                    <td className="customer-link">{user.firstName}</td>
-                    <td>{user.age}</td>
-                    <td>{user.gender}</td>
-                    <td>{user.email}</td>
-                    <td>{user.phone}</td>
-                    <td>{user.role}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="7" style={{ textAlign: 'center' }}>
-                    No data available
-                  </td>
+        <table className="c-table-auto">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Nama</th>
+              <th>Usia</th>
+              <th>Jenis Kelamin</th>
+              <th>Email</th>
+              <th>Telepon</th>
+              <th>Jabatan</th>
+            </tr>
+          </thead>
+          <tbody>
+            {displayedData.length > 0 ? (
+              displayedData.map((user, id) => (
+                <tr key={id} onClick={() => setSelectedContract(user)}>
+                  <td>{user.id}</td>
+                  <td className="customer-link">{user.firstName}</td>
+                  <td>{user.age}</td>
+                  <td>{user.gender}</td>
+                  <td>{user.email}</td>
+                  <td>{user.phone}</td>
+                  <td>{user.role}</td>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" style={{ textAlign: 'center' }}>
+                  No data available
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
 
-          <div className="c-info-container">
-            <p>
-              Showing {startIndex + 1} to {endIndex} of {filteredData.length} entries
-            </p>
-            <div className="c-pagination-container">
-              <FontAwesomeIcon
-                icon={faAnglesLeft}
-                onClick={handlePreviousPage}
-                style={{ cursor: currentPage > 1 ? 'pointer' : 'not-allowed' }}
-              />
-              <span>{currentPage}</span>
-              <FontAwesomeIcon
-                icon={faAnglesRight}
-                onClick={handleNextPage}
-                style={{ cursor: currentPage < maxPage ? 'pointer' : 'not-allowed' }}
-              />
-            </div>
+        <div className="c-info-container">
+          <p>
+            Showing {startIndex + 1} to {endIndex} of {filteredData.length} entries
+          </p>
+          <div className="c-pagination-container">
+            <FontAwesomeIcon
+              icon={faAnglesLeft}
+              onClick={handlePreviousPage}
+              style={{ cursor: currentPage > 1 ? 'pointer' : 'not-allowed' }}
+            />
+            <span>{currentPage}</span>
+            <FontAwesomeIcon
+              icon={faAnglesRight}
+              onClick={handleNextPage}
+              style={{ cursor: currentPage < maxPage ? 'pointer' : 'not-allowed' }}
+            />
           </div>
         </div>
-      )}
+      </div>
       {/* Modal untuk detail contract */}
       {selectedContract && (
         <ContractModal

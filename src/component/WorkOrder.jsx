@@ -17,33 +17,40 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
     const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
     const currentMonth = monthNames[monthIndex];
 
-    const [selectedYear, setSelectedYear] = useState(currentYear.toString());
     const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+    const [selectedTag, setSelectedTag] = useState(""); // State for selected tag
+
+    const uniqueTags = [...new Set(posts.flatMap(post => post.tags))]; // Extract unique tags
 
     const handleMonthChange = (e) => {
         setSelectedMonth(e.target.value);
     };
 
-    const handleYearChange = (e) => {
-        setSelectedYear(e.target.value);
+    const handleTagChange = (e) => {
+        setSelectedTag(e.target.value);
     };
 
     useEffect(() => {
-        console.log(`Menampilkan data untuk ${selectedMonth} ${selectedYear}`);
-    }, [selectedMonth, selectedYear]);
+        console.log(`Menampilkan data untuk ${selectedMonth} dan tag ${selectedTag}`);
+    }, [selectedMonth, selectedTag]);
 
     const [entriesPerPage, setEntriesPerPage] = useState(10);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
+    // Initially, show all data; apply filters only when they are set
     const filteredData = posts.filter(item => {
         return (
-            item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.body.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.tags.join(' ').toLowerCase().includes(searchTerm.toLowerCase())
+            (selectedTag === "" || item.tags.includes(selectedTag)) &&
+            (
+                item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.body.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.tags.join(' ').toLowerCase().includes(searchTerm.toLowerCase())
+            )
         );
     });
 
+    // Paginate the filtered data
     const startIndex = (currentPage - 1) * entriesPerPage;
     const endIndex = startIndex + entriesPerPage;
     const displayedData = filteredData.slice(startIndex, endIndex);
@@ -77,10 +84,11 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
                             ))}
                         </select>
                     </div>
-                    <div className="w-filter-year">
-                        <select id="year" value={selectedYear} onChange={handleYearChange}>
-                            {[0, 1, 2, 3, 4].map(offset => (
-                                <option key={offset} value={currentYear - offset}>{currentYear - offset}</option>
+                    <div className="w-filter-tag">
+                        <select id="tag" value={selectedTag} onChange={handleTagChange}>
+                            <option value="">All Tags</option>
+                            {uniqueTags.map((tag, index) => (
+                                <option key={index} value={tag}>{tag}</option>
                             ))}
                         </select>
                     </div>
@@ -90,7 +98,7 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
             <div className='w-background-bar'>
                 <BarChart posts={posts}/>
 
-                {selectedMonth === currentMonth && selectedYear === currentYear.toString() && (
+                {selectedMonth === currentMonth && (
                     <div className="w-table-container">
 
                         <div className='w-group-search'>

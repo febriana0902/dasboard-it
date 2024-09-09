@@ -12,203 +12,142 @@ const DataCenter = ({ toggleSidebar, isSidebarOpen }) => {
   const { products } = useContractData();
   if (!products) return <div>Loading...</div>;
 
-  //card 1
-  const currentYear = new Date().getFullYear();
-
-  const [selectedYear, setSelectedYear] = useState(currentYear.toString());
-
-  const handleYearChange = (e) => {
-    setSelectedYear(e.target.value);
-  };
+  // card 1 - Filter berdasarkan produk title
+  const [selectedProduct1, setSelectedProduct1] = useState("");
+  const handleProductChange1 = (e) => setSelectedProduct1(e.target.value);
 
   useEffect(() => {
-    console.log(`Menampilkan data untuk ${selectedYear}`);
-  }, [selectedYear]);
+    console.log(`Menampilkan data untuk produk ${selectedProduct1}`);
+  }, [selectedProduct1]);
 
-
-  //card 2
-  const currentYear2 = new Date().getFullYear();
-
-  const [selectedYear2, setSelectedYear2] = useState(currentYear2.toString());
-
-  const handleYearChange2 = (e) => {
-    setSelectedYear2(e.target.value);
-  };
+  // card 2 - Filter berdasarkan produk title
+  const [selectedProduct2, setSelectedProduct2] = useState("");
+  const handleProductChange2 = (e) => setSelectedProduct2(e.target.value);
 
   useEffect(() => {
-    console.log(`Menampilkan data untuk  ${selectedYear2}`);
-  }, [selectedYear2]);
+    console.log(`Menampilkan data untuk produk ${selectedProduct2}`);
+  }, [selectedProduct2]);
 
-  //card 3
-  const currentYear3 = new Date().getFullYear();
-  const [selectedYear3, setSelectedYear3] = useState(currentYear3.toString());
-  const [selectedServer, setSelectedServer] = useState('all');
-
-  const handleYearChange3 = (e) => {
-    setSelectedYear3(e.target.value);
-  };
-
-  const handleServerChange = (e) => {
-    setSelectedServer(e.target.value);
-  };
+  // card 3 - Filter berdasarkan product.id dan product.price
+  const [selectedProductId, setSelectedProductId] = useState("all");
+  const [selectedPrice, setSelectedPrice] = useState("");
+  const handleProductIdChange = (e) => setSelectedProductId(e.target.value);
+  const handlePriceChange = (e) => setSelectedPrice(e.target.value);
 
   useEffect(() => {
-    console.log(`Menampilkan data untuk ${selectedYear3}`);
-  }, [selectedYear3]);
+    console.log(`Menampilkan data untuk server dengan produk ID ${selectedProductId} dan harga ${selectedPrice}`);
+  }, [selectedProductId, selectedPrice]);
 
-  //card 4
-  const currentYear4 = new Date().getFullYear();
-  const monthIndex = new Date().getMonth(); // 0-based index for month
-  const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-  const currentMonth = monthNames[monthIndex];
+  // card 4 - Filter berdasarkan data.warranty
+  const [selectedWarranty, setSelectedWarranty] = useState("");
+  const handleWarrantyChange = (e) => setSelectedWarranty(e.target.value);
 
-  const [selectedYear4, setSelectedYear4] = useState(currentYear4.toString());
-  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+  useEffect(() => {
+    console.log(`Menampilkan data garansi untuk produk ${selectedWarranty}`);
+  }, [selectedWarranty]);
 
- const handleMonthChange = (e) => {
-   setSelectedMonth(e.target.value);
- };
+  // Filter logic
+  const filteredProducts1 = selectedProduct1 ? products.filter(p => p.title === selectedProduct1) : products;
+  const filteredProducts2 = selectedProduct2 ? products.filter(p => p.title === selectedProduct2) : products;
+  const filteredProducts3 = products.filter(p => 
+    (selectedProductId === "all" || p.id === selectedProductId) &&
+    (selectedPrice === "" || p.price === Number(selectedPrice))
+  );
+  const filteredProducts4 = selectedWarranty ? products.filter(p => p.warrantyInformation === selectedWarranty) : products;
 
- const handleYearChange4 = (e) => {
-   setSelectedYear4(e.target.value);
- };
-
- useEffect(() => {
-   console.log(`Menampilkan data untuk ${selectedMonth} ${selectedYear4}`);
- }, [selectedMonth, selectedYear4]);
-
-    return (
-      <div className="data-content">
-
-          <div className="d-title">
-            <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
-            <h2>DATA CENTER</h2>
-          </div>
-
-          <div className='data-container'>
-
-            {/* card 1 */}
-            {selectedYear === currentYear.toString() && (
-              <div className='item'>
-
-                <div className='top-dc'>
-                  <p>Jumlah Komentar Produk</p>
-                  <div className="filter-year-dc">
-                    <select id="year" value={selectedYear} onChange={handleYearChange}>
-                      <option value={currentYear}>{currentYear}</option>
-                      <option value={currentYear - 1}>{currentYear - 1}</option>
-                      <option value={currentYear - 2}>{currentYear - 2}</option>
-                      <option value={currentYear - 3}>{currentYear - 3}</option>
-                      <option value={currentYear - 4}>{currentYear - 4}</option>
-                    </select>
-                  </div>
-
-                </div>
-                <BarChart products={products}/>
-
-              </div>  
-            )}
-
-            {/* card 2 */}
-            {selectedYear2 === currentYear2.toString() && (
-              <div className='item'>
-                <div className='top-dc'>
-                  <p>Produk dengan Diskon</p>
-                  <div className="filter-year-dc">
-                    <select id="year" value={selectedYear2} onChange={handleYearChange2}>
-                      <option value={currentYear2}>{currentYear2}</option>
-                      <option value={currentYear2 - 1}>{currentYear2 - 1}</option>
-                      <option value={currentYear2 - 2}>{currentYear2 - 2}</option>
-                      <option value={currentYear2 - 3}>{currentYear2 - 3}</option>
-                      <option value={currentYear2 - 4}>{currentYear2 - 4}</option>
-                    </select>
-                  </div>
-
-                </div>
-
-                <BarChart2 products={products}/>
-              </div>
-            )}
-
-            {/* card 3 */}
-            {selectedServer && selectedYear3 === currentYear.toString() && (
-              <div className='item'>
-                <div className='top-dc'>
-                    <p>Harga Tiap Produk</p>
-
-                    <div className='filter-dc'>
-                      <div className="filter-year-dc">
-                        <select id="year" value={selectedYear3} onChange={handleYearChange3}>
-                          <option value={currentYear3}>{currentYear3}</option>
-                          <option value={currentYear3 - 1}>{currentYear3 - 1}</option>
-                          <option value={currentYear3 - 2}>{currentYear3 - 2}</option>
-                          <option value={currentYear3 - 3}>{currentYear3 - 3}</option>
-                          <option value={currentYear3 - 4}>{currentYear3 - 4}</option>
-                        </select>
-                      </div>
-
-                      <div className='server'>
-                        <select id="server" value={selectedServer} onChange={handleServerChange}>
-                          <option value="all">All Server</option>
-                          <option value="serv1">Server 1</option>
-                          <option value="serv2">Server 2</option>
-                          <option value="serv3">Server 3</option>
-                        </select>
-                      </div>
-                    </div>
-                    
-                </div>
-
-                <BarChart3 products={products}/>
-              </div>
-            )}
-
-            {/* card 4 */}
-            {selectedMonth === currentMonth && selectedYear4 === currentYear.toString() && (
-              <div className='item'>
-
-                <div className='top-dc'>
-                  <p>Garansi Tiap Produk</p>
-
-                  <div className='filter-dc'>
-                    <div className="filter-month-dc">
-                      <select id="month" value={selectedMonth} onChange={handleMonthChange}>
-                        <option value="Januari">Januari</option>
-                        <option value="Februari">Februari</option>
-                        <option value="Maret">Maret</option>
-                        <option value="April">April</option>
-                        <option value="Mei">Mei</option>
-                        <option value="Juni">Juni</option>
-                        <option value="Juli">Juli</option>
-                        <option value="Agustus">Agustus</option>
-                        <option value="September">September</option>
-                        <option value="Oktober">Oktober</option>
-                        <option value="November">November</option>
-                        <option value="Desember">Desember</option>
-                      </select>
-                    </div>
-
-                    <div className="filter-year-dc">
-                      <select id="year" value={selectedYear4} onChange={handleYearChange4}>
-                        <option value={currentYear4}>{currentYear4}</option>
-                        <option value={currentYear4 - 1}>{currentYear4 - 1}</option>
-                        <option value={currentYear4 - 2}>{currentYear4 - 2}</option>
-                        <option value={currentYear4 - 3}>{currentYear4 - 3}</option>
-                        <option value={currentYear4 - 4}>{currentYear4 - 4}</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <BarChart4 products={products}/>
-              </div>
-            )}
-
-          </div>
-        
+  return (
+    <div className="data-content">
+      <div className="d-title">
+        <img className="menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
+        <h2>DATA CENTER</h2>
       </div>
-      
-    )
-  };
-  
-  export default DataCenter;
+
+      <div className='data-container'>
+
+        {/* card 1 - Filter by product.title */}
+        <div className='item'>
+          <div className='top-dc'>
+            <p>Jumlah Komentar Produk</p>
+            <div className="filter-product-dc">
+              <select id="product1" value={selectedProduct1} onChange={handleProductChange1}>
+                <option value="">Pilih Produk</option>
+                {products.map((product, index) => (
+                  <option key={index} value={product.title}>{product.title}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <BarChart products={filteredProducts1} />
+        </div>
+
+        {/* card 2 - Filter by product.title */}
+        <div className='item'>
+          <div className='top-dc'>
+            <p>Produk dengan Diskon</p>
+            <div className="filter-product-dc">
+              <select id="product2" value={selectedProduct2} onChange={handleProductChange2}>
+                <option value="">Pilih Produk</option>
+                {products.map((product, index) => (
+                  <option key={index} value={product.title}>{product.title}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <BarChart2 products={filteredProducts2} />
+        </div>
+
+        {/* card 3 - Filter by product.id and product.price */}
+        <div className='item'>
+          <div className='top-dc'>
+            <p>Harga Tiap Produk</p>
+            <div className='filter-dc'>
+              <div className="filter-server-dc">
+                <select id="server" value={selectedProductId} onChange={handleProductIdChange}>
+                  <option value="all">Semua Produk</option>
+                  {products.map((product, index) => (
+                    <option key={index} value={product.id}>{`ID: ${product.id}`}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className='filter-price'>
+                <select id="price" value={selectedPrice} onChange={handlePriceChange}>
+                  <option value="">Pilih Harga</option>
+                  {products
+                    .filter(p => selectedProductId === "all" || p.id === selectedProductId)
+                    .map((product, index) => (
+                      <option key={index} value={product.price}>{`Harga: ${product.price}`}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <BarChart3 products={filteredProducts3} />
+        </div>
+
+        {/* card 4 - Filter by data.warranty */}
+        <div className='item'>
+          <div className='top-dc'>
+            <p>Garansi Tiap Produk</p>
+            <div className="filter-warranty-dc">
+              <select id="warranty" value={selectedWarranty} onChange={handleWarrantyChange}>
+                <option value="">Pilih Garansi</option>
+                {products.map((product, index) => (
+                  <option key={index} value={product.warrantyInformation}>{`${product.warrantyInformation}`}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          
+          <BarChart4 products={filteredProducts4} />
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default DataCenter;

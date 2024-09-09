@@ -39,11 +39,11 @@
     gap: 10px
 }
   
-.l-filter-year {
+.l-filter-brand {
     margin-right: 10px;
 }
   
-.l-filter-year select,
+.l-filter-brand select,
 .l-filter-month select{
     padding: 5px;
     border: none;

@@ -35,15 +35,15 @@
     gap: 10px;
 }
 
-.f-filter-year {
+.f-filter-category {
     margin-right: 10px;
 }
 
-.f-filter-year select {
+.f-filter-category select {
     padding: 5px;
     border: none;
     border-radius: 15px;
-    width: 120px;
+    width: auto;
     color: #262626;
     outline: none;  
     cursor: pointer;
@@ -84,14 +84,14 @@
 }
 
 .f-table-auto th, .f-table-auto td {
-    border: 1px solid #b9b9b9;
+    border: 1px solid #e0e0e0;
     padding: 8px;
     text-align: left;
     box-shadow: none; 
 }
 
 .f-table-auto th {
-    background-color: rgba(185, 185, 185, 0.5);
+    background-color: #f8f9fa;
 }
 
 .f-dropdown-container {
@@ -188,7 +188,7 @@
 
 /* Handphone (mobile) */
 @media (max-width: 767px) {
-    .f-filter-year select {
+    .f-filter-category select {
         width: 100%; /* Lebar penuh pada perangkat kecil */
         font-size: 14px;
     }
@@ -241,7 +241,7 @@
         align-items: center; 
     }
 
-    .f-filter-year select {
+    .f-filter-category select {
         padding: 5px;
         border: none;
         border-radius: 15px;

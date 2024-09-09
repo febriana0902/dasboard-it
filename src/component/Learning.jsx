@@ -12,21 +12,29 @@ const Learning = ({ toggleSidebar, isSidebarOpen }) => {
 
     const maxRating = 5;
 
-    const currentYear = new Date().getFullYear();
     const monthIndex = new Date().getMonth(); // 0-based index for month
     const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
     const currentMonth = monthNames[monthIndex];
 
-    const [selectedYear, setSelectedYear] = useState(currentYear.toString());
-    const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+    // Get unique brands from products
+    const uniqueBrands = [...new Set(products.map(product => product.brand))];
 
-    const handleYearChange = (e) => {
-        setSelectedYear(e.target.value);
-    };
+    const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+    const [selectedBrand, setSelectedBrand] = useState("");
 
     const handleMonthChange = (e) => {
         setSelectedMonth(e.target.value);
     };
+
+    const handleBrandChange = (e) => {
+        setSelectedBrand(e.target.value);
+    };
+
+    // Filter products based on selected month and brand
+    const filteredProducts = products.filter(product => 
+        (selectedMonth === currentMonth || product.month === selectedMonth) &&
+        (selectedBrand === "" || product.brand === selectedBrand)
+    );
 
     return (
         <div className="learning-content">
@@ -45,51 +53,50 @@ const Learning = ({ toggleSidebar, isSidebarOpen }) => {
                         </select>
                     </div>
 
-                    <div className="l-filter-year">
-                        <select id="year" value={selectedYear} onChange={handleYearChange}>
-                            {[...Array(5)].map((_, idx) => (
-                                <option key={idx} value={currentYear - idx}>{currentYear - idx}</option>
+                    <div className="l-filter-brand">
+                        <select id="brand" value={selectedBrand} onChange={handleBrandChange}>
+                            <option value="">Pilih Brand</option>
+                            {uniqueBrands.map((brand, idx) => (
+                                <option key={idx} value={brand}>{brand}</option>
                             ))}
                         </select>
                     </div>
                 </div>
             </div>
 
-            {selectedMonth === currentMonth && selectedYear === currentYear.toString() && (
-                <div className='learning-container'>
-                    <div className='l-grid-group'>
-                        <div className='l-group-1'>
-                            <h3>Produk Berdasarkan Merek</h3>
-                            <BarChart  products= {products}/>
-                        </div>
-
-                        <div className='l-group-2'>
-                            <h3>Jumlah Stock</h3>
-                            <PieChartLearning products= {products}/>
-                        </div>
+            <div className='learning-container'>
+                <div className='l-grid-group'>
+                    <div className='l-group-1'>
+                        <h3>Produk Berdasarkan Merek</h3>
+                        <BarChart products={filteredProducts} />
                     </div>
 
-                    <div className='l-group-3'>
-                        <h3>Rating Produk Berdasarkan Tag</h3>
-
-                        {products.length > 0 ? (
-                            products.map((product, index) => (
-                                <div className="l-flex" key={index}>
-                                    <p className="l-label-teks">{product.title}</p>
-                                    <div className="l-progress-bar">
-                                        <div className="l-progress-bar-fill" style={{ width: `${(product.rating / maxRating) * 100}%` }}>
-                                            <span className="l-progress-bar-label">{product.rating}</span>
-                                        </div>
-                                    </div>
-                                    <p className="l-label-teks">{product.tags.join(', ')}</p>
-                                </div>
-                            ))
-                        ) : (
-                            <div>No Data Available</div>
-                        )}
+                    <div className='l-group-2'>
+                        <h3>Jumlah Stock</h3>
+                        <PieChartLearning products={filteredProducts} />
                     </div>
                 </div>
-            )}
+
+                <div className='l-group-3'>
+                    <h3>Rating Produk Berdasarkan Tag</h3>
+
+                    {filteredProducts.length > 0 ? (
+                        filteredProducts.map((product, index) => (
+                            <div className="l-flex" key={index}>
+                                <p className="l-label-teks">{product.title}</p>
+                                <div className="l-progress-bar">
+                                    <div className="l-progress-bar-fill" style={{ width: `${(product.rating / maxRating) * 100}%` }}>
+                                        <span className="l-progress-bar-label">{product.rating}</span>
+                                    </div>
+                                </div>
+                                <p className="l-label-teks">{product.tags.join(', ')}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <div>No Data Available</div>
+                    )}
+                </div>
+            </div>
         </div>
     );
 }

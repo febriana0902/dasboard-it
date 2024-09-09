@@ -101,14 +101,14 @@
 }
   
 .t-table-auto th, .t-table-auto td {
-    border: 1px solid #b9b9b9;
+    border: 1px solid #e0e0e0;
     padding: 8px;
     text-align: left;
     box-shadow: none; /* Remove any shadow */
 }
   
 .t-table-auto th {
-    background-color: rgba(185, 185, 185, 0.5);
+    background-color: #f8f9fa;
 }
 
 .t-group-search {
