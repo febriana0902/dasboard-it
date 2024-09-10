@@ -64,9 +64,9 @@
   justify-content: center;
 }
 
-.ring-red,
-.ring-green,
-.ring-blue {
+.ring-medium,
+.ring-easy,
+.ring-hard {
   margin-top: 20px;
   background-color: #DE6E6A;
   color: white;
@@ -78,11 +78,11 @@
   align-content: center;
 }
 
-.ring-green{
+.ring-easy{
   background-color: #9EC97F;
 }
 
-.ring-blue{
+.ring-medium{
   background-color: #5971C0;
 }
 

@@ -5,10 +5,6 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const BarChart3 = ({todos}) => {
-    const currentYear = new Date().getFullYear();
-    const lastFiveYears = Array.from({ length: 5 }, (_, i) => currentYear - i);
-
-    const [selectedYear, setSelectedYear] = useState(lastFiveYears[0]);
 
     const trueCount = todos.filter(todo => todo.completed === true).length;
     const falseCount = todos.filter(todo => todo.completed === false).length;
@@ -38,22 +34,8 @@ const BarChart3 = ({todos}) => {
     };
 
     return (
-        <div className="bar-chart-container">
-            <div className="filter-container">
-                <select
-                    className="dropdown"
-                    value={selectedYear}
-                    onChange={(e) => setSelectedYear(e.target.value)}
-                >
-                    {lastFiveYears.map((year) => (
-                        <option key={year} value={year}>{year}</option>
-                    ))}
-                </select>
-            </div>
-
-            <div style={{ width: '100%', height: '230px', marginTop: '20px' }}>
-                <Bar data={data} options={options} />
-            </div>
+        <div style={{ width: '100%', height: '230px', marginTop: '20px' }}>
+            <Bar data={data} options={options} />
         </div>
     );
 };

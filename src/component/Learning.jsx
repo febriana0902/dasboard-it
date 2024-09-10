@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useContractData } from './DataContext';
 import './css/Learning.css';
 import menu from './asset/menu-sidebar.png';
-import PieChartLearning from "./pieChart/PieChartLearning";
+import Tabung from "./pieChart/TabungLearning";
 import BarChart from "./barChart/BarChartLearning";
 
 const Learning = ({ toggleSidebar, isSidebarOpen }) => {
@@ -12,14 +12,9 @@ const Learning = ({ toggleSidebar, isSidebarOpen }) => {
 
     const maxRating = 5;
 
-    const monthIndex = new Date().getMonth(); // 0-based index for month
-    const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-    const currentMonth = monthNames[monthIndex];
-
     // Get unique brands from products
     const uniqueBrands = [...new Set(products.map(product => product.brand))];
 
-    const [selectedMonth, setSelectedMonth] = useState(currentMonth);
     const [selectedBrand, setSelectedBrand] = useState("");
 
     const handleMonthChange = (e) => {
@@ -32,7 +27,6 @@ const Learning = ({ toggleSidebar, isSidebarOpen }) => {
 
     // Filter products based on selected month and brand
     const filteredProducts = products.filter(product => 
-        (selectedMonth === currentMonth || product.month === selectedMonth) &&
         (selectedBrand === "" || product.brand === selectedBrand)
     );
 
@@ -45,14 +39,6 @@ const Learning = ({ toggleSidebar, isSidebarOpen }) => {
                 </div>
 
                 <div className="l-filter">
-                    <div className="l-filter-month">
-                        <select id="month" value={selectedMonth} onChange={handleMonthChange}>
-                            {monthNames.map((month, idx) => (
-                                <option key={idx} value={month}>{month}</option>
-                            ))}
-                        </select>
-                    </div>
-
                     <div className="l-filter-brand">
                         <select id="brand" value={selectedBrand} onChange={handleBrandChange}>
                             <option value="">Pilih Brand</option>
@@ -73,7 +59,7 @@ const Learning = ({ toggleSidebar, isSidebarOpen }) => {
 
                     <div className='l-group-2'>
                         <h3>Jumlah Stock</h3>
-                        <PieChartLearning products={filteredProducts} />
+                        <Tabung products={filteredProducts} />
                     </div>
                 </div>
 

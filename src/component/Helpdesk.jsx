@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useContractData } from './DataContext';
 import menu from './asset/menu-sidebar.png';
 import './css/Helpdesk.css'; 
@@ -15,17 +15,10 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
     if (!todos) return <div>Loading...</div>;
     console.log(todos);
 
-    const currentYear = new Date().getFullYear();
-    const [selectedYear, setSelectedYear] = useState(currentYear.toString());
     const [selectedStatus, setSelectedStatus] = useState('True');
     const [entriesPerPage, setEntriesPerPage] = useState(10);
     const [searchTerm, setSearchTerm] = useState('');
-    // const [data, setData] = useState(sampleData);
     const [currentPage, setCurrentPage] = useState(1);
-
-    const handleYearChange = (event) => {
-        setSelectedYear(event.target.value);
-    };
 
     const handleStatusChange = (event) => {
         setSelectedStatus(event.target.value);
@@ -48,7 +41,16 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
         return statusMatch && searchMatch;
     });
     
-    
+    useEffect(() => {
+        if (filteredData.length === 0) {
+          setCurrentPage(1);
+        } else {
+          const maxPage = Math.ceil(filteredData.length / entriesPerPage);
+          if (currentPage > maxPage) {
+            setCurrentPage(maxPage);
+          }
+        }
+      }, [searchTerm, filteredData, entriesPerPage, currentPage]);
 
     const startIndex = (currentPage - 1) * entriesPerPage;
     const endIndex = startIndex + entriesPerPage;
@@ -90,17 +92,6 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
                                 <option value="True">True</option>
                                 <option value="False">False</option>
                             </select>
-                            <select
-                                className="h-dropdown"
-                                value={selectedYear}
-                                onChange={handleYearChange}
-                            >
-                                {[...Array(5).keys()].map(i => (
-                                    <option key={currentYear - i} value={currentYear - i}>
-                                        {currentYear - i}
-                                    </option>
-                                ))}
-                            </select>
                         </div>
                         <BarChart2 filteredData={filteredData} todos={todos}/>
                     </div>
@@ -110,7 +101,6 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
                 </div>
 
                 <div className='h-tabel'>
-                    {selectedYear === currentYear.toString() && (
                         <div className="h-table-container">
                             <div className='h-group-search'>
                                 <div className="h-dropdown-container">
@@ -175,7 +165,6 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
                                 </div>
                             </div>
                         </div>
-                    )}
                 </div>
             </div>
         </div>

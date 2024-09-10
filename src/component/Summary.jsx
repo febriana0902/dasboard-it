@@ -25,27 +25,6 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
     setSelectedMonth(e.target.value);
   };
 
-  // Sales Contract
-  const [targetKontrak, setTargetKontrak] = useState(80);
-  const [targetPenjualan, setTargetPenjualan] = useState(40);
-
-  // Finance
-  const [cogs, setCogs] = useState(10);
-  const [assets, setAssets] = useState(80);
-  const [expenses, setExpenses] = useState(40);
-  const [opeCost, setOpeCost] = useState(35);
-
-  // Help Desk
-  const [totalTicket, setTotalTicket] = useState(70);
-  const [open, setOpen] = useState(60);
-  const [close, setClose] = useState(80);
-
-  // KPI
-  const [trwI, setTrwI] = useState(70);
-  const [trwII, setTrwII] = useState(40);
-  const [trwIII, setTrwIII] = useState(10);
-  const [trwIV, setTrwIV] = useState(0);
-
   useEffect(() => {
     // Logika untuk memperbarui data sesuai dengan bulan dan tahun terpilih
     console.log(`Menampilkan data untuk ${selectedMonth} ${selectedYear}`);
@@ -126,7 +105,7 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
   const trueCount = todos.filter(todo => todo.completed === true).length;
   const falseCount = todos.filter(todo => todo.completed === false).length;
 
-  //MENGAMBIL DATA FINANCE
+  //MENGAMBIL DATA FINANCE, KPI, TATA KELOLA
   const { recipes } = useContractData();
   if (!recipes) return <div>Loading...</div>;
   
@@ -151,12 +130,72 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
   const totalRatingF = ratingsF.reduce((acc, rating) => acc + rating, 0);
   const averageRatingF = totalRatingF / ratings.length;
   const ratingF = averageRatingF.toFixed(2);
+
+  //kpi
+    const [trwI, setTrwI] = useState(0);
+    const [trwII, setTrwII] = useState(0);
+    const [trwIII, setTrwIII] = useState(0);
+    const [trwIV, setTrwIV] = useState(0);
+  
+    const topRatedRecipes = recipes
+      .sort((a, b) => b.rating - a.rating)
+      .slice(0, 4);
+  
+    const [selectedRecipe, setSelectedRecipe] = useState(topRatedRecipes[0]?.name || "");
+  
+    useEffect(() => {
+      const selectedRecipeData = topRatedRecipes.find(recipe => recipe.name === selectedRecipe);
+  
+      if (selectedRecipeData) {
+        const difficultyValue = selectedRecipeData.difficulty === 'Easy' ? 100 : selectedRecipeData.difficulty === 'Medium' ? 75 : 50;
+        
+        // Update progress bars based on the difficulty of selected recipes
+        setTrwI(topRatedRecipes[0]?.difficulty === selectedRecipeData.difficulty ? difficultyValue : 100);
+        setTrwII(topRatedRecipes[1]?.difficulty === selectedRecipeData.difficulty ? difficultyValue : 100);
+        setTrwIII(topRatedRecipes[2]?.difficulty === selectedRecipeData.difficulty ? difficultyValue : 100);
+        setTrwIV(topRatedRecipes[3]?.difficulty === selectedRecipeData.difficulty ? difficultyValue : 100);
+      }
+    });
+
+
+    //tatakelola
+    const [maxPrepTime, setMaxPrepTime] = useState(0);
+    const [maxCookTime, setMaxCookTime] = useState(0);
+    const [maxCalories, setMaxCalories] = useState(0);
+    const [recipeMaxPrepTime, setRecipeMaxPrepTime] = useState('');
+    const [recipeMaxCookTime, setRecipeMaxCookTime] = useState('');
+    const [recipeMaxCalories, setRecipeMaxCalories] = useState('');
+
+    useEffect(() => {
+      if (recipes && recipes.length > 0) {
+        // Menentukan nilai prepTime terbesar dan resep yang memiliki nilai tersebut
+        const prepTimes = recipes.map(recipe => recipe.prepTimeMinutes);
+        const maxPrepTimeValue = Math.max(...prepTimes);
+        setMaxPrepTime(maxPrepTimeValue);
+        setRecipeMaxPrepTime(recipes.find(recipe => recipe.prepTimeMinutes === maxPrepTimeValue)?.name || '');
+
+        // Menentukan nilai cookTime terbesar dan resep yang memiliki nilai tersebut
+        const cookTimes = recipes.map(recipe => recipe.cookTimeMinutes);
+        const maxCookTimeValue = Math.max(...cookTimes);
+        setMaxCookTime(maxCookTimeValue);
+        setRecipeMaxCookTime(recipes.find(recipe => recipe.cookTimeMinutes === maxCookTimeValue)?.name || '');
+
+        // Menentukan nilai calories terbesar dan resep yang memiliki nilai tersebut
+        const calories = recipes.map(recipe => recipe.caloriesPerServing);
+        const maxCaloriesValue = Math.max(...calories);
+        setMaxCalories(maxCaloriesValue);
+        setRecipeMaxCalories(recipes.find(recipe => recipe.caloriesPerServing === maxCaloriesValue)?.name || '');
+      }
+    }, [recipes]);
+
   
   // MENGAMBIL DATA WORK ORDER
   const { posts } = useContractData();
   if (!posts) return <div>Loading...</div>;
   
-  
+   // MENGAMBIL DATA RKA
+   const { comments } = useContractData();
+   if (!comments) return <div>Loading...</div>;
 
   return (
     <div>
@@ -309,7 +348,7 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
             <div className="s-item4">
               <p className="s-label-title">RKA</p>
 
-              <PieChartRka />
+              <PieChartRka comments={comments}/>
 
               <div className="s-update">
                 <p>Last Update</p>
@@ -445,46 +484,23 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
               </div>
 
               <div className="s-group">
-                <div className="s-group-1">
-                  <div className="s-flex">
-                    <p className="s-label-teks">TRW I</p>
-                    <div className="s-progress-bar">
-                      <div className="s-progress-bar-label">{trwI}%</div>
-                      <div className="s-progress-bar-bg"></div>
-                      <div className="s-progress-bar-fill" style={{ width: `${trwI}%` }}></div>
-                    </div>
+                {topRatedRecipes.map((recipe, index) => (
+                  <div className={`s-group-${Math.floor(index / 2) + 1}`} key={recipe.name}>
+                      <p className="s-label-teks">{recipe.name}</p>
+                      <div className="s-progress-bar">
+                        <div className="s-progress-bar-label">
+                          {index === 0 ? trwI : index === 1 ? trwII : index === 2 ? trwIII : trwIV}%
+                        </div>
+                        <div className="s-progress-bar-bg"></div>
+                        <div
+                          className="s-progress-bar-fill"
+                          style={{ width: `${index === 0 ? trwI : index === 1 ? trwII : index === 2 ? trwIII : trwIV}%` }}
+                        ></div>
+                      </div>
                   </div>
-
-                  <div className="s-flex">
-                    <p className="s-label-teks">TRW II</p>
-                    <div className="s-progress-bar">
-                      <div className="s-progress-bar-label">{trwII}%</div>
-                      <div className="s-progress-bar-bg"></div>
-                      <div className="s-progress-bar-fill" style={{ width: `${trwII}%` }}></div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="s-group-2">
-                  <div className="s-flex">
-                    <p className="s-label-teks">TRW III</p>
-                    <div className="s-progress-bar">
-                      <div className="s-progress-bar-label">{trwIII}%</div>
-                      <div className="s-progress-bar-bg"></div>
-                      <div className="s-progress-bar-fill" style={{ width: `${trwIII}%` }}></div>
-                    </div>
-                  </div>
-
-                  <div className="s-flex">
-                    <p className="s-label-teks">TRW IV</p>
-                    <div className="s-progress-bar">
-                      <div className="s-progress-bar-label">{trwIV}%</div>
-                      <div className="s-progress-bar-bg"></div>
-                      <div className="s-progress-bar-fill" style={{ width: `${trwIV}%` }}></div>
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
+
             </div>
 
             {/* tata kelola */}
@@ -499,7 +515,7 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
                 </div>
               </div>
 
-              <PieChartTataKelola />
+              <PieChartTataKelola recipes={recipes}/>
             </div>
 
             {/* hasil asesmen */}
@@ -516,22 +532,22 @@ const Summary = ({ toggleSidebar, isSidebarOpen }) => {
               </div>
 
               <div className="s-group-3">
-                <p className="s-year">2023</p>
+                <p className="s-year">{recipeMaxPrepTime}</p>
                 <div className="s-teks4">
-                  <p>ITML</p>
-                  <p>3.63</p>
+                  <p>Max Prep Time</p>
+                  <p>{maxPrepTime} mins</p>
                 </div>
 
-                <p className="s-year">2023</p>
+                <p className="s-year">{recipeMaxCookTime}</p>
                 <div className="s-teks5">
-                  <p>INDI 4.0</p>
-                  <p>2.56</p>
+                  <p>Max Cook Time</p>
+                  <p>{maxCookTime} mins</p>
                 </div>
 
-                <p className="s-year">2022</p>
+                <p className="s-year">{recipeMaxCalories}</p>
                 <div className="s-teks6">
-                  <p>ITML</p>
-                  <p>3</p>
+                  <p>Max Calories</p>
+                  <p>{maxCalories} kcal</p>
                 </div>
 
               </div>

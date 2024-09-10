@@ -64,14 +64,27 @@ export const ContractProvider = ({ children }) => {
         },
     });
 
+    // Query untuk API Work Order
+    const { isLoading: isLoadingComments, error: errorComments, data: dataComments} = useQuery({
+        queryKey: ['Comments'],
+        queryFn: async () => {
+          const response = await fetch('https://dummyjson.com/comments');
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return await response.json();
+        },
+    });
+
 
     // Tangani loading dan error
-    if (isLoadingUsers || isLoadingProducts || isLoadingTodos || isLoadingRecipes || isLoadingPosts) return 'Loading...';
+    if (isLoadingUsers || isLoadingProducts || isLoadingTodos || isLoadingRecipes || isLoadingPosts || isLoadingComments) return 'Loading...';
     if (errorUsers) return 'Terjadi Kesalahan pada Users: ' + errorUsers.message;
     if (errorProducts) return 'Terjadi Kesalahan pada Products: ' + errorProducts.message;
     if (errorTodos) return 'Terjadi Kesalahan pada Todos: ' + errorTodos.message;
     if (errorRecipes) return 'Terjadi Kesalahan pada Recipes: ' + errorRecipes.message;
     if (errorPosts) return 'Terjadi Kesalahan pada Recipes: ' + errorPosts.message;
+    if (errorComments) return 'Terjadi Kesalahan pada Recipes: ' + errorComments.message;
 
     // Gabungkan atau proses data sesuai kebutuhan
     const users = dataUsers ? dataUsers.users : [];
@@ -79,9 +92,11 @@ export const ContractProvider = ({ children }) => {
     const todos = dataTodos ? dataTodos.todos : [];
     const recipes = dataRecipes ? dataRecipes.recipes : [];
     const posts = dataPosts ? dataPosts.posts : [];
+    const comments = dataComments? dataComments.comments : [];
+
 
     return (
-        <ContractContext.Provider value={{ users, products, todos, recipes, posts}}>
+        <ContractContext.Provider value={{ users, products, todos, recipes, posts, comments}}>
             {children}
         </ContractContext.Provider>
     );

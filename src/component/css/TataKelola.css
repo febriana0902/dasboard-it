@@ -37,8 +37,7 @@
     align-items: center; 
 }
 
-.t-filter-month select,
-.t-filter-year select {
+.t-filter-product select{
     padding: 5px;
     border: none;
     border-radius: 15px;
@@ -47,9 +46,6 @@
     height: 30px;
 }
 
-.t-filter-month select {
-    width: 140px;
-}
 
 .t-background-bar {
     background-color: #ffffff;
@@ -133,32 +129,36 @@
     margin: 12px;
 }
 
+
 .t-info-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
     margin-left: 15px;
     margin-right: 15px;
-    padding: 20px;
 }
 
 .t-pagination-container {
-    border: 1px solid #b9b9b9;
-    width: 150px; 
-    height: 30px;
+    border: 1px solid #e0e0e0;
+    width: auto;
     border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 5px; 
-    gap: 15px; 
+    padding: 5px 10px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
-  
+
 .t-pagination-container span {
-    font-size: 14px; 
-    background-color: #f0f0f0; 
-    padding: 10px 20px; 
-    border-radius: 5px; 
-    border: 1px solid #ccc; 
+    font-size: 14px;
+    background-color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    margin: 0 5px;
 }
 
 

@@ -1,4 +1,4 @@
-import { useState} from 'react';
+import { useState, useEffect} from 'react';
 import { useContractData } from './DataContext';
 import './css/Contract.css';
 import menu from './asset/menu-sidebar.png';
@@ -20,6 +20,7 @@ const Contract = ({ toggleSidebar, isSidebarOpen }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRole, setSelectedRole] = useState('');
 
+
   // Mendapatkan pelanggan unik dan peran unik dari data
   const uniqueCustomers = [...new Set(users.map(user => user.firstName))];
   const uniqueRoles = [...new Set(users.map(user => user.role))];
@@ -36,6 +37,17 @@ const Contract = ({ toggleSidebar, isSidebarOpen }) => {
       (selectedRole === '' || user.role === selectedRole)
     );
   });
+  
+  useEffect(() => {
+    if (filteredData.length === 0) {
+      setCurrentPage(1);
+    } else {
+      const maxPage = Math.ceil(filteredData.length / entriesPerPage);
+      if (currentPage > maxPage) {
+        setCurrentPage(maxPage);
+      }
+    }
+  }, [searchTerm, filteredData, entriesPerPage, currentPage]);
 
   // Perhitungan paginasi
   const maxPage = Math.ceil(filteredData.length / entriesPerPage);
@@ -96,31 +108,34 @@ const Contract = ({ toggleSidebar, isSidebarOpen }) => {
           </div>
         </div>
       </div>
-
-      <div className="c-search-container">
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
       
       <div className="c-table-container">
-        <div className="c-dropdown-container">
-          <label htmlFor="entries">Show </label>
-          <select
-            id="entries"
-            value={entriesPerPage}
-            onChange={(e) => setEntriesPerPage(Number(e.target.value))}
-          >
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-            <option value={30}>30</option>
-            <option value={50}>50</option>
-          </select>
-          <label> entries</label>
+        <div className='c-group-search'>
+          <div className="c-dropdown-container">
+            <label htmlFor="entries">Show </label>
+            <select
+              id="entries"
+              value={entriesPerPage}
+              onChange={(e) => setEntriesPerPage(Number(e.target.value))}
+            >
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={30}>30</option>
+              <option value={50}>50</option>
+            </select>
+            <label> entries</label>
+          </div>
+
+          <div className="c-search-container">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
         </div>
 
         <table className="c-table-auto">

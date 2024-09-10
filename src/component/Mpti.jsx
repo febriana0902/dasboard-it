@@ -1,56 +1,79 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useContractData } from './DataContext';
 import menu from './asset/menu-sidebar.png';
 import './css/Mpti.css';
 
 const Mpti = ({ toggleSidebar, isSidebarOpen }) => {
-    // Mengambil data
     const { products } = useContractData();
-    if (!products) return <div>Loading...</div>;
+    const contentRef = useRef(null); // Menggunakan ref untuk mengakses DOM
 
+    //menampilkan product saat pertama halaman dibuka
     useEffect(() => {
-        const content = document.querySelector('.m-content');
-        if (isSidebarOpen) {
-            content.style.width = 'calc(100% - 40px)';
-        } else {
-            content.style.width = '100%';
+        if (products && products.length > 0) {
+            // Mengurutkan produk berdasarkan title
+            const sortedProducts = products.slice().sort((a, b) => a.title.localeCompare(b.title));
+            setSelectedProduct(sortedProducts[0].title);
+            setSelectedProductDetails(sortedProducts[0]);
+        }
+    }, [products]);
+
+    // Mengubah lebar content saat sidebar terbuka atau tertutup
+    useEffect(() => {
+        if (contentRef.current) {
+            contentRef.current.style.width = isSidebarOpen ? 'calc(100% - 40px)' : '100%';
         }
     }, [isSidebarOpen]);
 
-    // Filter produk
+    // State untuk produk yang dipilih dan detail produk
     const defaultProduct = "Pilih Product";
     const [selectedProduct, setSelectedProduct] = useState(defaultProduct);
     const [selectedProductDetails, setSelectedProductDetails] = useState(null);
 
     const handleProductChange = (e) => {
         const selectedTitle = e.target.value;
-        setSelectedProduct(selectedTitle);
         const selected = products.find(product => product.title === selectedTitle);
-        setSelectedProductDetails(selected);
+    
+        if (selected) {
+            // Periksa tag hanya jika tag sudah dipilih
+            const hasFirstTag = firstTag && selected.tags.includes(firstTag);
+            const hasSecondTag = secondTag && selected.tags.includes(secondTag);
+    
+            if (firstTag && !hasFirstTag) {
+                setFirstTag(''); // Reset firstTag jika tidak sesuai
+            }
+            if (secondTag && !hasSecondTag) {
+                setSecondTag(''); // Reset secondTag jika tidak sesuai
+            }
+    
+            // Selalu perbarui produk yang dipilih dan detail produk
+            setSelectedProduct(selectedTitle);
+            setSelectedProductDetails(selected);
+        }
     };
+    
+    
 
-    // Filter berdasarkan tag
+    // State untuk tag dan apakah filter diterapkan
     const [firstTag, setFirstTag] = useState('');
     const [secondTag, setSecondTag] = useState('');
     const [isFilterApplied, setIsFilterApplied] = useState(false);
 
     const handleFirstTag = (e) => {
         setFirstTag(e.target.value);
+        setIsFilterApplied(true);
     };
 
     const handleSecondTag = (e) => {
         setSecondTag(e.target.value);
-    };
-
-    const handleButtonSubmit = () => {
         setIsFilterApplied(true);
     };
 
+    // Filter produk berdasarkan tag
     const filteredProducts = isFilterApplied
         ? products.filter(product => {
             return (firstTag && product.tags.includes(firstTag)) || (secondTag && product.tags.includes(secondTag));
         })
-        : []; // Kosongkan daftar produk jika filter belum diterapkan
+        : [];
 
     const uniqueTags = new Set();
     products.forEach(product => {
@@ -64,6 +87,9 @@ const Mpti = ({ toggleSidebar, isSidebarOpen }) => {
         setSelectedProductDetails(product);
     };
 
+    if (!products) return <div>Loading...</div>;
+
+
     return (
         <div className="mpti-content">
             <div className='m-navbar'>
@@ -71,7 +97,7 @@ const Mpti = ({ toggleSidebar, isSidebarOpen }) => {
                 <h2>MASTER PLAN TI</h2>
             </div>
 
-            <div className="m-content">
+            <div className="m-content" ref={contentRef}>
                 <div className="content-left">
                     {selectedProductDetails && (
                         <div className="product-details">
@@ -101,7 +127,6 @@ const Mpti = ({ toggleSidebar, isSidebarOpen }) => {
                                     <span className="detail-label">Status</span>
                                     <span className="detail-value">{selectedProductDetails.availabilityStatus}</span>
                                 </div>
-                    
                             </div>
                         </div>
                     )}
@@ -157,7 +182,6 @@ const Mpti = ({ toggleSidebar, isSidebarOpen }) => {
                                 ))}
                             </select>
                         </div>
-                        <button onClick={handleButtonSubmit}>Submit</button>
                     </div>
 
                     <div className="right-panel">

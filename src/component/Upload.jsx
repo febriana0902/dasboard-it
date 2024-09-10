@@ -1,175 +1,45 @@
-// import { useState } from "react";
-// import menu from './asset/menu-sidebar.png';
-// import './css/Upload.css';
-
-// const Upload = ({ toggleSidebar, isSidebarOpen }) => {
-//   const [file, setFile] = useState(null);
-//   const [showPopup, setShowPopup] = useState(false);
-//   const [isDragging, setIsDragging] = useState(false);
-//   const currentYear = new Date().getFullYear();
-//   const monthIndex = new Date().getMonth(); // 0-based index for month
-//   const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-//   const currentMonth = monthNames[monthIndex];
-
-//   const [selectedYear, setSelectedYear] = useState(currentYear.toString());
-//   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
-
-//   const handleYearChange = (e) => {
-//     setSelectedYear(e.target.value);
-//   };
-
-//   const handleMonthChange = (e) => {
-//     setSelectedMonth(e.target.value);
-//   };
-
-//   const handleFileChange = (event) => {
-//     setFile(event.target.files[0]);
-//   };
-
-//   const handleUpload = () => {
-//     if (file) {
-//       console.log("File yang diunggah:", file);
-//       setShowPopup(true);
-//       setFile(null);
-//     }
-//   };
-
-//   const handleClosePopup = () => {
-//     setShowPopup(false);
-//   };
-
-//   const handleDragOver = (e) => {
-//     e.preventDefault();
-//     setIsDragging(true);
-//   };
-
-//   const handleDragLeave = () => {
-//     setIsDragging(false);
-//   };
-
-//   const handleDrop = (e) => {
-//     e.preventDefault();
-//     setFile(e.dataTransfer.files[0]);
-//     setIsDragging(false);
-//   };
-
-//   return (
-//     <>
-//       <div className="upload-container">
-//         <div className="upload-navbar">
-//           <div className="title">
-//             <img className="k-menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
-//             <h2>UPLOAD / DOWNLOAD</h2>
-//           </div>
-
-//           <div className="filter">
-//             <div className="filter-bulan">
-//               <select id="bulan" value={selectedMonth} onChange={handleMonthChange}>
-//                 <option value="Januari">Januari</option>
-//                 <option value="Februari">Februari</option>
-//                 <option value="Maret">Maret</option>
-//                 <option value="April">April</option>
-//                 <option value="Mei">Mei</option>
-//                 <option value="Juni">Juni</option>
-//                 <option value="Juli">Juli</option>
-//                 <option value="Agustus">Agustus</option>
-//                 <option value="September">September</option>
-//                 <option value="Oktober">Oktober</option>
-//                 <option value="November">November</option>
-//                 <option value="Desember">Desember</option>
-//               </select>
-//             </div>
-
-//             <div className="filter-year">
-//               <select id="year" value={selectedYear} onChange={handleYearChange}>
-//                 <option value={selectedYear}>{selectedYear}</option>
-//                 <option value={selectedYear - 1}>{selectedYear - 1}</option>
-//                 <option value={selectedYear - 2}>{selectedYear - 2}</option>
-//                 <option value={selectedYear - 3}>{selectedYear - 3}</option>
-//                 <option value={selectedYear - 4}>{selectedYear - 4}</option>
-//               </select>
-//             </div>
-//         </div>
-//         </div>
-
-//         <div className="upload-content">
-//           <div className="upload-section">
-//             <h3>Silakan Upload atau Download Dokumen</h3>
-//             <p>Pilih dokumen yang relevan</p>
-//             <div
-//               className={`file-upload ${isDragging ? 'dragging' : ''}`}
-//               onDragOver={handleDragOver}
-//               onDragLeave={handleDragLeave}
-//               onDrop={handleDrop}
-//             >
-//               <input
-//                 type="file"
-//                 id="file-upload"
-//                 onChange={handleFileChange}
-//                 accept=".xlsx, .xls"
-//               />
-//               <label htmlFor="file-upload" className="file-upload-label">
-//                 Pilih file atau seret dan lepas di sini
-//                 <br />
-//                 <span className="file-upload-button">Pilih File</span>
-//               </label>
-//             </div>
-//             <p className="file-info">*xlsx, *xls ukuran file maksimal 10MB</p>
-//             <div className="upload-buttons">
-//               <button className="button-cancel">Batal</button>
-//               <button className="button-upload" onClick={handleUpload} disabled={!file}>Unggah</button>
-//             </div>
-//           </div>
-
-//           <div className="download-buttons">
-//             <button className="button-download">Unduh Template</button>
-//             <button className="button-download">Unduh Data</button>
-//           </div>
-//         </div>
-
-//         {showPopup && (
-//           <div className="popup-overlay">
-//             <div className="popup-content">
-//               <h3>Unggah Berhasil</h3>
-//               <p>File Anda telah berhasil diunggah.</p>
-//               <button onClick={handleClosePopup}>Tutup</button>
-//             </div>
-//           </div>
-//         )}
-//       </div>
-//     </>
-//   );
-// };
-
-// export default Upload;
-
-
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import menu from './asset/menu-sidebar.png';
-import excelIcon from './asset/sheets.png'; // Add an Excel icon image
+import excelIcon from './asset/sheets.png';
+import * as XLSX from 'xlsx';
 import './css/Upload.css';
 
 const Upload = ({ toggleSidebar, isSidebarOpen }) => {
   const [file, setFile] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [uploading, setUploading] = useState(false); // State for upload progress
-  const [error, setError] = useState(''); // State for error message
-  const currentYear = new Date().getFullYear();
-  const monthIndex = new Date().getMonth(); // 0-based index for month
-  const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-  const currentMonth = monthNames[monthIndex];
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState('');
+  const [filesList, setFilesList] = useState([]);
+  const [showFilesPopup, setShowFilesPopup] = useState(false);
+  const [templatesList, setTemplatesList] = useState([]);
+  const [showTemplatesPopup, setShowTemplatesPopup] = useState(false);
 
-  const [selectedYear, setSelectedYear] = useState(currentYear.toString());
-  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+  useEffect(() => {
+    fetchFiles();
+    fetchTemplates(); // Fetch templates list on component mount
+  }, []);
 
-  const handleYearChange = (e) => {
-    setSelectedYear(e.target.value);
+  const fetchFiles = () => {
+    fetch('http://localhost:5000/files')
+      .then(response => response.json())
+      .then(data => {
+        setFilesList(data.files);
+      })
+      .catch(error => {
+        console.error('Error fetching files:', error);
+      });
   };
 
-  const handleMonthChange = (e) => {
-    setSelectedMonth(e.target.value);
+  const fetchTemplates = () => {
+    fetch('http://localhost:5000/templates')
+      .then(response => response.json())
+      .then(data => {
+        setTemplatesList(data.files);
+      })
+      .catch(error => {
+        console.error('Error fetching templates:', error);
+      });
   };
 
   const handleFileChange = (event) => {
@@ -178,7 +48,6 @@ const Upload = ({ toggleSidebar, isSidebarOpen }) => {
     const fileExtension = file.name.split('.').pop().toLowerCase();
     const maxSizeInBytes = 10 * 1024 * 1024; // 10MB in bytes
 
-    // Check file type and size
     if (!validExtensions.includes(fileExtension)) {
       setError('Hanya file dengan ekstensi .xlsx atau .xls yang diperbolehkan.');
       setFile(null);
@@ -192,17 +61,56 @@ const Upload = ({ toggleSidebar, isSidebarOpen }) => {
     }
 
     setFile(file);
-    setError(''); // Clear any previous error
-    setUploading(true); // Start uploading when file is selected
-    simulateUpload();
+    setError('');
+    setUploading(true);
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    fetch('http://localhost:5000/upload', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('File berhasil diupload:', data);
+        readFile(file);
+      })
+      .catch(error => {
+        console.error('Error dalam mengupload file:', error);
+        setError('Terjadi kesalahan dalam mengupload file.');
+        setUploading(false);
+      });
   };
 
-  const simulateUpload = () => {
-    // Simulate upload time with a loading indicator
-    setTimeout(() => {
+  const readFile = (file) => {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      try {
+        const ab = e.target.result;
+        const workbook = XLSX.read(ab, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const json = XLSX.utils.sheet_to_json(worksheet);
+        console.log("Data JSON:", json);
+
+        setUploading(false);
+        setShowPopup(true);
+      } catch (error) {
+        console.error("Error dalam membaca atau mengkonversi file:", error);
+        setError('Terjadi kesalahan dalam membaca file.');
+        setUploading(false);
+      }
+    };
+
+    reader.onerror = (error) => {
+      console.error("Error dalam pembacaan file:", error);
+      setError('Terjadi kesalahan dalam pembacaan file.');
       setUploading(false);
-      setShowPopup(true);
-    }, 2000); // Simulate upload time
+    };
+
+    reader.readAsArrayBuffer(file);
   };
 
   const handleCancelUpload = () => {
@@ -212,7 +120,6 @@ const Upload = ({ toggleSidebar, isSidebarOpen }) => {
 
   const handleClosePopup = () => {
     setShowPopup(false);
-    // Reset state to return the form to its initial state
     setFile(null);
     setUploading(false);
   };
@@ -233,7 +140,6 @@ const Upload = ({ toggleSidebar, isSidebarOpen }) => {
     const fileExtension = file.name.split('.').pop().toLowerCase();
     const maxSizeInBytes = 10 * 1024 * 1024; // 10MB in bytes
 
-    // Check file type and size
     if (!validExtensions.includes(fileExtension)) {
       setError('Hanya file dengan ekstensi .xlsx atau .xls yang diperbolehkan.');
       setFile(null);
@@ -247,11 +153,61 @@ const Upload = ({ toggleSidebar, isSidebarOpen }) => {
     }
 
     setFile(file);
-    setError(''); // Clear any previous error
+    setError('');
     setIsDragging(false);
-    setUploading(true); // Start uploading when file is dropped
-    simulateUpload();
+    setUploading(true);
+    readFile(file);
   };
+
+  const handleShowFiles = () => {
+    fetchFiles();
+    setShowFilesPopup(true);
+  };
+
+  const handleShowTemplates = () => {
+    fetchTemplates();
+    setShowTemplatesPopup(true);
+  };
+
+  const handleDownloadFile = (filename) => {
+    fetch(`http://localhost:5000/files/${filename}`)
+      .then(response => response.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(error => console.error('Error downloading file:', error));
+  };
+
+  const handleDownloadTemplate = (filename) => {
+    console.log(`Mengunduh template dari: http://localhost:5000/templates/${filename}`); // Debugging
+    fetch(`http://localhost:5000/templates/${filename}`)
+      .then(response => {
+        if (response.ok) {
+          return response.blob();
+        }
+        throw new Error('Gagal mengunduh template');
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(error => console.error('Error downloading template:', error));
+  };
+  
+  
 
   return (
     <>
@@ -260,24 +216,6 @@ const Upload = ({ toggleSidebar, isSidebarOpen }) => {
           <div className="title">
             <img className="k-menu-sidebar" src={menu} alt="menu" onClick={toggleSidebar} />
             <h2>UPLOAD / DOWNLOAD</h2>
-          </div>
-
-          <div className="filter">
-            <div className="filter-bulan">
-              <select id="bulan" value={selectedMonth} onChange={handleMonthChange}>
-                {monthNames.map((month, index) => (
-                  <option key={index} value={month}>{month}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="filter-year">
-              <select id="year" value={selectedYear} onChange={handleYearChange}>
-                {[...Array(5)].map((_, index) => (
-                  <option key={index} value={currentYear - index}>{currentYear - index}</option>
-                ))}
-              </select>
-            </div>
           </div>
         </div>
 
@@ -318,15 +256,52 @@ const Upload = ({ toggleSidebar, isSidebarOpen }) => {
                 </label>
               )}
             </div>
+
             {error && <p className="error-message">{error}</p>}
             <p className="file-info">*xlsx, *xls ukuran file maksimal 10MB</p>
           </div>
 
           <div className="download-buttons">
-            <button className="button-download">Unduh Template</button>
-            <button className="button-download">Unduh Data</button>
+            <button className="button-download" onClick={handleShowTemplates}>Unduh Template</button>
+            <button className="button-download" onClick={handleShowFiles}>Unduh Data</button>
           </div>
         </div>
+
+        {/* popup untuk template */}
+        {showTemplatesPopup && (
+          <div className="popup-overlay">
+            <div className="popup-content">
+              <h3>Daftar Template</h3>
+              <ul>
+                {templatesList.map((template, index) => (
+                  <li key={index}>
+                    <img src={excelIcon} alt="Excel Icon" className="excel-icon" style={{ width: '20px', height: '20px' }} />
+                    <a href="#" onClick={() => handleDownloadTemplate(template)}>{template}</a>
+                  </li>
+                ))}
+              </ul>
+              <button onClick={() => setShowTemplatesPopup(false)}>Tutup</button>
+            </div>
+          </div>
+        )}
+
+        {/* popup untuk file */}
+        {showFilesPopup && (
+          <div className="popup-overlay">
+            <div className="popup-content">
+              <h3>Daftar File</h3>
+              <ul>
+                {filesList.map((file, index) => (
+                  <li key={index}>
+                    <img src={excelIcon} alt="Excel Icon" className="excel-icon" style={{ width: '20px', height: '20px' }} />
+                    <a href="#" onClick={() => handleDownloadFile(file)}>{file}</a>
+                  </li>
+                ))}
+              </ul>
+              <button onClick={() => setShowFilesPopup(false)}>Tutup</button>
+            </div>
+          </div>
+        )}
 
         {showPopup && (
           <div className="popup-overlay">

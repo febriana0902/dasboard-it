@@ -12,27 +12,18 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
     const { posts } = useContractData();
     if (!posts) return <div>Loading...</div>;
 
-    const currentYear = new Date().getFullYear();
-    const monthIndex = new Date().getMonth(); // 0-based index for month
-    const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-    const currentMonth = monthNames[monthIndex];
-
-    const [selectedMonth, setSelectedMonth] = useState(currentMonth);
     const [selectedTag, setSelectedTag] = useState(""); // State for selected tag
 
     const uniqueTags = [...new Set(posts.flatMap(post => post.tags))]; // Extract unique tags
 
-    const handleMonthChange = (e) => {
-        setSelectedMonth(e.target.value);
-    };
 
     const handleTagChange = (e) => {
         setSelectedTag(e.target.value);
     };
 
     useEffect(() => {
-        console.log(`Menampilkan data untuk ${selectedMonth} dan tag ${selectedTag}`);
-    }, [selectedMonth, selectedTag]);
+        console.log(`Menampilkan data tag ${selectedTag}`);
+    }, [selectedTag]);
 
     const [entriesPerPage, setEntriesPerPage] = useState(10);
     const [searchTerm, setSearchTerm] = useState('');
@@ -45,10 +36,22 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
             (
                 item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 item.body.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                item.tags.join(' ').toLowerCase().includes(searchTerm.toLowerCase())
+                item.tags.join(' ').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.userId.toString().includes(searchTerm.toLowerCase())
             )
         );
     });
+
+    useEffect(() => {
+        if (filteredData.length === 0) {
+          setCurrentPage(1);
+        } else {
+          const maxPage = Math.ceil(filteredData.length / entriesPerPage);
+          if (currentPage > maxPage) {
+            setCurrentPage(maxPage);
+          }
+        }
+      }, [searchTerm, filteredData, entriesPerPage, currentPage]);
 
     // Paginate the filtered data
     const startIndex = (currentPage - 1) * entriesPerPage;
@@ -77,13 +80,6 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
                 </div>
 
                 <div className="w-filter-container">
-                    <div className="w-filter-month">
-                        <select id="month" value={selectedMonth} onChange={handleMonthChange}>
-                            {monthNames.map((month, index) => (
-                                <option key={index} value={month}>{month}</option>
-                            ))}
-                        </select>
-                    </div>
                     <div className="w-filter-tag">
                         <select id="tag" value={selectedTag} onChange={handleTagChange}>
                             <option value="">All Tags</option>
@@ -97,8 +93,6 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
 
             <div className='w-background-bar'>
                 <BarChart posts={posts}/>
-
-                {selectedMonth === currentMonth && (
                     <div className="w-table-container">
 
                         <div className='w-group-search'>
@@ -174,7 +168,6 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
                             <p>Tidak Ada</p>
                         </div>
                     </div>
-                )}
             </div>
         </div>
     );

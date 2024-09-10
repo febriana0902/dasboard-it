@@ -164,6 +164,12 @@
     color: #666;
 }
 
+.popup-content ul li{
+    display: flex;
+    gap: 10px;
+    justify-content: first baseline;
+}
+
 .popup-content button {
     margin-top: 20px;
     padding: 10px 20px;

@@ -47,7 +47,7 @@ const BarChartCogs = ({ recipes }) => {
         itemStyle: {
           color: (params) => {
             // Ubah warna berdasarkan kategori
-            const colors = ['#5470C6', '#91CC75', '#FAC858', '#EE6666', '#73C0DE'];
+            const colors = ['#5470C6'];
             return colors[params.dataIndex % colors.length]; 
           }
         }

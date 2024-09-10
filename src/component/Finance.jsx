@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useContractData } from './DataContext';
 import './css/Finance.css';
 import menu from './asset/menu-sidebar.png';
@@ -46,6 +46,17 @@ const Finance = ({ toggleSidebar, isSidebarOpen }) => {
             )
         );
     });
+
+    useEffect(() => {
+        if (filteredData.length === 0) {
+          setCurrentPage(1);
+        } else {
+          const maxPage = Math.ceil(filteredData.length / entriesPerPage);
+          if (currentPage > maxPage) {
+            setCurrentPage(maxPage);
+          }
+        }
+      }, [searchTerm, filteredData, entriesPerPage, currentPage]);
 
     // Pagination calculations
     const maxPage = Math.ceil(filteredData.length / entriesPerPage);

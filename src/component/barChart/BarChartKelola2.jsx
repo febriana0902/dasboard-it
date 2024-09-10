@@ -3,58 +3,58 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BarChart2 = () => {
-    const data = {
-      labels: ['Deteksi', 'Identifikasi', 'Proteksi', 'Tata Kelola'],
-      datasets: [
-        {
-          data: [39, 20, 60, 40,65],
-          backgroundColor: ['#5971C0', '#5971C0', '#5971C0', '#5971C0','#5971C0'],
-          borderWidth: 0,
-        },
-      ],
-    };
-  
-    const options = {
-      indexAxis: 'y', // Change to horizontal bar chart
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'top',
-          display: false,
-        },
-        title: {
-          display: false,
-        },
-        tooltip: {
-          bodyFont: {
-            size: 12,
-          },
-        },
+const BarChart1 = ({ data, labels }) => {
+  const chartData = {
+    labels: labels,
+    datasets: [
+      {
+        data: data,
+        backgroundColor: '#5971C0',
+        borderWidth: 0,
       },
-      scales: {
-        x: {
-          beginAtZero: true,
-          min: 0,
-          max: 70,
-          ticks: {
-            stepSize: 10,
-            callback: function (value) {
-              return `${(value * 1).toFixed(0)}%`;
-            },
-          },
-        },
-        y: {
-          beginAtZero: true,
-        },
-      },
-    };
-  
-    return (
-      <div style={{ width: '100%', height: '230px', marginTop: '20px' }}>
-        <Bar data={data} options={options} />
-      </div>
-    );
+    ],
   };
 
-  export default BarChart2;
+  const options = {
+    indexAxis: 'y', // Change to horizontal bar chart
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+        display: false,
+      },
+      title: {
+        display: false,
+      },
+      tooltip: {
+        bodyFont: {
+          size: 12,
+        },
+      },
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        min: 0,
+        max: 100,
+        ticks: {
+          stepSize: 20,
+          callback: function (value) {
+            return `${(value * 1).toFixed(0)} mins`;
+          },
+        },
+      },
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
+
+  return (
+    <div style={{ width: '100%', height: '230px', marginTop: '20px' }}>
+      <Bar data={chartData} options={options} />
+    </div>
+  );
+};
+
+export default BarChart1;
