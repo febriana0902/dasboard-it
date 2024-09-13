@@ -78,7 +78,7 @@ export const ContractProvider = ({ children }) => {
 
 
     // Tangani loading dan error
-    if (isLoadingUsers || isLoadingProducts || isLoadingTodos || isLoadingRecipes || isLoadingPosts || isLoadingComments) return 'Loading...';
+    if (isLoadingUsers || isLoadingProducts || isLoadingTodos || isLoadingRecipes || isLoadingPosts || isLoadingComments) return 'Loading....';
     if (errorUsers) return 'Terjadi Kesalahan pada Users: ' + errorUsers.message;
     if (errorProducts) return 'Terjadi Kesalahan pada Products: ' + errorProducts.message;
     if (errorTodos) return 'Terjadi Kesalahan pada Todos: ' + errorTodos.message;

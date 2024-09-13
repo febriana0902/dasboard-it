@@ -47,6 +47,17 @@
     padding: 5px;
     margin-top: 10px;
 }
+
+.customer-link {
+  color: #007bff !important;
+  cursor: pointer; 
+  text-decoration: none !important; 
+}
+
+.customer-link:hover {
+  text-decoration: underline !important; 
+}
+
   
 .c-table-auto {
     width: 100%;
@@ -66,6 +77,7 @@
   
 .c-table-auto th {
     background-color: #f8f9fa;
+    font-weight: bold;
 }
 
 .c-group-search{

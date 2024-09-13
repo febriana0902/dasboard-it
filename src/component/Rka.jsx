@@ -16,6 +16,14 @@ const Rka = ({ toggleSidebar }) => {
     const filteredData = comments.filter(comment => 
         selectedFullName === '' || comment.user.fullName === selectedFullName
     );
+
+    // Determine if filtering is active
+    const isFilteringActive = selectedFullName !== '';
+
+    // Separate filtered items from unfiltered items
+    const filteredItems = isFilteringActive ? filteredData : [];
+    const unfilteredItems = isFilteringActive ? comments.filter(comment => !filteredData.includes(comment)) : comments;
+
     return (
         <div className="rka-content">
             <div className='rka-navbar'>
@@ -41,26 +49,43 @@ const Rka = ({ toggleSidebar }) => {
                 </div>
             </div>
 
-            {filteredData.length > 0 ? (
-                <div className="r-grid-group-container">
-                    <div className="r-grid-container">
-                        {filteredData.map((comment, id) => (
-                            <div key={id} className='grid-ppi'>
-                                <label className='r-title'>{comment.user.fullName}</label>
-                                <div className="r-progress-bar">
-                                    <div className="r-progress-bar-fill" style={{ width: `${comment.likes}%` }}></div>
-                                    <div className="r-progress-bar-label">{comment.likes}%</div>
-                                </div>
-                                <div className="r-catatan">
-                                    <label>{comment.user.username}: {comment.body}</label>
-                                </div>
+            <div className="r-grid-group-container">
+                <div className="r-grid-container">
+                    {/* Render filtered items first */}
+                    {filteredItems.map((comment, id) => (
+                        <div 
+                            key={id} 
+                            className={`grid-ppi filtered`}
+                        >
+                            <label className='r-title'>{comment.user.fullName}</label>
+                            <div className="r-progress-bar">
+                                <div className="r-progress-bar-fill" style={{ width: `${comment.likes}%` }}></div>
+                                <div className="r-progress-bar-label">{comment.likes}%</div>
                             </div>
-                        ))}
-                    </div>
+                            <div className="r-catatan">
+                                <label>{comment.user.username}: {comment.body}</label>
+                            </div>
+                        </div>
+                    ))}
+
+                    {/* Render remaining items */}
+                    {unfilteredItems.map((comment, id) => (
+                        <div 
+                            key={id} 
+                            className={`grid-ppi ${isFilteringActive && filteredData.includes(comment) ? 'filtered' : ''}`}
+                        >
+                            <label className='r-title'>{comment.user.fullName}</label>
+                            <div className="r-progress-bar">
+                                <div className="r-progress-bar-fill" style={{ width: `${comment.likes}%` }}></div>
+                                <div className="r-progress-bar-label">{comment.likes}%</div>
+                            </div>
+                            <div className="r-catatan">
+                                <label>{comment.user.username}: {comment.body}</label>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            ) : (
-                <div>No data available</div>
-            )}
+            </div>
         </div>
     );
 };

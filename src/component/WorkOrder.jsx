@@ -14,8 +14,8 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
 
     const [selectedTag, setSelectedTag] = useState(""); // State for selected tag
 
-    const uniqueTags = [...new Set(posts.flatMap(post => post.tags))]; // Extract unique tags
-
+    // Extract unique tags
+    const uniqueTags = [...new Set(posts.flatMap(post => post.tags))]; 
 
     const handleTagChange = (e) => {
         setSelectedTag(e.target.value);
@@ -29,7 +29,7 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
-    // Initially, show all data; apply filters only when they are set
+    // Filter posts based on search and tag selection
     const filteredData = posts.filter(item => {
         return (
             (selectedTag === "" || item.tags.includes(selectedTag)) &&
@@ -53,7 +53,7 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
         }
       }, [searchTerm, filteredData, entriesPerPage, currentPage]);
 
-    // Paginate the filtered data
+    // Pagination calculations
     const startIndex = (currentPage - 1) * entriesPerPage;
     const endIndex = startIndex + entriesPerPage;
     const displayedData = filteredData.slice(startIndex, endIndex);
@@ -92,82 +92,81 @@ const WorkOrder = ({ toggleSidebar, isSidebarOpen }) => {
             </div>
 
             <div className='w-background-bar'>
-                <BarChart posts={posts}/>
-                    <div className="w-table-container">
-
-                        <div className='w-group-search'>
-                            <div className="w-dropdown-container">
-                                <label htmlFor="entries">Show </label>
-                                <select
-                                    id="entries"
-                                    value={entriesPerPage}
-                                    onChange={(e) => setEntriesPerPage(Number(e.target.value))}>
-                                    <option value={10}>10</option>
-                                    <option value={20}>20</option>
-                                    <option value={30}>30</option>
-                                    <option value={50}>50</option>
-                                </select>
-                                <label> entries</label>
-                            </div>
-
-                            <div className="w-search-container">
-                                <input
-                                    type="text"
-                                    id="search-input"
-                                    placeholder="Search"
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                            </div>
+                <BarChart posts={filteredData} /> {/* Use filteredData here */}
+                <div className="w-table-container">
+                    <div className='w-group-search'>
+                        <div className="w-dropdown-container">
+                            <label htmlFor="entries">Show </label>
+                            <select
+                                id="entries"
+                                value={entriesPerPage}
+                                onChange={(e) => setEntriesPerPage(Number(e.target.value))}>
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={30}>30</option>
+                                <option value={50}>50</option>
+                            </select>
+                            <label> entries</label>
                         </div>
 
-                        <table className="w-table-auto">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>User Id</th>
-                                    <th>Title</th>
-                                    <th>Likes</th>
-                                    <th>Dislikes</th>
-                                    <th>Views</th>
-                                    <th>Tags</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {displayedData.length > 0 ? (
-                                    displayedData.map((post) => (
-                                        <tr key={post.id}>
-                                            <td>{post.id}</td>
-                                            <td>{post.userId}</td>
-                                            <td>{post.title}</td>
-                                            <td>{post.reactions.likes}</td>
-                                            <td>{post.reactions.dislikes}</td>
-                                            <td>{post.views}</td>
-                                            <td>{post.tags.join(', ')}</td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="7" style={{ textAlign: 'center' }}>
-                                            No data available
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                        <div className="w-info-container">
-                            <p>Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} entries</p>
-                            <div className="w-pagination-container">
-                                <FontAwesomeIcon icon={faAnglesLeft} onClick={handlePreviousPage} />
-                                <span> {currentPage} </span>
-                                <FontAwesomeIcon icon={faAnglesRight} onClick={handleNextPage} />
-                            </div>
-                        </div>
-                        <div className='w-update'>
-                            <p>Last Update</p>
-                            <p>Tidak Ada</p>
+                        <div className="w-search-container">
+                            <input
+                                type="text"
+                                id="search-input"
+                                placeholder="Search"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
                         </div>
                     </div>
+
+                    <table className="w-table-auto">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>User Id</th>
+                                <th>Title</th>
+                                <th>Likes</th>
+                                <th>Dislikes</th>
+                                <th>Views</th>
+                                <th>Tags</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {displayedData.length > 0 ? (
+                                displayedData.map((post) => (
+                                    <tr key={post.id}>
+                                        <td>{post.id}</td>
+                                        <td>{post.userId}</td>
+                                        <td>{post.title}</td>
+                                        <td>{post.reactions.likes}</td>
+                                        <td>{post.reactions.dislikes}</td>
+                                        <td>{post.views}</td>
+                                        <td>{post.tags.join(', ')}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="7" style={{ textAlign: 'center' }}>
+                                        No data available
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                    <div className="w-info-container">
+                        <p>Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} entries</p>
+                        <div className="w-pagination-container">
+                            <FontAwesomeIcon icon={faAnglesLeft} onClick={handlePreviousPage} />
+                            <span> {currentPage} </span>
+                            <FontAwesomeIcon icon={faAnglesRight} onClick={handleNextPage} />
+                        </div>
+                    </div>
+                    <div className='w-update'>
+                        <p>Last Update</p>
+                        <p>Tidak Ada</p>
+                    </div>
+                </div>
             </div>
         </div>
     );
