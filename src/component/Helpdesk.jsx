@@ -8,9 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 
-
 const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
-    //mengambil data 
+    // Mengambil data 
     const { todos } = useContractData();
     if (!todos) return <div>Loading...</div>;
     console.log(todos);
@@ -24,37 +23,42 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
         setSelectedStatus(event.target.value);
     };
 
-    const filteredData = todos.filter(todo => {
-        // Filter berdasarkan status yang dipilih (True atau False)
+    // Data yang difilter berdasarkan status (untuk BarChart)
+    const filteredDataForBarChart = todos.filter(todo => {
+        return selectedStatus === 'True' 
+            ? todo.completed === true 
+            : todo.completed === false;
+    });
+
+    // Data yang difilter berdasarkan status dan searchTerm (untuk tabel)
+    const filteredDataForTable = todos.filter(todo => {
         const statusMatch = selectedStatus === 'True' 
             ? todo.completed === true 
             : todo.completed === false;
-    
-        // Filter berdasarkan pencarian (searchTerm)
+
         const searchMatch = 
             todo.id.toString().includes(searchTerm) || 
             todo.todo.toLowerCase().includes(searchTerm.toLowerCase()) || 
             todo.completed.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-            todo.userId.toString().includes(searchTerm)
-    
-        // Mengembalikan hasil filter gabungan antara status dan pencarian
+            todo.userId.toString().includes(searchTerm);
+
         return statusMatch && searchMatch;
     });
     
     useEffect(() => {
-        if (filteredData.length === 0) {
+        if (filteredDataForTable.length === 0) {
           setCurrentPage(1);
         } else {
-          const maxPage = Math.ceil(filteredData.length / entriesPerPage);
+          const maxPage = Math.ceil(filteredDataForTable.length / entriesPerPage);
           if (currentPage > maxPage) {
             setCurrentPage(maxPage);
           }
         }
-      }, [searchTerm, filteredData, entriesPerPage, currentPage]);
+      }, [searchTerm, filteredDataForTable, entriesPerPage, currentPage]);
 
     const startIndex = (currentPage - 1) * entriesPerPage;
     const endIndex = startIndex + entriesPerPage;
-    const displayedData = filteredData.slice(startIndex, endIndex);
+    const displayedData = filteredDataForTable.slice(startIndex, endIndex);
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {
@@ -64,13 +68,12 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
     };
     
     const handleNextPage = () => {
-        const maxPage = Math.ceil(filteredData.length / entriesPerPage);
+        const maxPage = Math.ceil(filteredDataForTable.length / entriesPerPage);
         if (currentPage < maxPage) {
             console.log('Next page clicked');
             setCurrentPage(currentPage + 1);
         }
     };
-    
 
     return (
         <div className="helpdesk-container">
@@ -93,10 +96,11 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
                                 <option value="False">False</option>
                             </select>
                         </div>
-                        <BarChart2 filteredData={filteredData} todos={todos}/>
+                        {/* BarChart hanya terpengaruh oleh filter status */}
+                        <BarChart2 filteredData={filteredDataForBarChart} todos={todos} />
                     </div>
                     <div className='h-background-bar'>
-                        <BarChart3 todos={todos}/>
+                        <BarChart3 todos={todos} />
                     </div>
                 </div>
 
@@ -157,7 +161,7 @@ const Helpdesk = ({ toggleSidebar, isSidebarOpen }) => {
                                 </tbody>
                             </table>
                             <div className="h-info-container">
-                                <p>Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} entries</p>
+                                <p>Showing {startIndex + 1} to {Math.min(endIndex, filteredDataForTable.length)} of {filteredDataForTable.length} entries</p>
                                 <div className="h-pagination-container">
                                     <FontAwesomeIcon icon={faAnglesLeft} onClick={handlePreviousPage} />
                                     <span>{currentPage}</span>

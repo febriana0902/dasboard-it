@@ -29,6 +29,14 @@
     font-size: 20px;
 }
 
+.f-title{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
 .f-filter {
     display: flex;
     align-items: center; 
@@ -88,6 +96,7 @@
     padding: 8px;
     text-align: left;
     box-shadow: none; 
+    font-size: 14px;
 }
 
 .f-table-auto th {

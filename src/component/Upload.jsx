@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import menu from './asset/menu-sidebar.png';
 import excelIcon from './asset/sheets.png';
+import download from './asset/download.png';
 import * as XLSX from 'xlsx';
 import './css/Upload.css';
 
@@ -272,11 +273,13 @@ const Upload = ({ toggleSidebar, isSidebarOpen }) => {
           <div className="popup-overlay">
             <div className="popup-content">
               <h3>Daftar Template</h3>
+              <p style={{marginTop: '-20px', fontSize: '12px'}}>Klik file / icon untuk unduh</p>
               <ul>
                 {templatesList.map((template, index) => (
                   <li key={index}>
                     <img src={excelIcon} alt="Excel Icon" className="excel-icon" style={{ width: '20px', height: '20px' }} />
                     <a href="#" onClick={() => handleDownloadTemplate(template)}>{template}</a>
+                    <img className="download-icon" src={download} alt="download-icon" onClick={() => handleDownloadTemplate(template)} />
                   </li>
                 ))}
               </ul>
@@ -290,11 +293,13 @@ const Upload = ({ toggleSidebar, isSidebarOpen }) => {
           <div className="popup-overlay">
             <div className="popup-content">
               <h3>Daftar File</h3>
+              <p style={{marginTop: '-20px', fontSize: '12px'}}>Klik file / icon untuk unduh</p>
               <ul>
                 {filesList.map((file, index) => (
                   <li key={index}>
                     <img src={excelIcon} alt="Excel Icon" className="excel-icon" style={{ width: '20px', height: '20px' }} />
                     <a href="#" onClick={() => handleDownloadFile(file)}>{file}</a>
+                    <img className="download-icon" src={download} alt="download-icon"  onClick={() => handleDownloadFile(file)} />
                   </li>
                 ))}
               </ul>

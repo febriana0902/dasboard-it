@@ -38,6 +38,7 @@
 
 .r-filter-month select {
     padding: 5px;
+    padding-top: 2px;
     border: none;
     border-radius: 15px;
     color: #262626;
@@ -66,23 +67,11 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
     padding: 10px;
-    gap: 10px; 
+    gap: 2px; 
     margin-top: 5px;
 }
 
-.grid-ppi,
-.grid-impti,
-.grid-pkfo,
-.grid-pai,
-.grid-itas,
-.grid-pk,
-.grid-phs,
-.grid-pkpk,
-.grid-sertif,
-.grid-rnd,
-.grid-pcs,
-.grid-td,
-.grid-pp {
+.grid-ppi {
     background-color: rgba(255, 255, 255, 0.9);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
     border-radius: 15px;

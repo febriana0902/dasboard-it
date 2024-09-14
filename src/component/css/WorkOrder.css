@@ -37,6 +37,7 @@
 
 .w-filter-tag select {
     padding: 5px;
+    padding-top: 2px;
     border: none;
     border-radius: 15px;
     color: #262626;
@@ -95,6 +96,7 @@
     padding: 8px;
     text-align: left;
     box-shadow: none; 
+    font-size: 14px;
 }
   
 .w-table-auto th {

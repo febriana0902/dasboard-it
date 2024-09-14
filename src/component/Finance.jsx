@@ -12,58 +12,44 @@ const Finance = ({ toggleSidebar, isSidebarOpen }) => {
     const { recipes } = useContractData();
     if (!recipes) return <div>Loading...</div>;
 
-    const ratings = recipes.map(recipe => recipe.rating);
-    const totalRating = ratings.reduce((acc, rating) => acc + rating, 0);
-    const averageRating = totalRating / ratings.length;
-    const rating = averageRating.toFixed(2);
-
-    const totalReviewCount = recipes.reduce((accumulator, recipe) => accumulator + recipe.reviewCount, 0);
-
     // Get unique categories from recipes
     const uniqueCategories = [...new Set(recipes.map(recipe => recipe.difficulty))];
 
-    // Filter
+    // State
     const [selectedCategory, setSelectedCategory] = useState("");
-
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [entriesPerPage, setEntriesPerPage] = useState(10);
 
+    // Handle category change
     const handleCategoryChange = (e) => {
         setSelectedCategory(e.target.value);
+        setCurrentPage(1); // Reset page when category changes
     };
 
-    // Filter data
-    const filteredData = recipes.filter(recipe => {
+    // Filter data by category
+    const filteredDataByCategory = recipes.filter(recipe => {
+        return selectedCategory === "" || recipe.difficulty === selectedCategory;
+    });
+
+    // Filter data for table based on search term
+    const filteredDataForTable = filteredDataByCategory.filter(recipe => {
         return (
-            (selectedCategory === "" || recipe.difficulty === selectedCategory) &&
-            (
-                recipe.id.toString().includes(searchTerm.toLowerCase()) ||
-                recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                recipe.cookTimeMinutes.toString().includes(searchTerm.toLowerCase()) ||
-                recipe.difficulty.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                recipe.cuisine.toLowerCase().includes(searchTerm.toLowerCase())
-            )
+            recipe.id.toString().includes(searchTerm.toLowerCase()) ||
+            recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            recipe.cookTimeMinutes.toString().includes(searchTerm.toLowerCase()) ||
+            recipe.difficulty.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            recipe.cuisine.toLowerCase().includes(searchTerm.toLowerCase())
         );
     });
 
-    useEffect(() => {
-        if (filteredData.length === 0) {
-          setCurrentPage(1);
-        } else {
-          const maxPage = Math.ceil(filteredData.length / entriesPerPage);
-          if (currentPage > maxPage) {
-            setCurrentPage(maxPage);
-          }
-        }
-      }, [searchTerm, filteredData, entriesPerPage, currentPage]);
-
     // Pagination calculations
-    const maxPage = Math.ceil(filteredData.length / entriesPerPage);
+    const maxPage = Math.ceil(filteredDataForTable.length / entriesPerPage);
     const startIndex = (currentPage - 1) * entriesPerPage;
     const endIndex = startIndex + entriesPerPage;
-    const displayedData = filteredData.slice(startIndex, endIndex);
+    const displayedData = filteredDataForTable.slice(startIndex, endIndex);
 
+    // Pagination handlers
     const handlePreviousPage = () => {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
@@ -75,6 +61,14 @@ const Finance = ({ toggleSidebar, isSidebarOpen }) => {
             setCurrentPage(currentPage + 1);
         }
     };
+
+    // Calculate ratings and review counts based on category filter
+    const ratings = filteredDataByCategory.map(recipe => recipe.rating);
+    const totalRating = ratings.reduce((acc, rating) => acc + rating, 0);
+    const averageRating = ratings.length > 0 ? totalRating / ratings.length : 0;
+    const rating = averageRating.toFixed(2);
+
+    const totalReviewCount = filteredDataByCategory.reduce((accumulator, recipe) => accumulator + recipe.reviewCount, 0);
 
     return (
         <div className="finance-content">
@@ -97,8 +91,8 @@ const Finance = ({ toggleSidebar, isSidebarOpen }) => {
             </div>
 
             <div className='finance-container'>
-                <div><BarChartOp recipes={recipes} /></div>
-                <div><BarChartCogs recipes={filteredData} /></div>
+                <div><BarChartOp recipes={filteredDataByCategory} /></div>
+                <div><BarChartCogs recipes={filteredDataByCategory} /></div>
 
                 <div className="f-table">
                     <h1 className="title-table">Data Recipe</h1>
@@ -162,7 +156,7 @@ const Finance = ({ toggleSidebar, isSidebarOpen }) => {
 
                         <div className="f-info-container">
                             <p>
-                                Showing {startIndex + 1} to {endIndex} of {filteredData.length} entries
+                                Showing {startIndex + 1} to {endIndex} of {filteredDataForTable.length} entries
                             </p>
                             <div className="f-pagination-container">
                                 <FontAwesomeIcon

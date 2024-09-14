@@ -135,6 +135,7 @@
   .k-content {
     flex-direction: column;
     gap: 15px;
+    
   }
 
   .ring-red,

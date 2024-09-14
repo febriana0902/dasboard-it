@@ -8,17 +8,17 @@ const Rka = ({ toggleSidebar }) => {
     const { comments } = useContractData();
     if (!comments) return <div>Loading...</div>;
 
-    // Ambil semua unique full names dari data
-    const uniqueFullNames = [...new Set(comments.map(comment => comment.user.fullName))];
-    const [selectedFullName, setSelectedFullName] = useState('');
+    // Ambil semua unique likes dari data dan urutkan
+    const uniqueLikes = [...new Set(comments.map(comment => comment.likes))].sort((a, b) => a - b);
+    const [selectedLikes, setSelectedLikes] = useState('');
 
-    // Filter data berdasarkan full name yang dipilih
+    // Filter data berdasarkan likes yang dipilih
     const filteredData = comments.filter(comment => 
-        selectedFullName === '' || comment.user.fullName === selectedFullName
+        selectedLikes === '' || comment.likes === parseInt(selectedLikes)
     );
 
     // Determine if filtering is active
-    const isFilteringActive = selectedFullName !== '';
+    const isFilteringActive = selectedLikes !== '';
 
     // Separate filtered items from unfiltered items
     const filteredItems = isFilteringActive ? filteredData : [];
@@ -35,13 +35,13 @@ const Rka = ({ toggleSidebar }) => {
                 <div className="r-filter-container">
                     <div className="r-filter-month">
                         <select
-                            value={selectedFullName}
-                            onChange={(e) => setSelectedFullName(e.target.value)}
+                            value={selectedLikes}
+                            onChange={(e) => setSelectedLikes(e.target.value)}
                         >
-                            <option value="">Select Full Name</option>
-                            {uniqueFullNames.map((fullName, index) => (
-                                <option key={index} value={fullName}>
-                                    {fullName}
+                            <option value="">Select Likes</option>
+                            {uniqueLikes.map((likes, index) => (
+                                <option key={index} value={likes}>
+                                    {likes}
                                 </option>
                             ))}
                         </select>

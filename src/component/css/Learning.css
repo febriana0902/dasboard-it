@@ -234,7 +234,13 @@ h3{
     }
     .l-group-2 {
       margin-right: -120px;
-  }
+      height: 60vh;
+    }
+
+    .cylinder {
+      margin-left: 150px;
+  
+    }
   
     .l-progress-bar {
       width: 100%; /* Sesuaikan lebar progress bar */
